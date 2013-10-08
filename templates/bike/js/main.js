@@ -448,7 +448,6 @@ var user = {
 				loader.hide();
 				$('div._findShadow').hide();
 			}
-			console.log(loader.width() / 2 - 40);
 		},
 		findInList : function(id, className, data_name, funct){
 			id = id || user.currId;
