@@ -180,7 +180,7 @@ function main_init(){
 		'placement' : 'bottom',
 		'title' : '<?=TEMP::$Lang["input_search_title_popver"]?>',
 		'trigger' : 'hover'
-	})
+	});
 	
 	$('div._mnBar a').click(function(event){
 		user.currentCoordinates = $('._usContnr').scrollTop();

@@ -4,66 +4,71 @@ $(document).ready(payrent_init);
 function payrent_init(){
 	var usList;
 	user.keypressflag = false;
-	$('input._userAutocomplete').typeahead({
-		    source: function(query, process) {
-		    	if(user.keypressflag) return false;
-		    	user.keypressflag = true;
-		    	user.keyIntevalId = setInterval(function(){
-					if(user.keypressedInterval == 0){
-						clearInterval(user.keyIntevalId);
-						user.keypressedInterval = user.interval;
-						user.findLoader('show');
-						user.find({
-							word : query,
-							maxLength : 3,
-							onFind : function(list){
-								//console.log(list);
-								//process(list);
-								user.findLoader('hide');
-								$('div._payrentModal ._usListTable tr._uInfo').detach();
-								for(var l in list){
-									usList = new userData(list[l], 'no');
-									$('div._payrentModal ._usListTable').append(usList.html);
-								}
 
-								$('tr._uInfo').click(function(){
-									var user_id = $(this).find('td:last-child i._delUsr').data('userid') === null ? $(this).find('input[name="uRent"]').data('userid') : $(this).find('td:last-child i._delUsr').data('userid');
-									
-									user.showInfo(user_id);
-								});
-								$('input[name="uRent"]').click(function(event){
-									event.stopPropagation();
-									
-								});
-
-								$('tr._uInfo input').click(function(event){
-									event.stopPropagation();
-								});
-
-								userData.num = 1;
-								user.keypressflag = false;
-								//setTimeout('user.keypressflag = false', 1000);
-								var list = $('table._usListTable tr._uInfo td input[name="uRent"]');
-								$(list[0]).attr('checked', true);
-								user.currId = $(list[0]).data('userid');
-								$(list).on('click', function(){
-									user.currId = $(this).data('userid');
-								});
-							}
-						});
-					}else{
-						user.keypressedInterval--;
-					}
-				}, 1);
+	$('input._userAutocomplete').keyup(function(event){
+		var q = document.querySelector('input._userAutocomplete').value;
+		if(q.length < 3) return false;
+		if(event.keyCode == 13){
 			
-	    },
-	    minLength : 3
+		};
+		if(user.keypressedInterval == user.interval){
+			user.keyIntevalId = setInterval(function(){
+				if(user.keypressedInterval == 0){
+					clearInterval(user.keyIntevalId);
+					user.keypressedInterval = user.interval;
+					user.findLoader('show');
+					user.find({
+						word : q,
+						maxLength : 3,
+						onFind : function(list){
+							//console.log(list);
+							//process(list);
+							user.findLoader('hide');
+							$('div._payrentModal ._usListTable tr._uInfo').detach();
+							for(var l in list){
+								usList = new userData(list[l], 'no');
+								$('div._payrentModal ._usListTable').append(usList.html);
+							}
+
+							$('tr._uInfo').click(function(){
+								var user_id = $(this).find('td:last-child i._delUsr').data('userid') === null ? $(this).find('input[name="uRent"]').data('userid') : $(this).find('td:last-child i._delUsr').data('userid');
+								
+								user.showInfo(user_id);
+							});
+							$('input[name="uRent"]').click(function(event){
+								event.stopPropagation();
+								
+							});
+
+							$('tr._uInfo input').click(function(event){
+								event.stopPropagation();
+							});
+
+							userData.num = 1;
+							user.keypressflag = false;
+							//setTimeout('user.keypressflag = false', 1000);
+							var list = $('table._usListTable tr._uInfo td input[name="uRent"]');
+							$(list[0]).attr('checked', true);
+							user.currId = $(list[0]).data('userid');
+							$(list).on('click', function(){
+								user.currId = $(this).data('userid');
+							});
+						}
+					});
+					return false;
+				}else{
+					user.keypressedInterval--;
+					return false;
+				}
+			}, 1);
+		};
+		
 	}).focusin(function(){
 		$('div._payrentForm').fadeOut('slow', function(){
 			$('div._findList').fadeIn('slow');
 		});
 		$('button._uRentConfirm').fadeIn('fast');
-	});
+	});;
 
 	$('button._addKlientBtn').click(function(){
 		$('div._findList').fadeOut('slow', function(){

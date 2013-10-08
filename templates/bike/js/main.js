@@ -402,12 +402,12 @@ var bike = {
 var user = {
 		currentList : {},
 		navChain : {},
-		interval : 600,
+		interval : 400,
 		currId : 0,
 		keypressflag : false,
 		userInfoInterval : null,
 		currentCoordinates : 0,
-		keypressedInterval : 600,
+		keypressedInterval : 400,
 		keyIntevalId : null,
 		getUsersList : function (from){
 			from = from || {
