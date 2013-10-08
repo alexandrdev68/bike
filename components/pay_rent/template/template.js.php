@@ -11,14 +11,16 @@ function payrent_init(){
 		if(event.keyCode == 13){
 			
 		};
-		user.keypressedInterval == user.interval - 1;
+
+		if(user.keypressedInterval < user.interval)	user.keypressedInterval = user.interval - 1;
+			
 		if(user.keypressedInterval == user.interval){
-			q = document.querySelector('input._userAutocomplete').value;
 			user.keyIntevalId = setInterval(function(){
 				if(user.keypressedInterval == 0){
 					clearInterval(user.keyIntevalId);
 					user.keypressedInterval = user.interval;
 					user.findLoader('show');
+					q = document.querySelector('input._userAutocomplete').value;
 					user.find({
 						word : q,
 						maxLength : 3,

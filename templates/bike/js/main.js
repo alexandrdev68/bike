@@ -439,14 +439,16 @@ var user = {
 				});
 		},
 		findLoader : function(oper){
+			var loader = $('div._findLoader');
+			var container = $('div._findList');
 			if(oper == 'show'){
-				$('div._findLoader').offset({top : 50, left : 80}).show();
+				loader.css('top', container.height() / 2).css('left', container.width() / 2 - 102).show();
 				$('div._findShadow').show();
 			}else if(oper == 'hide'){
-				$('div._findLoader').hide();
+				loader.hide();
 				$('div._findShadow').hide();
 			}
-			
+			console.log(loader.width() / 2 - 40);
 		},
 		findInList : function(id, className, data_name, funct){
 			id = id || user.currId;
