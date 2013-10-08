@@ -18,6 +18,8 @@
 		</div>
 		<div class="modal-body">
 		    <div class="control-group _findList">
+		    	<div class="shadow _findShadow"></div>
+		    	<div class="loader _findLoader"></div>
 		    	<table class="table table-striped _usListTable">
 					<tr>
 						<th>№</th>

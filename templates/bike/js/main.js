@@ -402,10 +402,13 @@ var bike = {
 var user = {
 		currentList : {},
 		navChain : {},
+		interval : 600,
 		currId : 0,
 		keypressflag : false,
 		userInfoInterval : null,
 		currentCoordinates : 0,
+		keypressedInterval : 600,
+		keyIntevalId : null,
 		getUsersList : function (from){
 			from = from || {
 					from_user_id : 0,
@@ -434,6 +437,16 @@ var user = {
 				        	
 				        }
 				});
+		},
+		findLoader : function(oper){
+			if(oper == 'show'){
+				$('div._findLoader').offset({top : 50, left : 80}).show();
+				$('div._findShadow').show();
+			}else if(oper == 'hide'){
+				$('div._findLoader').hide();
+				$('div._findShadow').hide();
+			}
+			
 		},
 		findInList : function(id, className, data_name, funct){
 			id = id || user.currId;
