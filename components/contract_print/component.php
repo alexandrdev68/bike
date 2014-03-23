@@ -8,6 +8,8 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/lib/PHPExcel/PHPExcel.php');
 //require_once $_SERVER['DOCUMENT_ROOT'].'/lib/PHPExcel/PHPExcel/IOFactory.php';
 spl_autoload_register('class_autoload');
 
+//print_r($_SESSION); exit;
+
 if($_SESSION['PRINT']['type'] == 'contract'){
 	//получаем таблицу
 	
@@ -43,10 +45,11 @@ if($_SESSION['PRINT']['type'] == 'contract'){
 		$objWorksheet->getCell('B'.$cell)->setValue($bike['bike_id'].' ');
 		$objWorksheet->getCell('C'.$cell)->setValue($bike['model']);
 		$objWorksheet->getCell('D'.$cell)->setValue($bike['serial_id'].' ');
-		$objWorksheet->getCell('E'.$cell)->setValue($amount.' ');
+		if(!empty($bike['bike_prop']) && isset($bike['bike_prop']['cost']))	$objWorksheet->getCell('E'.$cell)->setValue(($bike['bike_prop']['cost'] / 100).' ');
+		$objWorksheet->getCell('F'.$cell)->setValue($amount.' ');
 		$c++;
 	}
-	$objWorksheet->getCell('E9')->setValue($summ.' ');
+	$objWorksheet->getCell('F9')->setValue($summ.' ');
 	
 	$objWorksheet->getCell('B28')->setValue('Я, '.$_SESSION['PRINT']['info']['patronymic'].' '.$_SESSION['PRINT']['info']['name'].' '.$_SESSION['PRINT']['info']['surname']);
 	$objWorksheet->getCell('B29')->setValue('Адреса проживання/прописки:   '.@$_SESSION['PRINT']['info']['properties']['live_place']);

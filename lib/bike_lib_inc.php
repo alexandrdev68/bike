@@ -247,6 +247,7 @@ class BIKE extends USER{
 		$sql = "SELECT `b`.`id` AS `bike_id`,
 						`b`.`model`,
 						`b`.`serial_id`,
+						`b`.`properties` AS `bike_prop`,
 						`r`.`project_time`,
 						`r`.`properties` AS `rent_prop`,
 						`r`.`id` AS `rent_id` FROM `rent` `r` LEFT OUTER JOIN `bikes` `b` ON `r`.`bike_id` = `b`.`id` WHERE `r`.`klient_id` = {$id_klient} AND `r`.`time_end` = 0";
@@ -254,6 +255,7 @@ class BIKE extends USER{
 		$arRes = self::getData($sql);
 		foreach($arRes as $num=>$bike){
 			$arRes[$num]['rent_prop'] = json_decode($bike['rent_prop'], true);
+			$arRes[$num]['bike_prop'] = json_decode($bike['bike_prop'], true);
 		}
 
 		return count($arRes) == 0 ? false : $arRes;
