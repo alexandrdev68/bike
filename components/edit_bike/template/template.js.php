@@ -14,7 +14,7 @@ function edbike_init(){
 			$('form._edBikeForm input[name="bNumber"]').val(response.bike_info.id);
 			$('form._edBikeForm select[name="bPlace"]').val(response.bike_info.store_id);
 			$('form._edBikeForm div._bikeFoto img').attr('src', response.bike_info.foto).show();
-			
+			$('#bikeCost').val((!!response.bike_info.properties.cost ? response.bike_info.properties.cost / 100 : ''));
 		});
 	})
 	

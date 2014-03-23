@@ -1,9 +1,12 @@
 <?php
+
 if(!isset($_SESSION['CURRUSER'])) header('Location: /');
 
-error_reporting(E_ERROR);
+error_reporting(E_ALL);
+spl_autoload_unregister('class_autoload');
 require_once($_SERVER['DOCUMENT_ROOT'].'/lib/PHPExcel/PHPExcel.php');
 //require_once $_SERVER['DOCUMENT_ROOT'].'/lib/PHPExcel/PHPExcel/IOFactory.php';
+spl_autoload_register('class_autoload');
 
 if($_SESSION['PRINT']['type'] == 'contract'){
 	//получаем таблицу

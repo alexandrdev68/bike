@@ -9,21 +9,29 @@
 	</div>
   </div>
   <div class="modal-body">
-    <form class="form-inline _edBikeForm">
+    <form class=" _edBikeForm">
 	    <div class="_bikeFoto user_foto">
 	      <img src="" alt="no foto" width="380" height="285" class="img-polaroid">
 	    
 	    </div>
 	    <div class="control-group">
 		    <div class="controls">
-		    	<input required name="bModel" type="text" placeholder="<?=TEMP::$Lang['model_col']?>">
-		    	<input required name="bSerial" type="text" placeholder="<?=TEMP::$Lang['serial_id']?>">
+		    	<label for="bikeModel" class="control-label offset1">Модель:</label>
+		    	<input id="bikeModel" class="offset1" required name="bModel" type="text" placeholder="<?=TEMP::$Lang['model_col']?>"><br>
+		    	<label for="bikeSerial" class="control-label offset1">Серійний номер:</label>
+		    	<input id="bikeSerial" class="offset1" required name="bSerial" type="text" placeholder="<?=TEMP::$Lang['serial_id']?>">
 		    	<input name="bNumber" type="hidden">
 		    </div>
 	    </div>
 	    <div class="control-group">
-	    	<label class="control-label"><?=TEMP::$Lang['store_adress']?></label>
-	    	<select required name="bPlace">
+		    <div class="controls">
+		    	<label for="bikeCost" class="control-label offset1">Вартість велосипеду (грн.):</label>
+		    	<input id="bikeCost" class="offset1" required name="bCost" type="text" placeholder="Вартість">
+		    </div>
+	    </div>
+	    <div class="control-group">
+	    	<label class="control-label offset1"><?=TEMP::$Lang['store_adress']?></label>
+	    	<select required name="bPlace" class="offset1">
 				<?foreach($arRes as $value):?><option value="<?=$value['id']?>"><?=$value['adress']?></option><?endforeach;?>
 			</select>
 		</div>

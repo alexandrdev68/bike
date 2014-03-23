@@ -153,12 +153,27 @@ class Actions{
 		$model = Dbase::dataFilter(@$_POST['bModel']);
 		$serial = Dbase::dataFilter(@$_POST['bSerial']);
 		$store_id = Dbase::dataFilter(@$_POST['bPlace']);
+		$cost = str_replace(',', '.', Dbase::dataFilter(@$_POST['bCost']));
 		$id = $_POST['bNumber'];
 		if(mb_strlen($model, 'utf-8') < 2){
 			$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['small_bike_name']);
 			return json_encode($response);
+		}elseif(!preg_match('/^([0-9]{1,})$|^[0-9]{1,}\\.(?:[0-9]{1,2})$/', $cost)){
+			$response = array('status'=>'error', 'message'=>"Невірно введено суму");
+			return json_encode($response);
 		}
+		$arBike = BIKE::getInfo($id);
 		
+		$cost = (int)($cost * 100);
+		
+		//добавляем к другим свойствам, если есть
+		$properties = array();
+		if(!empty($arBike['properties'])){
+			$properties = json_decode($arBike['properties'], true);
+			$properties['cost'] = $cost;
+		}else{
+			$properties['cost'] = $cost;
+		}
 		//завантажуємо фото, якщо воно є
 		if(!isset($_POST['foto'])){
 			$res = Graph::upload_photo("{$_SERVER['DOCUMENT_ROOT']}/upload/bikes/", "bike_{$id}.jpg");
@@ -182,6 +197,7 @@ class Actions{
 		$arFields = array('model'=>$model,
 	  							'store_id'=>(string)$store_id,
 	  							'serial_id'=>(string)$serial,
+								'properties'=>json_encode(array('cost'=>$cost)),
 	  							'foto'=>$imagepath);
 		if($imagepath == '') unset($arFields['foto']);
 		
@@ -727,6 +743,9 @@ class Actions{
 #---------------------------------------
 	function get_bike_by_id_handler(){
 		$arRes = BIKE::getInfo(Dbase::dataFilter($_POST['bike_id']));
+		if(!empty($arRes['properties'])){
+			$arRes['properties'] = json_decode($arRes['properties'], true);
+		}
 		if($arRes !== false){
 			if($arRes['foto'] != '') $arRes['foto'] = 'upload/bikes/bike_'.$_POST['bike_id'].'_resized_640.jpg';
 			$response = array('status'=>'ok', 'bike_info'=>$arRes);
