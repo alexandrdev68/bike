@@ -51,9 +51,9 @@ if($_SESSION['PRINT']['type'] == 'contract'){
 	}
 	$objWorksheet->getCell('F9')->setValue($summ.' ');
 	
-	$objWorksheet->getCell('B28')->setValue('Я, '.$_SESSION['PRINT']['info']['patronymic'].' '.$_SESSION['PRINT']['info']['name'].' '.$_SESSION['PRINT']['info']['surname']);
-	$objWorksheet->getCell('B29')->setValue('Адреса проживання/прописки:   '.@$_SESSION['PRINT']['info']['properties']['live_place']);
-	$objWorksheet->getCell('B31')->setValue('дата '.$date.',     час: з '.$time.' до '.$time_end.',     тел. '.$_SESSION['PRINT']['info']['phone'].' ');
+	$objWorksheet->getCell('B29')->setValue('Я, '.$_SESSION['PRINT']['info']['patronymic'].' '.$_SESSION['PRINT']['info']['name'].' '.$_SESSION['PRINT']['info']['surname']);
+	$objWorksheet->getCell('B30')->setValue('Адреса проживання/прописки:   '.@$_SESSION['PRINT']['info']['properties']['live_place']);
+	$objWorksheet->getCell('B32')->setValue('дата '.$date.',     час: з '.$time.' до '.$time_end.',     тел. '.$_SESSION['PRINT']['info']['phone'].' ');
 
 	
 	// redirect output to client browser

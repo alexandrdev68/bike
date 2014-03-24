@@ -11,9 +11,6 @@
     <link href="<?=TEMP::$curr_temp_path?>/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 	<script src="<?=TEMP::$js_dir?>/jquery-1.9.1.min.js"></script>
 	<script src="<?=TEMP::$js_dir?>/main.js"></script>
-	<script src="<?=TEMP::$js_dir?>/jquery.form.min.js"></script>
-	<script src="<?=TEMP::$curr_temp_path?>/bootstrap/js/bootstrap.min.js"></script>
-	<script src="<?=TEMP::$curr_temp_path?>/datepicker/js/bootstrap-datepicker.js"></script>
 	<meta name="bike" content="application for bike manage">
 	<!--[if lt IE 9]>
 		   <script>
