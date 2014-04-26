@@ -76,3 +76,9 @@ div.usListContainer{
 	position:relative;
 	overflow:auto;
 }
+
+div._payrentModal{
+	left: 50%;
+    margin-left: -40%;
+    width: 80%;
+} 
