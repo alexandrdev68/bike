@@ -71,6 +71,14 @@ function periodReport(){
 var date_now = new Date();
 var date_from = new Date(date_now.getFullYear(), date_now.getMonth(), date_now.getDate());
 var date_to = new Date(date_now.getFullYear(), date_now.getMonth(), date_now.getDate());
+var bikes_list = new tableFromData({
+	head : {adress : "<?=TEMP::$Lang['store_adress']?>",
+			model : "<?=TEMP::$Lang['model_col']?>",
+			serial_id : "<?=TEMP::$Lang['serial_id']?>"
+	},
+	classes : 'table table-striped _reportBikesTable',
+	counter : true
+});
 
 function reports_init(){
 	$('ul._reportChange a').click(function(event){
@@ -81,12 +89,26 @@ function reports_init(){
 		switch (select_type){
 			case '#_dayReport':
 				$('._reportFromPeriod').hide();
+				$('table._reportList').show();
 				$('table._reportList tr._rInfo').detach();
 				break;
 			case '#_periodReport':
 				$('._reportFromPeriod').show();
+				$('table._reportList').show();
 				$('table._reportList tr._rInfo').detach();
 				break;
+			case '#_aboutBikes':
+				$('table._reportList tr._rInfo').detach();
+				$('._reportFromPeriod').hide();
+				$('table._reportList').hide();
+				bike.getList({
+					onListResponse : function(){
+						bikes_list.fill(bike.currentList);
+						$('div.report_container').html(bikes_list.table);
+					},
+					from_bike_id : 0,
+					filter : 'in_store'
+				});
 		}
 		
 		$('div.btn-group.open').removeClass('open');
