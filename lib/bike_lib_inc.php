@@ -239,6 +239,25 @@ class BIKE extends USER{
 		$arRes = self::getData($sql);
 		return $arRes;
 	}
+	
+	
+	/** Возвращает информацию про все прокаты велосипеда с переданным id
+	 *  (передаются метки времени в формате юникс)
+	 */
+	static public function getBikeRents($bike_id){
+		$sql = "SELECT `r`.`time_start`,
+						`r`.`id` AS `rent_id`,
+						`r`.`time_end`,
+						`r`.`project_time`,
+						`r`.`amount`,
+						`b`.`model`,
+						`b`.`id`,
+						`b`.`serial_id` FROM `rent` `r` LEFT OUTER JOIN `bikes` `b` ON `r`.`bike_id` = `b`.`id` 
+														WHERE `b`.`id` = {$bike_id} AND `r`.`amount` <> -1 ORDER BY `b`.`id` LIMIT 10000";
+
+		$arRes = self::getData($sql);
+		return $arRes;
+	}
 
 	/** Возвращает информацию про велосипеды, которые числятся на клиенте с id, переданным в качестве пар-ра
 	 *  

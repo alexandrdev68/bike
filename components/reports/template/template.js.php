@@ -70,17 +70,33 @@ function periodReport(){
 
 function bikesReport(){
 	var chkdBikes = document.querySelectorAll('td input[name="selectReportBike"]:checked');
-	var ids = [];
+	if(chkdBikes === undefined || chkdBikes.length == 0) return false;
+	bike.reportIds = [];
 	for(var i = 0; i < chkdBikes.length; i++){
-		ids[i] = chkdBikes[i].dataset.id;
+		bike.reportIds[i] = chkdBikes[i].dataset.id;
 	}
-	console.log(ids);
+	bike.reportCounter = bike.reportIds.length - 1;
+	bikes_report.send({
+		data : {action : 'bike_report', bike_id : bike.reportIds[bike.reportCounter]}
+	});
 }
 
 var bikes_report = new serverRequest({
 	url : '/',
+	dataType : 'json',
 	success : function(response){
-		
+		bike.reportList[bike.reportCounter] = response.report;
+		response.report.rent_time = bike.getTimeString(new Date(response.report.rent_time * 1000), ':');
+		//console.log(response.report.rent_time);
+		bike.reportCounter--;
+		if(bike.reportCounter < 0){
+				bike_report.fill(bike.reportList);
+				$('div.report_container').html(bike_report.table);
+				return false;
+		}
+		bikes_report.send({
+			data : {action : 'bike_report', bike_id : bike.reportIds[bike.reportCounter]}
+		});
 	}
 });
 var date_now = new Date();
@@ -97,6 +113,15 @@ var bikes_list = new tableFromData({
 	},
 	classes : 'table table-striped _reportBikesTable',
 	counter : true
+});
+var bike_report = new tableFromData({
+	head : {
+			model : "<?=TEMP::$Lang['model_col']?>",
+			serial_id : "<?=TEMP::$Lang['serial_id']?>",
+			rent_time : "<?=TEMP::$Lang['time_on_rent']?>",
+			amount : "<?=TEMP::$Lang['txt_summ']?>"
+	},
+	classes : 'table table-striped _reportBike_on_rentTable'
 });
 
 function reports_init(){
@@ -190,6 +215,7 @@ function reports_init(){
 				break;
 			case '#_aboutBikes':
 				bikesReport();
+				$('div.report_container').html('');
 				break;
 		}
 	});

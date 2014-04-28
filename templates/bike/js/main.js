@@ -4,6 +4,9 @@ var bike = {
 		rentList : {},
 		storeId : null,
 		stoppedFullInfo : {},
+		reportList : [],
+		reportCounter : null,
+		reportIds : [],
 		logout : function(){
 			$.ajax({
 		        url: window.location,
@@ -671,7 +674,7 @@ function serverRequest(params){
     else{
     	this.error = function(response){
 	    	//ajax error handler
-	    	Pbank.showMessage('Error on server, try again later');
+	    	console.log('Error on server, try again later');
 	    };
     }
     
@@ -694,7 +697,6 @@ function serverRequest(params){
             data: self.data,
             dataType : 'json',
             processData : true,
-            traditional : self.traditional,
             success: function(response) {
             	self.success(response);
             },

@@ -821,5 +821,23 @@ class Actions{
 		return json_encode($response);
 	}
 #---------------------------------------
+	function bike_report_handler(){
+		$bike_id = Dbase::dataFilter($_POST['bike_id']);
+		$arRes = BIKE::getBikeRents($bike_id);
+		$response = array('model'=>$arRes[0]['model'], 'id'=>$arRes[0]['id'], 'serial_id'=>$arRes[0]['serial_id']);
+		$amount = 0;
+		$rent_time = 0;
+		$project_time = 0;
+		foreach($arRes as $rent){
+			$amount += $rent['amount'];
+			$rent_time += ($rent['time_end'] - $rent['time_start']);
+			$project_time += $rent['project_time'];
+		}
+		$response['amount'] = number_format($amount / 100, 2,'.',' ');
+		$response['rent_time'] = $rent_time;
+		$response['project_time'] = $project_time;
+		return json_encode(array('status'=>'ok', 'report'=>$response));
+	}
+#---------------------------------------
 }
 ?>
