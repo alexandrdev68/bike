@@ -1,6 +1,7 @@
 <?ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start(0);
+define("VERSION", 109);
 date_default_timezone_set('Europe/Kiev');
 require_once($_SERVER['DOCUMENT_ROOT'].'/lib/main_lib_inc.php');
 require_once('db_init_inc.php');

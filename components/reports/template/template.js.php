@@ -87,6 +87,7 @@ var bikes_report = new serverRequest({
 	success : function(response){
 		bike.reportList[bike.reportCounter] = response.report;
 		response.report.rent_time = bike.getTimeString(new Date(response.report.rent_time * 1000), ':');
+		response.report.project_time = bike.getTimeString(new Date(response.report.project_time * 1000), ':');
 		//console.log(response.report.rent_time);
 		bike.reportCounter--;
 		if(bike.reportCounter < 0){
@@ -118,6 +119,7 @@ var bike_report = new tableFromData({
 	head : {
 			model : "<?=TEMP::$Lang['model_col']?>",
 			serial_id : "<?=TEMP::$Lang['serial_id']?>",
+			project_time : "<?=TEMP::$Lang['paid_rent']?>",
 			rent_time : "<?=TEMP::$Lang['time_on_rent']?>",
 			amount : "<?=TEMP::$Lang['txt_summ']?>"
 	},
@@ -214,8 +216,9 @@ function reports_init(){
 				periodReport();
 				break;
 			case '#_aboutBikes':
+				bike.reportList = [];
+				bike.reportIds = [];
 				bikesReport();
-				$('div.report_container').html('');
 				break;
 		}
 	});
