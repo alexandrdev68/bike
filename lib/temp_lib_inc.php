@@ -3,7 +3,7 @@
 	 * название текущего шаблона (совпадает с названием папки в которой хранится шаблон)
 	 * @var string
 	 */
-	static $current = 'bike';
+	static $current;
     static $header_path;
     static $index_path;
     static $footer_path;
@@ -13,8 +13,9 @@
     static $curr_lang;
     static $Lang = array();
 	
-    function __construct(){
-		self::$curr_temp_path = 'templates/'.self::$current;
+    function __construct($template){
+		self::$current = $template;
+    	self::$curr_temp_path = 'templates/'.self::$current;
     	self::$header_path = self::$curr_temp_path.'/header.php';
         self::$index_path = self::$curr_temp_path.'/index.php';
         self::$footer_path = self::$curr_temp_path.'/footer.php';
