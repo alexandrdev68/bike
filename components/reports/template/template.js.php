@@ -68,13 +68,32 @@ function periodReport(){
 	});
 }
 
+function bikesReport(){
+	var chkdBikes = document.querySelectorAll('td input[name="selectReportBike"]:checked');
+	var ids = [];
+	for(var i = 0; i < chkdBikes.length; i++){
+		ids[i] = chkdBikes[i].dataset.id;
+	}
+	console.log(ids);
+}
+
+var bikes_report = new serverRequest({
+	url : '/',
+	success : function(response){
+		
+	}
+});
 var date_now = new Date();
 var date_from = new Date(date_now.getFullYear(), date_now.getMonth(), date_now.getDate());
 var date_to = new Date(date_now.getFullYear(), date_now.getMonth(), date_now.getDate());
 var bikes_list = new tableFromData({
 	head : {adress : "<?=TEMP::$Lang['store_adress']?>",
 			model : "<?=TEMP::$Lang['model_col']?>",
-			serial_id : "<?=TEMP::$Lang['serial_id']?>"
+			serial_id : "<?=TEMP::$Lang['serial_id']?>",
+			id : "<input type='checkbox' name='selectReportBike'>"
+	},
+	content : {
+		id : '<input type="checkbox" data-id="#$#" name="selectReportBike">'
 	},
 	classes : 'table table-striped _reportBikesTable',
 	counter : true
@@ -91,11 +110,13 @@ function reports_init(){
 				$('._reportFromPeriod').hide();
 				$('table._reportList').show();
 				$('table._reportList tr._rInfo').detach();
+				$('div.report_container').hide();
 				break;
 			case '#_periodReport':
 				$('._reportFromPeriod').show();
 				$('table._reportList').show();
 				$('table._reportList tr._rInfo').detach();
+				$('div.report_container').hide();
 				break;
 			case '#_aboutBikes':
 				$('table._reportList tr._rInfo').detach();
@@ -104,7 +125,10 @@ function reports_init(){
 				bike.getList({
 					onListResponse : function(){
 						bikes_list.fill(bike.currentList);
-						$('div.report_container').html(bikes_list.table);
+						$('div.report_container').html(bikes_list.table).show();
+						$('th input[name="selectReportBike"]').on('change', function(){
+							$('td input[name="selectReportBike"]').prop('checked', $(this).prop('checked'));
+						});
 					},
 					from_bike_id : 0,
 					filter : 'in_store'
@@ -153,6 +177,7 @@ function reports_init(){
 	}).data('datepicker');
 	
 	$('._reportFromPeriod').hide();
+
 	
 	$('button._reportType').click(function(){
 		var action_type = $(this).data('type');
@@ -162,6 +187,9 @@ function reports_init(){
 				break;
 			case '#_periodReport':
 				periodReport();
+				break;
+			case '#_aboutBikes':
+				bikesReport();
 				break;
 		}
 	});
