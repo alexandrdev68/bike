@@ -23,3 +23,8 @@
 		<![endif]-->
 </head>
 <body class="bg_all">
+<div class="row">
+	<div class="col-md-10 col-md-offset-1">
+		<a class="logo" href="/action#"></a>
+	</div>
+</div>

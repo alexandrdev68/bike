@@ -81,4 +81,10 @@ div._payrentModal{
 	left: 50%;
     margin-left: -40%;
     width: 80%;
-} 
+}
+a.logo{
+	height: 70px;
+    width: 385px;
+    background: url('../images/velo-sprite.png') no-repeat transparent;
+    display:block;
+}
