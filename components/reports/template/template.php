@@ -17,6 +17,7 @@
 						<ul class="dropdown-menu _reportChange">
 							<li><a data-report-text="<?=TEMP::$Lang['report_from_day']?>" href="#_dayReport"><?=TEMP::$Lang['report_from_day']?></a></li>
 							<li><a data-report-text="<?=TEMP::$Lang['report_from_period']?>" href="#_periodReport"><?=TEMP::$Lang['report_from_period']?></a></li>
+							<li><a data-report-text="<?=TEMP::$Lang['report_about_bikes']?>" href="#_aboutBikes"><?=TEMP::$Lang['report_about_bikes']?></a></li>
 						</ul>
 					</div>
 				</li>
@@ -61,4 +62,5 @@
 			<?if(USER::isAdmin()):?><th><input type="checkbox" class="_mainReportChckBox"></th><?endif?>
 		</tr>
 	</table>
+	<div class="report_container"></div>
 </div>

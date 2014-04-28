@@ -22,7 +22,7 @@ if($_SESSION['PRINT']['type'] == 'contract'){
 
 	$date = date('d.m.Y', $_SESSION['PRINT']['info']['time_start']);
 	$time = date('H:i', $_SESSION['PRINT']['info']['time_start']);
-	$time_end = date('H:i', $_SESSION['PRINT']['info']['time_start'] + $_SESSION['PRINT']['info']['project_time']);
+	$time_end = date('H:i d.m.Y', $_SESSION['PRINT']['info']['time_start'] + $_SESSION['PRINT']['info']['project_time']);
 
 	/*$center = array(
 				'alignment'=>array(

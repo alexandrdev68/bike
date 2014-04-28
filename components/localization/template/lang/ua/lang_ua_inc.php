@@ -103,6 +103,7 @@ TEMP::$Lang = array(
 	'text_to'=>'по ',
 	'add_black_list'=>'у чорному списку',
 	'user_in_black_list'=>'Ви не можете дати велосипед в прокат користувачу з чорного списку',
+	'report_about_bikes'=>'Звіт про використання велосипедів',
 );
 
 TEMP::$Lang['SYSTEM'] = array(
