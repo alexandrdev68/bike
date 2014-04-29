@@ -107,6 +107,9 @@ TEMP::$Lang = array(
 	'txt_summ'=>'Сума (грн.)',
 	'txt_action'=>'Введіть код, отриманий через смс',
 	'txt_sms_code'=>'смс код',
+	'txt_action_participate'=>'Прийняти участь у акції',
+	'txtsms_congratulation_action_start'=>'Ви взяли участь у акції розиграшу велосипеда, детальніше на http://bike.ibex.org.ua/action, ваш код: ',
+	'txt_sms_code_not_found'=>'Невірний смс код'
 );
 
 TEMP::$Lang['SYSTEM'] = array(

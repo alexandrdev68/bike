@@ -2,14 +2,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
         <h4 class="modal-title"><?=TEMP::$Lang['txt_action']?></h4>
       </div>
       <div class="modal-body">
         <form role="form" name="action_confirm">
 			<div class="form-group">
 			    <label for="smsCode"><?=TEMP::$Lang['txt_sms_code']?></label>
-			    <input type="password" class="form-control" id="smsCode" name="smscode" placeholder="<?=TEMP::$Lang['txt_sms_code']?>">
+			    <input type="text" class="form-control" id="smsCode" name="sms_code" placeholder="<?=TEMP::$Lang['txt_sms_code']?>">
+			    <input type="hidden" name="action" value="find_action_user">
 		  	</div>
         </form>
       </div>

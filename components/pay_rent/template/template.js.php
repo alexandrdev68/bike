@@ -145,15 +145,21 @@ function payrent_init(){
 		var print = $('input._print' + user.currId).prop('checked');
 		var seat = $('input._seat' + user.currId).prop('checked');
 		var rent_period = $('input._timecnt' + user.currId).val();
+		var sendData = {'action' : 'go_rent',
+	        	'user_id' : user.currId,
+	        	'print' : print,
+	        	'seat' : seat,
+	        	'rent_period': rent_period, 
+	        	'bike_id': bike.currId}
+    	<?if(BIKE_ACTION):?>
+			if(document.querySelector('input._action' + user.currId) !== null){
+				sendData.bike_action = $('input._action' + user.currId).prop('checked');
+			}
+    	<?endif?>
 		$.ajax({
 	        url: window.location,
 	        type:"POST",
-	        data: {'action' : 'go_rent',
-		        	'user_id' : user.currId,
-		        	'print' : print,
-		        	'seat' : seat,
-		        	'rent_period': rent_period, 
-		        	'bike_id': bike.currId},
+	        data: sendData,
 	        dataType: 'json',
 	        success: function(response) {
 	        	if(response.status == 'ok'){

@@ -44,7 +44,34 @@
 	 * @var static function
 	 */
 	static public function getFullInfo($id){
-		$sql = 'SELECT 	`u`.`name`, 
+		if(BIKE_ACTION){
+			$sql = 'SELECT 	`u`.`name`, 
+						`u`.`patronymic`,
+						`u`.`surname`,
+						`u`.`login`,
+						`u`.`photo`,
+						`u`.`properties`,
+						`u`.`email`,
+						`u`.`phone`,
+						`u`.`user_level`,
+						`r`.`id` AS `rent_id`,
+						`r`.`bike_id`,
+						`r`.`time_start`,
+						`r`.`time_end`,
+						`r`.`project_time`,
+						`r`.`properties` AS `rent_prop`,
+						`b`.`model`,
+						`b`.`serial_id`,
+						`b`.`foto`,
+						`a`.`klient_id` as `action_klient`,
+						`a`.`renttime_summ` as `action_time`
+						 FROM `users` `u` 
+							LEFT OUTER JOIN `rent` `r` ON `r`.`klient_id` = `u`.`id` 
+							AND `r`.`time_end` = 0
+							LEFT OUTER JOIN `bikes` `b` ON `b`.`on_rent` = `r`.`id` 
+							LEFT OUTER JOIN `action` `a` ON `u`.`id` = `a`.`klient_id` WHERE `u`.`id` = "'.$id.'" LIMIT 1';
+		}else{
+			$sql = 'SELECT 	`u`.`name`, 
 						`u`.`patronymic`,
 						`u`.`surname`,
 						`u`.`login`,
@@ -66,6 +93,8 @@
 							LEFT OUTER JOIN `rent` `r` ON `r`.`klient_id` = `u`.`id` 
 							AND `r`.`time_end` = 0
 							LEFT OUTER JOIN `bikes` `b` ON `b`.`on_rent` = `r`.`id` WHERE `u`.`id` = "'.$id.'" LIMIT 1';
+		}
+		
 		//echo $sql; die();
 		$arRes = self::getData($sql);
 		if(count($arRes) > 0){
@@ -304,4 +333,29 @@
     	else return false;
     }
     
+    
+    //функция генерации пароля возвращает 4 варианта пароля в индексном массиве
+	static public function passwGen($count){
+       $tmpArr = Array();
+       for($i=1; $i<=$count*2; $i++){
+               switch(rand(0,2)){
+                       case 0:$val = rand(48, 57);
+                       break;
+                       case 1:$val = rand(65, 90);
+                       break;
+                       case 2:$val = rand(97, 122);
+                       break;
+               };
+               $tmpArr[$i] = chr($val);
+       };
+       for($i=1; $i<=$count; $i++){
+               @$tmpArr['string'] .= $tmpArr[rand(1,$count)];
+               @$tmpArr['string1'] .= $tmpArr[($i*2)];
+               @$tmpArr['string2'] .= $tmpArr[($i+$count)];
+               @$tmpArr['string3'] .= $tmpArr[$i];
+
+       };
+       $res[] = $tmpArr['string'];$res[] = $tmpArr['string1'];$res[] = $tmpArr['string2'];$res[] = $tmpArr['string3'];
+       return $res;
+	}
 }?>

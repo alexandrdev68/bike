@@ -106,7 +106,7 @@ class BIKE extends USER{
 	 *  возвращает метку времени останова проката, в случае если операция прошла успешно или false
 	 *  Пример:BIKE::stopRent(12, 2, 1020910921, 3600);
 	 */
-	static public function stopRent($bike_id, $store_id, $time_start, $project_time, $added){
+	static public function stopRent($bike_id, $store_id, $time_start, $project_time, $added, $action_client = null){
 		$currTime = time();
 		
 		$rent_period = $currTime - $time_start;
@@ -119,8 +119,20 @@ class BIKE extends USER{
 
 		$sql = "UPDATE `rent` SET `time_end` = {$currTime}, `amount` = {$amount} WHERE `bike_id`= {$bike_id} AND `time_end` = 0";
 		$sql2 = "UPDATE `bikes` SET `on_rent` = 'no', `store_id` = {$store_id} WHERE `id` = {$bike_id}";
+		
+		//под акцию
+		if($action_client !== null){
+			$sql3 = "UPDATE `action` SET `renttime_summ` = `renttime_summ` + {$rent_period}, `amount_summ` = `amount_summ` + {$amount} WHERE `klient_id` = {$action_client}";
+			$result3 = mysql_query($sql3);
+			if($result3 === false){
+				self::addMess(TEMP::$Lang['SYSTEM']['error_stop_rent'].$sql3);
+				return false;
+			}
+		}
+		
 		$result = mysql_query($sql);
 		$result2 = mysql_query($sql2);
+		
 		if($result === false || $result2 === false){
 			self::addMess(TEMP::$Lang['SYSTEM']['error_stop_rent'].$sql.'   '.$sql2);
 			return false;

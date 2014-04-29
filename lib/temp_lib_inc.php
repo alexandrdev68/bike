@@ -12,6 +12,7 @@
     static $curr_temp_path;
     static $curr_lang;
     static $Lang = array();
+    static $sms = null;
 	
     function __construct($template){
 		self::$current = $template;
@@ -38,6 +39,26 @@
             	if(file_exists($_SERVER['DOCUMENT_ROOT'].'/components/'.$name.'/template/template.js.php')) include($_SERVER['DOCUMENT_ROOT'].'/components/'.$name.'/template/template.js.php');
             	include($_SERVER['DOCUMENT_ROOT'].'/components/'.$name.'/template/template.php');
             }     
+    }
+    
+	
+    
+    static public function sendSMS($phone, $text){
+    	if(!is_object(self::$sms)){
+    		spl_autoload_unregister('class_autoload');
+			require_once($_SERVER['DOCUMENT_ROOT'].'/lib/alphasms-client-api/smsclient.class.php');
+			self::$sms = new SMSclient(SMS_LOGIN, SMS_PASSW, SMS_API_KEY);
+			spl_autoload_register('class_autoload');
+    	}
+    	
+		
+		$id = self::$sms->sendSMS('action', $phone, $text);
+		
+		if(self::$sms->hasErrors()){
+			//echo 'login: '.SMS_LOGIN.' passw: '.SMS_PASSW.'<br>';
+			return array('status'=>false, 'error'=>self::$sms->getErrors());
+		}else
+			return array('status'=>true);
     }
     
     

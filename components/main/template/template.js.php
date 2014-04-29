@@ -1,6 +1,8 @@
 <script>
 $(document).ready(main_init);
 
+bike.bike_action = Boolean(<?=BIKE_ACTION?>);
+
 function userData(data, full){
 	full = full || 'yes';
 	if(userData.num === undefined) userData.num = 1;
@@ -15,6 +17,7 @@ function userData(data, full){
 			data.phone + '</td>' + 
 			'<td><input class="_print' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["print_contract"]?>' +
 			'<br><input class="_seat' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["seat"]?>' +
+			(bike.bike_action && !!!data.action_klient ? '<br><input class="_action' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["txt_action_participate"]?>' : '') +
 			'</td><td><input class="span1 _timecnt' + data.id + '" type="text" value="1"></td><td><input data-userId="' + 
 			data.id + '" type="radio" name="uRent"></td></tr>');
 }

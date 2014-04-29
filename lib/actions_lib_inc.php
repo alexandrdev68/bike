@@ -409,28 +409,47 @@ class Actions{
 #---------------------------------------
 	function find_user_handler(){
 			$db = new Dbase();
+			$_POST['key'] = Dbase::dataFilter(@$_POST['key']);
 			if(USER::isAdmin()){
-				$sql_where = 'WHERE (login LIKE "%'.@$_POST['key'].
-						'%" OR name LIKE "%'.@$_POST['key'].
-						'%" OR patronymic LIKE "%'.@$_POST['key'].
-						'%" OR surname LIKE "%'.@$_POST['key'].
-						'%" OR phone LIKE "%'.@$_POST['key'].
-						'%") AND user_level = 4 LIMIT 20';
+				$sql_where = 'WHERE (u.login LIKE "%'.@$_POST['key'].
+						'%" OR u.name LIKE "%'.@$_POST['key'].
+						'%" OR u.patronymic LIKE "%'.@$_POST['key'].
+						'%" OR u.surname LIKE "%'.@$_POST['key'].
+						'%" OR u.phone LIKE "%'.@$_POST['key'].
+						'%") AND u.user_level = 4 LIMIT 20';
 			}else{
-				$sql_where = 'WHERE (login LIKE "%'.@$_POST['key'].
-						'%" OR phone LIKE "%'.@$_POST['key'].
-						'%") AND user_level = 4 LIMIT 20';
+				$sql_where = 'WHERE (u.login LIKE "%'.@$_POST['key'].
+						'%" OR u.phone LIKE "%'.@$_POST['key'].
+						'%") AND u.user_level = 4 LIMIT 20';
 			}
-			$sql = 'SELECT id, 
-					name,
-					login, 
-					patronymic,
-					surname,
-					photo, 
-					properties,
-					phone,
-					user_level FROM users '.$sql_where;
+			//если действует акция
+			if(BIKE_ACTION){
+				$sql = 'SELECT `u`.`id`, 
+					`u`.`name`,
+					`u`.`login`, 
+					`u`.`patronymic`,
+					`u`.`surname`,
+					`u`.`photo`, 
+					`u`.`properties`,
+					`u`.`phone`,
+					`u`.`user_level`,
+					`a`.`klient_id` as `action_klient`,
+					`a`.`renttime_summ` as `action_time` FROM `users` `u` LEFT OUTER JOIN `action` `a` ON `u`.`id` = `a`.`klient_id` '.$sql_where;
+			}else{
+				$sql = 'SELECT `u`.`id`, 
+					`u`.`name`,
+					`u`.`login`, 
+					`u`.`patronymic`,
+					`u`.`surname`,
+					`u`.`photo`, 
+					`u`.`properties`,
+					`u`.`phone`,
+					`u`.`user_level`
+					 FROM `users` `u` '.$sql_where;
+			}
+			
 			$arResult = $db->getArray($sql);
+			
 			if($arResult === false) return array('status'=>'error', 'message'=>TEMP::$Lang['bad_response_find']);
 			foreach($arResult as $num=>$user){
 				$arResult[$num]['properties'] = json_decode($user['properties'], true);
@@ -509,6 +528,31 @@ class Actions{
 		$seat_flag = @$_POST['seat'] == 'true' ? true : false;
 		$added = 0;
 		
+		if(isset($_POST['bike_action'])){
+			$sms_code = USER::passwGen(6);
+			$sms_code = $sms_code[rand(0,3)];
+			
+			$arUser = USER::getFullInfo($_POST['user_id']);
+			if($arUser === false){
+				$response = array('status'=>'bad', 'message'=>TEMP::$Lang['SYSTEM']['wrong_sql_request']);
+				return json_encode($response);
+			}
+			$arRes = DBase::setRecord(array('table'=>'action', 'fields'=>array(
+	             													'klient_id'=>$_POST['user_id'],
+	               													'time_start'=>time(),
+	              													'amount_summ'=>0,
+	               													'renttime_summ'=>0,
+	               													'sms_code'=>$sms_code
+               												)));
+            if($arRes['status'] == true){
+            	/*$arRes = TEMP::sendSMS($arUser['phone'], TEMP::$Lang['txtsms_congratulation_action_start'].$sms_code);
+            	if($arRes['status'] === false){
+            		$response = array('status'=>'bad', 'message'=>$arRes['error']);
+					return json_encode($response);
+            	}*/
+            }
+		}
+		
 		if($seat_flag === true) $added += 10;
 		
 		if(BIKE::startRent($bike_id, $user_id, $rent_period, $added) === true){
@@ -534,8 +578,36 @@ class Actions{
 		$user_id = Dbase::dataFilter(@$_POST['user_id']);
 		$added = 0;
 		
-		//получаем полные данные о пользователе
-		$sql = 'SELECT 	`u`.`name`, 
+		if(BIKE_ACTION){
+			//получаем полные данные о пользователе
+			$sql = 'SELECT 	`u`.`name`, 
+						`u`.`patronymic`,
+						`u`.`surname`,
+						`u`.`login`,
+						`u`.`photo`,
+						`u`.`properties`,
+						`u`.`email`,
+						`u`.`phone`,
+						`u`.`user_level`,
+						`r`.`id` AS `rent_id`,
+						`r`.`bike_id`,
+						`r`.`time_start`,
+						`r`.`time_end`,
+						`r`.`project_time`,
+						`r`.`properties` AS `rent_prop`,
+						`b`.`model`,
+						`b`.`serial_id`,
+						`b`.`foto`,
+						`a`.`klient_id` as `action_klient`,
+						`a`.`renttime_summ` as `action_time`
+						 FROM `users` `u` 
+							LEFT OUTER JOIN `rent` `r` ON `r`.`klient_id` = `u`.`id` 
+							AND `r`.`time_end` = 0 AND `r`.`bike_id` = '.$bike_id.'
+							LEFT OUTER JOIN `bikes` `b` ON `b`.`on_rent` = `r`.`id` AND `b`.`id` = '.$bike_id.' 
+							LEFT OUTER JOIN `action` `a` ON `a`.`klient_id` = `u`.`id` WHERE `u`.`id` = "'.$user_id.'" LIMIT 1';
+		}else{
+			//получаем полные данные о пользователе
+			$sql = 'SELECT 	`u`.`name`, 
 						`u`.`patronymic`,
 						`u`.`surname`,
 						`u`.`login`,
@@ -557,6 +629,8 @@ class Actions{
 							LEFT OUTER JOIN `rent` `r` ON `r`.`klient_id` = `u`.`id` 
 							AND `r`.`time_end` = 0 AND `r`.`bike_id` = '.$bike_id.'
 							LEFT OUTER JOIN `bikes` `b` ON `b`.`on_rent` = `r`.`id` AND `b`.`id` = '.$bike_id.' WHERE `u`.`id` = "'.$user_id.'" LIMIT 1';
+		}
+		
 		//echo $sql; die();
 		$arInfo = $db->getArray($sql);
 		if(count($arInfo) > 0){
@@ -571,9 +645,11 @@ class Actions{
 		unset($arInfo['foto']);
 		unset($arInfo['time_end']);
 		unset($arInfo['photo']);
-
-
-		$arStop = BIKE::stopRent($bike_id, $store_id, $arInfo['time_start'], $arInfo['project_time'], $added);
+		
+		if(isset($arInfo['action_klient'])){
+			$arStop = BIKE::stopRent($bike_id, $store_id, $arInfo['time_start'], $arInfo['project_time'], $added, $arInfo['action_klient']);
+		}else 
+			$arStop = BIKE::stopRent($bike_id, $store_id, $arInfo['time_start'], $arInfo['project_time'], $added);
 		
 		if($arStop !== false){
 			$response = array('status'=>'ok', 'stopTime'=>$arStop['time_stop'], 'rent_amount'=>((int)$arStop['amount'] / 100), 'fullInfo'=>$arInfo, 'message'=>TEMP::$Lang['SYSTEM']['stop_rent_sucess']);
@@ -655,15 +731,30 @@ class Actions{
 			$search = Dbase::dataFilter($_POST['#_usListPage']);
 
 			$db = new Dbase();
-			$sql = 'SELECT id, 
-					name,
-					login, 
-					patronymic,
-					surname,
-					photo, 
-					properties,
-					phone,
-					user_level FROM users WHERE (login LIKE "%'.$search.'%" OR name LIKE "%'.$search.'%" OR patronymic LIKE "%'.$search.'%" OR surname LIKE "%'.$search.'%" OR phone LIKE "%'.$search.'%") LIMIT 20';
+			//если действует акция
+			if(BIKE_ACTION){
+				$sql = 'SELECT `u`.`id`, 
+					`u`.`name`,
+					`u`.`login`, 
+					`u`.`patronymic`,
+					`u`.`surname`,
+					`u`.`photo`, 
+					`u`.`properties`,
+					`u`.`phone`,
+					`u`.`user_level`,
+					`a`.`klient_id` as `action_klient`,
+					`a`.`renttime_summ` as `action_time` FROM `users` `u` LEFT OUTER JOIN `action` `a` ON `u`.`id` = `a`.`klient_id` WHERE (login LIKE "%'.$search.'%" OR name LIKE "%'.$search.'%" OR patronymic LIKE "%'.$search.'%" OR surname LIKE "%'.$search.'%" OR phone LIKE "%'.$search.'%") LIMIT 20';
+			}else{
+				$sql = 'SELECT id, 
+						name,
+						login, 
+						patronymic,
+						surname,
+						photo, 
+						properties,
+						phone,
+						user_level FROM users WHERE (login LIKE "%'.$search.'%" OR name LIKE "%'.$search.'%" OR patronymic LIKE "%'.$search.'%" OR surname LIKE "%'.$search.'%" OR phone LIKE "%'.$search.'%") LIMIT 20';
+			}
 			$arResult = $db->getArray($sql);
 			foreach($arResult as $num=>$user){
 				switch ($user['user_level']){
@@ -837,6 +928,65 @@ class Actions{
 		$response['rent_time'] = $rent_time;
 		$response['project_time'] = $project_time;
 		return json_encode(array('status'=>'ok', 'report'=>$response));
+	}
+#---------------------------------------
+	function find_action_user_handler(){
+		$sms_code = Dbase::dataFilter($_POST['sms_code']);
+		$action_users_count = null;
+		$user_position = null;
+		
+		$db = new Dbase();
+		
+		$sql1 = "SELECT
+				`a`.`klient_id`,
+				`a`.`amount_summ`,
+				`a`.`renttime_summ`,
+				`a`.`time_start`,
+				`u`.`id`,
+				`u`.`name`,
+				`u`.`patronymic`,
+				`u`.`surname`,
+				`u`.`photo`, 
+				`u`.`properties`,
+				`u`.`phone`,
+				`u`.`user_level` FROM `action` `a` 
+				LEFT OUTER JOIN `users` `u` ON `a`.`klient_id` = `u`.`id` 
+				WHERE `a`.`sms_code` = '{$sms_code}'";
+		
+		$arRes = $db->getArray($sql1);
+		if(!$arRes){
+			return json_encode(array('status'=>'bad', 'message'=>TEMP::$Lang['txt_sms_code_not_found']));
+		}
+		
+		$_SESSION['ACTION_USER'] = $arRes[0]['klient_id'];
+		
+		$action_users_count = Dbase::getCountRowsOfTable('action');
+		
+		$sql2 = "SELECT `id` FROM `action` WHERE `renttime_summ` > {$arRes[0]['renttime_summ']}";
+		$result = mysql_query($sql2);
+		$user_position = mysql_num_rows($result) + 1;
+		
+		$sql3 = "SELECT
+				`a`.`klient_id`,
+				`a`.`amount_summ`,
+				`a`.`renttime_summ`,
+				`a`.`time_start`,
+				`u`.`id`,
+				`u`.`name`,
+				`u`.`patronymic`,
+				`u`.`surname`,
+				`u`.`photo`, 
+				`u`.`properties`,
+				`u`.`phone`,
+				`u`.`user_level` FROM `action` `a` 
+				LEFT OUTER JOIN `users` `u` ON `a`.`klient_id` = `u`.`id` 
+				ORDER BY `renttime_summ` DESC LIMIT 20";
+		$arRes1 = $db->getArray($sql3);
+		if(!$arRes1){
+			return json_encode(array('status'=>'bad', 'message'=>'error: '.$sql3));
+		}
+		
+		return json_encode(array('status'=>"ok", 'u_pos'=>$user_position, 'actions_count'=>$action_users_count, 'u_info'=>$arRes[0], 'leaders'=>$arRes1));
 	}
 #---------------------------------------
 }
