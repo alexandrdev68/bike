@@ -545,11 +545,11 @@ class Actions{
 	               													'sms_code'=>$sms_code
                												)));
             if($arRes['status'] == true){
-            	/*$arRes = TEMP::sendSMS($arUser['phone'], TEMP::$Lang['txtsms_congratulation_action_start'].$sms_code);
+            	$arRes = TEMP::sendSMS($arUser['phone'], TEMP::$Lang['txtsms_congratulation_action_start'].$sms_code);
             	if($arRes['status'] === false){
-            		$response = array('status'=>'bad', 'message'=>$arRes['error']);
-					return json_encode($response);
-            	}*/
+            		/*$response = array('status'=>'bad', 'message'=>$arRes['error']);
+					return json_encode($response);*/
+            	}
             }
 		}
 		
@@ -958,35 +958,50 @@ class Actions{
 			return json_encode(array('status'=>'bad', 'message'=>TEMP::$Lang['txt_sms_code_not_found']));
 		}
 		
-		$_SESSION['ACTION_USER'] = $arRes[0]['klient_id'];
+		$_SESSION['ACTION_USER'] = $sms_code;
 		
 		$action_users_count = Dbase::getCountRowsOfTable('action');
 		
-		$sql2 = "SELECT `id` FROM `action` WHERE `renttime_summ` > {$arRes[0]['renttime_summ']}";
-		$result = mysql_query($sql2);
-		$user_position = mysql_num_rows($result) + 1;
+		$sql2 = "SELECT `klient_id`,`time_start`, `sms_code` FROM `action` WHERE `amount_summ` >= {$arRes[0]['renttime_summ']} ORDER BY `time_start` ASC";
+		//$result = mysql_query($sql2);
+		$arRes3 = $db->getArray($sql2);
+		if(!$arRes3){
+			return json_encode(array('status'=>'bad', 'message'=>'error: '.$sql2));
+		}
+		foreach($arRes3 as $num=>$item){
+			if($item['sms_code'] == $sms_code){
+				$user_position = $num + 1;
+				break;
+			}
+		}
+		//$user_position = mysql_num_rows($result) + 1;
 		
 		$sql3 = "SELECT
 				`a`.`klient_id`,
-				`a`.`amount_summ`,
+				`a`.`amount_summ` as `scores`,
 				`a`.`renttime_summ`,
 				`a`.`time_start`,
 				`u`.`id`,
 				`u`.`name`,
 				`u`.`patronymic`,
 				`u`.`surname`,
-				`u`.`photo`, 
-				`u`.`properties`,
-				`u`.`phone`,
 				`u`.`user_level` FROM `action` `a` 
 				LEFT OUTER JOIN `users` `u` ON `a`.`klient_id` = `u`.`id` 
-				ORDER BY `renttime_summ` DESC LIMIT 20";
+				ORDER BY `amount_summ` DESC LIMIT 20";
 		$arRes1 = $db->getArray($sql3);
 		if(!$arRes1){
 			return json_encode(array('status'=>'bad', 'message'=>'error: '.$sql3));
 		}
+		$top_score = $arRes1[0]['scores'];
+		foreach($arRes1 as $num=>$item){
+			$arRes1[$num]['scores'] = $arRes1[$num]['scores'] - $top_score;
+			$arRes1[$num]['name'] .= ' '.$item['surname'].' '.$item['patronymic'];
+			unset($arRes1[$num]['patronymic']);
+			unset($arRes1[$num]['surname']);
+			$arRes1[$num]['time_start'] = date('d.m.Y H:i', $item['time_start']);
+		}
 		
-		return json_encode(array('status'=>"ok", 'u_pos'=>$user_position, 'actions_count'=>$action_users_count, 'u_info'=>$arRes[0], 'leaders'=>$arRes1));
+		return json_encode(array('status'=>"ok", 'u_pos'=>$user_position, 'actions_count'=>$action_users_count, 'u_info'=>$arRes[0], 'leaders'=>$arRes1, 'upper'=>$arRes3));
 	}
 #---------------------------------------
 }

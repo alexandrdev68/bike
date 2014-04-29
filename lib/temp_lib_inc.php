@@ -44,6 +44,8 @@
 	
     
     static public function sendSMS($phone, $text){
+    	$arParams = array();
+    	$arRet = array();
     	if(!is_object(self::$sms)){
     		spl_autoload_unregister('class_autoload');
 			require_once($_SERVER['DOCUMENT_ROOT'].'/lib/alphasms-client-api/smsclient.class.php');
@@ -56,9 +58,27 @@
 		
 		if(self::$sms->hasErrors()){
 			//echo 'login: '.SMS_LOGIN.' passw: '.SMS_PASSW.'<br>';
-			return array('status'=>false, 'error'=>self::$sms->getErrors());
-		}else
-			return array('status'=>true);
+			$arRet = array('status'=>false, 'error'=>self::$sms->getErrors());
+			$arParams = array('table'=>'sms_log', 'fields'=>array(
+	             													'sms_id'=>'null',
+	               													'sms_time'=>time(),
+	              													'phone'=>$phone,
+	               													'sms_text'=>$text,
+																	'sms_status'=>401,
+																	'sms_error'=>$arRet['error']
+               												));
+		}else{
+			$arParams = array('table'=>'sms_log', 'fields'=>array(
+	             													'sms_id'=>$id,
+	               													'sms_time'=>time(),
+	              													'phone'=>$phone,
+	               													'sms_text'=>$text,
+																	'sms_status'=>1
+               												));
+			$arRet = array('status'=>true);
+		}
+		$arRes = DBase::setRecord($arParams);
+		return $arRet;
     }
     
     
