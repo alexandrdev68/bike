@@ -22,9 +22,19 @@
 		   </script>
 		<![endif]-->
 </head>
-<body class="bg_all">
+<body id="action">
 <div class="row">
-	<div class="col-md-10 col-md-offset-1">
-		<a class="logo" href="/action#"></a>
-	</div>
-</div>
+	<div class="col-md-10 col-md-offset-1 actionBackColorWhite contentMinHeight topMargin20">
+		<div class="col-md-4 topMargin10"><a class="logo" href="http://veloolimp.com.ua/"></a></div>
+		<div class="col-md-4 col-md-offset-4 topMargin10">
+			<div class="panel panel-default">
+			  <div class="panel-body">
+			    <ul>
+				    <li class="_usersCountAll"><b><?=TEMP::$Lang['txt_pryjnalo_uchast']?>:</b> <i></i></li>
+				    <li class="_userPositionAction"><b><?=TEMP::$Lang['txt_your_position_in_action']?>:</b> <i></i></li>
+				    <li class="_userDiffAction"><b><?=TEMP::$Lang['txt_your_diff_from_leader']?>:</b> <i></i></li>
+			    </ul>
+			  </div>
+			</div>
+		</div>
+	

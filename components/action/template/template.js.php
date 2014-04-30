@@ -13,12 +13,19 @@ var leaders_list = new tableFromData({
 	counter : true
 });
 
+function fill_info_action(response){
+	leaders_list.fill(response.leaders);
+	$('div._leadrsContainer').html(leaders_list.table);
+	$('._usersCountAll i').text(response.actions_count);
+	$('._userPositionAction i').text(response.u_pos);
+	$('._userDiffAction i').text(response.u_info.score);
+}
+
 var leaders_report = new serverRequest({
 	url : '/',
 	dataType : 'json',
 	success : function(response){
-		leaders_list.fill(response.leaders);
-		$('div._leadrsContainer').html(leaders_list.table);
+		fill_info_action(response);
 	}
 });
 
@@ -35,6 +42,12 @@ function action_init(){
 		});
 	<?endif?>
 
+	$('div._actionSMSCODE').hide();
+	
+	$('div._actionSMSCODE button').click(function(){
+		$('div._actionSMSCODE').hide();
+	});
+	
 	$('._action_confirm_btn').click(function(){
 		$('form[name="action_confirm"]').ajaxSubmit({
 			type: 'post',
@@ -42,9 +55,11 @@ function action_init(){
 			url: window.location,
 			success: function(response) {
 				if(response.status == 'ok'){
-					leaders_list.fill(response.leaders);
-					$('div._leadrsContainer').html(leaders_list.table);
+					fill_info_action(response);
 					$('#action_modal_window').modal('hide');
+				}else if(response.status == 'bad'){
+					$('div._actionSMSCODE ._messtext').text(response.message);
+					$('div._actionSMSCODE').show();
 				}
 			},
 			error : function(response){

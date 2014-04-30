@@ -2,6 +2,10 @@ html, body, img, div, p, span, ul, li, ol, form, frame, iframe, span, a, em, i, 
 header, nav, section, article, aside, footer {display:block;}
 html {min-height:100%;}
 body {position:relative; height:100% - 10px; background-color:#E2E2E2;font-family: Arial, Geneva, serif, fantasy; font-size:14px;}
+body#action{
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#828282', endColorstr='#cfcfcf', GradientType='1'); /* for IE */
+	background: linear-gradient(180deg, #828282 8%, #cfcfcf 100%);/* W3C */
+}
 section {background-color:#fff;}
 img {border:0;}
 a {outline:none;}
@@ -87,4 +91,16 @@ a.logo{
     width: 385px;
     background: url('../images/velo-sprite.png') no-repeat transparent;
     display:block;
+}
+div.actionBackColorWhite{
+	background-color: #fff;
+}
+div.contentMinHeight{
+	min-height:400px;
+}
+div.topMargin20{
+	margin-top:20px;
+}
+div.topMargin10{
+	margin-top:10px;
 }

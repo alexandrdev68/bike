@@ -112,7 +112,12 @@ TEMP::$Lang = array(
 	'txt_sms_code_not_found'=>'Невірний смс код',
 	'txt_action_user_start_from'=>'Приймає участь з',
 	'txt_leader_different'=>'Відставання від лідера',
-	'txt_leaders_table'=>'Таблиця лідерів акції'
+	'txt_leaders_table'=>'Таблиця лідерів акції "Велосипед за 1 грн." (перші 20 чоловік)',
+	'txt_action_bike_for_1_hrn'=>'Акція "Велосипед за 1 грн."',
+	'txt_pryjnalo_uchast'=>'Всього учасників',
+	'txt_your_position_in_action'=>'Ваша позиція',
+	'txt_your_diff_from_leader'=>'Відставання від лідера',
+	'txt_counter_code_too_big'=>'Ви перевищили кількість спроб вводу!'
 );
 
 TEMP::$Lang['SYSTEM'] = array(

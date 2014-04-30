@@ -931,49 +931,56 @@ class Actions{
 	}
 #---------------------------------------
 	function find_action_user_handler(){
+		if($_SESSION['CODE_COUNT'] > 4){
+			return json_encode(array('status'=>'bad', 'message'=>TEMP::$Lang['txt_counter_code_too_big']));
+		}
 		$sms_code = Dbase::dataFilter($_POST['sms_code']);
 		$action_users_count = null;
 		$user_position = null;
+		$user_score = null;
 		
 		$db = new Dbase();
 		
 		$sql1 = "SELECT
 				`a`.`klient_id`,
-				`a`.`amount_summ`,
+				`a`.`amount_summ` as `score`,
 				`a`.`renttime_summ`,
 				`a`.`time_start`,
 				`u`.`id`,
 				`u`.`name`,
 				`u`.`patronymic`,
 				`u`.`surname`,
-				`u`.`photo`, 
-				`u`.`properties`,
-				`u`.`phone`,
 				`u`.`user_level` FROM `action` `a` 
 				LEFT OUTER JOIN `users` `u` ON `a`.`klient_id` = `u`.`id` 
 				WHERE `a`.`sms_code` = '{$sms_code}'";
 		
 		$arRes = $db->getArray($sql1);
 		if(!$arRes){
+			$_SESSION['CODE_COUNT'] = $_SESSION['CODE_COUNT'] + 1;
 			return json_encode(array('status'=>'bad', 'message'=>TEMP::$Lang['txt_sms_code_not_found']));
 		}
+		
 		
 		$_SESSION['ACTION_USER'] = $sms_code;
 		
 		$action_users_count = Dbase::getCountRowsOfTable('action');
 		
-		$sql2 = "SELECT `klient_id`,`time_start`, `sms_code` FROM `action` WHERE `amount_summ` >= {$arRes[0]['renttime_summ']} ORDER BY `time_start` ASC";
+		$sql2 = "SELECT `klient_id`,`time_start`, `sms_code`, `amount_summ` FROM `action` WHERE `amount_summ` >= {$arRes[0]['score']} ORDER BY `amount_summ` ASC";
 		//$result = mysql_query($sql2);
 		$arRes3 = $db->getArray($sql2);
 		if(!$arRes3){
 			return json_encode(array('status'=>'bad', 'message'=>'error: '.$sql2));
 		}
+		
+		$temp = null;
 		foreach($arRes3 as $num=>$item){
-			if($item['sms_code'] == $sms_code){
-				$user_position = $num + 1;
-				break;
-			}
+			if($item['amount_summ'] == $temp) unset($arRes3[$num]);
+			$temp = $item['amount_summ'];
 		}
+		
+		$user_position = count($arRes3);
+				
+			
 		//$user_position = mysql_num_rows($result) + 1;
 		
 		$sql3 = "SELECT
@@ -994,12 +1001,14 @@ class Actions{
 		}
 		$top_score = $arRes1[0]['scores'];
 		foreach($arRes1 as $num=>$item){
-			$arRes1[$num]['scores'] = $arRes1[$num]['scores'] - $top_score;
+			$arRes1[$num]['scores'] = ($arRes1[$num]['scores'] - $top_score) / 100;
 			$arRes1[$num]['name'] .= ' '.$item['surname'].' '.$item['patronymic'];
 			unset($arRes1[$num]['patronymic']);
 			unset($arRes1[$num]['surname']);
 			$arRes1[$num]['time_start'] = date('d.m.Y H:i', $item['time_start']);
 		}
+		
+		$arRes[0]['score'] = ($arRes[0]['score'] - $top_score) / 100;
 		
 		return json_encode(array('status'=>"ok", 'u_pos'=>$user_position, 'actions_count'=>$action_users_count, 'u_info'=>$arRes[0], 'leaders'=>$arRes1, 'upper'=>$arRes3));
 	}
