@@ -49,6 +49,8 @@ function action_init(){
 	});
 	
 	$('._action_confirm_btn').click(function(){
+		var sms = document.querySelector('#smsCode').value;
+		if(sms == '') return false;
 		$('form[name="action_confirm"]').ajaxSubmit({
 			type: 'post',
 			dataType : 'json',

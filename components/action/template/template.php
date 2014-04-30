@@ -14,7 +14,7 @@
         <form role="form" name="action_confirm">
 			<div class="form-group">
 			    <label for="smsCode"><?=TEMP::$Lang['txt_sms_code']?></label>
-			    <input type="text" class="form-control" id="smsCode" name="sms_code" placeholder="<?=TEMP::$Lang['txt_sms_code']?>">
+			    <input type="text" class="form-control" id="smsCode" required name="sms_code" placeholder="<?=TEMP::$Lang['txt_sms_code']?>">
 			    <input type="hidden" name="action" value="find_action_user">
 		  	</div>
         </form>

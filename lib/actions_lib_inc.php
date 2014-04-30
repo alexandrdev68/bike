@@ -528,7 +528,7 @@ class Actions{
 		$seat_flag = @$_POST['seat'] == 'true' ? true : false;
 		$added = 0;
 		
-		if(isset($_POST['bike_action'])){
+		if(isset($_POST['bike_action']) && $_POST['bike_action'] != 'false'){
 			$sms_code = USER::passwGen(6);
 			$sms_code = $sms_code[rand(0,3)];
 			
@@ -545,7 +545,7 @@ class Actions{
 	               													'sms_code'=>$sms_code
                												)));
             if($arRes['status'] == true){
-            	$arRes = TEMP::sendSMS($arUser['phone'], TEMP::$Lang['txtsms_congratulation_action_start'].$sms_code);
+            	$arRes = TEMP::sendSMS($arUser['phone'], TEMP::$Lang['txtsms_congratulation_action_start'].$sms_code , true);
             	if($arRes['status'] === false){
             		/*$response = array('status'=>'bad', 'message'=>$arRes['error']);
 					return json_encode($response);*/
@@ -562,6 +562,8 @@ class Actions{
 				$_SESSION['PRINT']['type'] = 'contract';
 				$_SESSION['PRINT']['info'] = USER::getFullInfo($user_id);
 				$_SESSION['PRINT']['info']['bikes'] = BIKE::getKlientBikes($user_id);
+				if(isset($_POST['bike_action']) && $_POST['bike_action'] != 'false') $_SESSION['PRINT']['action_ofert'] = true;
+				else $_SESSION['PRINT']['action_ofert'] = false;
 				$response['print'] = 'yes';
 			}
 		}else{
