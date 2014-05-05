@@ -3,13 +3,18 @@
     <div class="modal-content">
       <div class="modal-header">
         <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+        <div class="_actionSMSCODE alert alert-danger">
+			<button class="close"  type="button">×</button>
+			<strong><?=TEMP::$Lang['warning']?>!</strong>
+			<span class="_messtext"></span>
+		</div>
         <h4 class="modal-title"><?=TEMP::$Lang['txt_action']?></h4>
       </div>
       <div class="modal-body">
         <form role="form" name="action_confirm">
 			<div class="form-group">
 			    <label for="smsCode"><?=TEMP::$Lang['txt_sms_code']?></label>
-			    <input type="text" class="form-control" id="smsCode" name="sms_code" placeholder="<?=TEMP::$Lang['txt_sms_code']?>">
+			    <input type="text" class="form-control" id="smsCode" required name="sms_code" placeholder="<?=TEMP::$Lang['txt_sms_code']?>">
 			    <input type="hidden" name="action" value="find_action_user">
 		  	</div>
         </form>
@@ -20,9 +25,8 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<div class="row">
-	<div class="col-md-10 col-md-offset-1">
-		<div class="col-md-6 col-md-offset-3"><h3 class="text-center"><?=TEMP::$Lang['txt_leaders_table']?></h3></div>
-		<div class="col-md-10 col-md-offset-1 _leadrsContainer"></div>
-	</div>
-</div>
+
+
+	<div class="col-md-6 col-md-offset-3"><h3 class="text-center"><?=TEMP::$Lang['txt_leaders_table']?></h3></div>
+	<div class="col-md-10 col-md-offset-1 _leadrsContainer"></div>
+

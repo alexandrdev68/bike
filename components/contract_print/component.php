@@ -54,6 +54,10 @@ if($_SESSION['PRINT']['type'] == 'contract'){
 	$objWorksheet->getCell('B29')->setValue('Я, '.$_SESSION['PRINT']['info']['patronymic'].' '.$_SESSION['PRINT']['info']['name'].' '.$_SESSION['PRINT']['info']['surname']);
 	$objWorksheet->getCell('B30')->setValue('Адреса проживання/прописки:   '.@$_SESSION['PRINT']['info']['properties']['live_place']);
 	$objWorksheet->getCell('B32')->setValue('дата '.$date.',     час: з '.$time.' до '.$time_end.',     тел. '.$_SESSION['PRINT']['info']['phone'].' ');
+	
+	if(BIKE_ACTION && $_SESSION['PRINT']['action_ofert']){
+		$objWorksheet->getCell('B35')->setValue('Даю згоду для участі в акції "Велосипед за 1 грн.":___________________');
+	}
 
 	
 	// redirect output to client browser

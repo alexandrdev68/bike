@@ -43,7 +43,7 @@
     
 	
     
-    static public function sendSMS($phone, $text){
+    static public function sendSMS($phone, $text, $translit = false){
     	$arParams = array();
     	$arRet = array();
     	if(!is_object(self::$sms)){
@@ -53,8 +53,8 @@
 			spl_autoload_register('class_autoload');
     	}
     	
-		
-		$id = self::$sms->sendSMS('action', $phone, $text);
+		if($translit) $text = SMSclient::translit($text);
+		$id = self::$sms->sendSMS('Olimpia', $phone, $text);
 		
 		if(self::$sms->hasErrors()){
 			//echo 'login: '.SMS_LOGIN.' passw: '.SMS_PASSW.'<br>';
