@@ -399,6 +399,53 @@ var bike = {
 		        	
 		        }
 			});
+		},
+		toType : function(type, value){
+			switch(type){
+			case 'string' :
+				return String(value);
+				break;
+			case 'integer' :
+				return parseInt(value);
+				break;
+			case 'float' :
+				return parseFloat(value);
+				break;
+			default:
+				return value;
+			}
+		},
+		sortArray : function(prod, direct){
+			    akk = [];//массив для хранения промежуточных значений
+			    for(var c = 0; c < prod.length; c++){
+			        akk[0] = bike.toType('integer', prod[c]['amount_source']);
+			        //console.log(akk[0]);
+			        findtiny = false;//триггер нахождения самого маленького числа в массиве (true, если найдено, по умолчанию - false)
+			        for(var i = c; i < prod.length; i++){
+			            akk[2] = bike.toType('integer', prod[i]['amount_source']);
+			            if(direct){ //если по возрастанию то...
+			                if(akk[2] < akk[0]){
+			                    findtiny = true;
+			                    akk[0] = akk[2];
+			                    akk[1] = i;
+			                };
+			            }else{ //по убыванию...
+			                if(akk[2] > akk[0]){
+			                    findtiny = true;
+			                    akk[0] = akk[2];
+			                    akk[1] = i;
+			                };
+			            }
+			        };
+			        if(findtiny){
+			            a1 = akk[1];
+			            akk[3] = prod[c];
+			            prod[c] = prod[a1];
+			            prod[a1] = akk[3];
+			        }
+			    };
+			    return prod;
+			
 		}
 };
 

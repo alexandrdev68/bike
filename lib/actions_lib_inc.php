@@ -927,6 +927,7 @@ class Actions{
 			$project_time += $rent['project_time'];
 		}
 		$response['amount'] = number_format($amount / 100, 2,'.',' ');
+		$response['amount_source'] = $amount;
 		$response['rent_time'] = $rent_time;
 		$response['project_time'] = $project_time;
 		return json_encode(array('status'=>'ok', 'report'=>$response));

@@ -54,6 +54,10 @@ function get_canceled_rents(){
 	return table.length == 0 ? false : table;
 }
 
+function bikeListSortByAmount(list){
+	return bike.sortArray(list, false);
+}
+
 function periodReport(){
 	var store_id = $('li._storeReportSelect a').data('store_id');
 	bike.periodReport(date_from.valueOf() / 1000, date_to.valueOf() / 1000, store_id, function(response){
@@ -91,6 +95,7 @@ var bikes_report = new serverRequest({
 		//console.log(response.report.rent_time);
 		bike.reportCounter--;
 		if(bike.reportCounter < 0){
+				bikeListSortByAmount(bike.reportList);
 				bike_report.fill(bike.reportList);
 				$('div.report_container').html(bike_report.table);
 				return false;
