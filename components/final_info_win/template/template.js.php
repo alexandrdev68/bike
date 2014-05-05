@@ -24,7 +24,7 @@ function final_info_init(){
 		$('div._closeRentPaid span').text(bike.getTimeString(new Date(bike.stoppedFullInfo.project_time * 1000), ':'));
 		$('div._closeRentFact span').text(bike.getTimeString(new Date(fact_time * 1000), ':'));
 		$('div._closeRentAmount span').text(bike.stoppedFullInfo.rent_amount);
-		if(bike.stoppedFullInfo.project_time > fact_time) $('button._factRecalc').show();
+		if((bike.stoppedFullInfo.project_time > fact_time) && (bike.stoppedFullInfo.project_time < 86400)) $('button._factRecalc').show();
 		else $('button._factRecalc').hide();
 	});
 
