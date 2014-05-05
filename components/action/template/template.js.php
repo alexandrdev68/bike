@@ -47,6 +47,11 @@ function action_init(){
 	$('div._actionSMSCODE button').click(function(){
 		$('div._actionSMSCODE').hide();
 	});
+
+	$('form[name="action_confirm"]').submit(function(event){
+		event.preventDefault();
+		$('._action_confirm_btn').trigger('click');
+	});
 	
 	$('._action_confirm_btn').click(function(){
 		var sms = document.querySelector('#smsCode').value;
