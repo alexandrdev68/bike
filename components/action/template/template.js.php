@@ -35,6 +35,11 @@ function action_init(){
 		});
 	<?endif?>
 
+	$('form[name="action_confirm"]').submit(function(event){
+		event.preventDefault();
+		$('._action_confirm_btn').trigger('click');
+	});
+	
 	$('._action_confirm_btn').click(function(){
 		$('form[name="action_confirm"]').ajaxSubmit({
 			type: 'post',
