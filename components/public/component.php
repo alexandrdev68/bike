@@ -1,5 +1,10 @@
 <?php
-	if(@$_GET['test'] == 'yes'){
+$db = new Dbase();
+$sql = "SELECT `id`, adress FROM `store`";
+$arRes = $db->getArray($sql);
+$_SESSION['STORES'] = $arRes;	
+
+if(@$_GET['test'] == 'yes'){
 		for($time = 0; $time <= 420000; $time += 600){
 			$arPeriod = BIKE::getTimeBetween(0, $time);
 			$period = $arPeriod['days'].' d. '.$arPeriod['hours'].' h. '.$arPeriod['minutes'].' m.';
