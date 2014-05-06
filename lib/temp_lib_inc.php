@@ -13,6 +13,7 @@
     static $curr_lang;
     static $Lang = array();
     static $sms = null;
+    static $used_magnific_popup = false;
 	
     function __construct($template){
 		self::$current = $template;
