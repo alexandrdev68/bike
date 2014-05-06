@@ -54,6 +54,9 @@
 		}elseif($_GET['place'] == 'in_rent'){
 			$arBikes = $db->getArray($sql2);
 		}
+	}else{
+		$arBikes = $db->getArray($sql1);
+		$_GET['place'] = 'in_store';
 	}
 	
 	
