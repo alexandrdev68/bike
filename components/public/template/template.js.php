@@ -16,6 +16,8 @@ function get_max_height(elements){
 }
 
 function public_init(){
-	
+
+	$('.bike_foto_magnific').magnificPopup({type:'image'});
+			
 }
 </script>

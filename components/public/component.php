@@ -67,7 +67,7 @@ if(@$_GET['test'] == 'yes'){
 	
 
 
-	//print_r($arBikesInStore);
+	//print_r($arBikes);
 
 
 	

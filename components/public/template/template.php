@@ -20,15 +20,18 @@
   <div class="span10 offset1">
 	<ul class="thumbnails">
 		<?foreach($arBikes as $num=>$bike):?>
-		<li class="span2">
+		<?if(fmod($num, 5) == 0 && $num != 0):?><div class="underline"></div><?endif?>
+		<li class="span2" style="margin-left:2.5641%;">
 			<div class="thumbnail bikes_list_public">
-				<img data-src="holder.js/300x200" alt="no foto" src="upload/bikes/<?=$bike['foto']?>">
+			<?	$npos = strpos($bike['foto'],'.');
+	        	$resizedFotopath = substr($bike['foto'], 0, $npos).'_resized_640.jpg';
+			?>
+				<a class="bike_foto_magnific" href="upload/bikes/<?=$resizedFotopath?>"><img data-src="holder.js/300x200" alt="no foto" src="upload/bikes/<?=$bike['foto']?>"></a>
 				<h4 class="text-center"><?=$bike['model']?></h4>
 				<p><strong><?=TEMP::$Lang['bike_number']?>:</strong> <?=$bike['id']?></p>
 				<p><strong><?=TEMP::$Lang['store_adress']?>:</strong> <?=$bike['adress']?></p>
 			</div>
 		</li>
-		<?if(fmod($num, 4) == 0 && $num != 0):?><div class="underline"></div><?endif?>
 		<?endforeach?>
 	</ul>
   </div>
