@@ -135,8 +135,8 @@ function bikeData(data, fill){
 		'<td class="_timeOnRent" data-now="' + data.now + '" data-time_start="' + data.time_start * 1000 + '">' + bike.getTimeString(new Date(data.now - data.time_start * 1000), ':') + '</td>' +
 		'<td>' + bike.getTimeString(new Date(data.project_time * 1000), ':') + 
 		' (' + data.project_amount + (data.rent_prop.added > 0 ? ' + ' + data.rent_prop.added / 100 : '') + ' грн.)' +
-		(data.patronymic == '' ? '' : '<br>' + data.name + ' ' +
-		data.surname + ' ' + data.patronymic + ' ') + '<br><?=TEMP::$Lang['phone_numb']?> ' + data.phone + '</td>' +
+		(data.patronymic == '' ? '' : '<br><span class="_href _userInfoWin_inBikeList" data-user_id="' + data.klient_id + '">' + data.name + ' ' +
+		data.surname + ' ' + data.patronymic + ' ') + '</span><br><?=TEMP::$Lang['phone_numb']?> ' + data.phone + '</td>' +
 		'<td>' + data.bike_id + '</td>' +
 		'<td>' + data.serial_id + '</td>' +
 		'<td><input class="btn btn-link _closeRent" type="button" data-bikeid="' + data.bike_id + '" value=' + 
@@ -168,7 +168,7 @@ function main_init(){
 	});
 
 	tabs_responsitive();
-
+	
 	$(window).resize(function(){
 		tabs_responsitive();
 		$('div._usContnr').height($(window).height() - 130);
@@ -419,6 +419,10 @@ function bikesRent_fill(filter){
 				user.currId = $(this).parent().parent().data('klientid');
 				bikeRentModal.show();
 
+			});
+
+			$('span._userInfoWin_inBikeList').click(function(){
+				user.showInfo($(this).data('user_id'));
 			});
 
 			bike.rentList = $('td._timeOnRent');
