@@ -557,7 +557,7 @@ class Actions{
 		               													'sms_code'=>$sms_code
 	               												)));
 	            if($arRes['status'] == true){
-	            	//$arRes = TEMP::sendSMS($arUser['phone'], TEMP::$Lang['txtsms_congratulation_action_start'].$sms_code , true);
+	            	$arRes = TEMP::sendSMS($arUser['phone'], TEMP::$Lang['txtsms_congratulation_action_start'].$sms_code , true);
 	            	if($arRes['status'] === false){
 	            		/*$response = array('status'=>'bad', 'message'=>$arRes['error']);
 						return json_encode($response);*/
