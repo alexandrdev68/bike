@@ -446,6 +446,39 @@ var bike = {
 			    };
 			    return prod;
 			
+		},
+		buildNavChain : function(params){
+			params = params || {};
+			params.target = params.target || 'body';
+			params.chain = params.chain || {1 : 'curr', 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, current:1};
+			params.onPageChange = params.onPageChange || function(page){
+				
+			};
+			$(params.target + ' ul li').detach();
+			var elChain = '';
+			for(var num in params.chain){
+				switch(params.chain[num]){
+					case 'curr':
+						elChain = '<li class="active"><a data-page="' + params.chain['current'] + '" href="#">' + params.chain['current'] + '</a></li>';
+						break;
+					case '<':
+						elChain = '<li class="disabled"><a data-page="' + (params.chain['current'] - 1) + '" href="#"> \< </a></li>';
+						break;
+					case '>':
+						elChain = '<li class="disabled"><a data-page="' + (params.chain['current'] + 1) + '" href="#"> \> </a></li>';
+						break;
+					default :
+						elChain = '<li class="disabled"><a data-page="' + (params.chain[num]) + '" href="#">' + params.chain[num] + '</a></li>';
+						break;
+				}
+				if(num != 'current') $('div._usersNavChain ul').append(elChain);
+			}
+			$(params.target + ' ul li a').on('click', function(event){
+				event.preventDefault();
+				var clickedPage = $(this).data('page');
+				if(params.chain.current == clickedPage) return false;
+				params.onPageChange(clickedPage);
+			});
 		}
 };
 

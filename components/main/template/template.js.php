@@ -308,7 +308,15 @@ function main_init(){
 };
 
 function build_navchain(chain){
-	$('div._usersNavChain ul li').detach();
+	bike.buildNavChain({
+		target : 'div._usersNavChain',
+		chain : chain,
+		onPageChange : function(page){
+			users_fill((page - 1) * 100);
+		}
+	});
+
+	/*$('div._usersNavChain ul li').detach();
 	var elChain = '';
 	for(var num in chain){
 		switch(chain[num]){
@@ -330,7 +338,7 @@ function build_navchain(chain){
 	$('div._usersNavChain ul li a').on('click', function(event){
 		event.preventDefault();
 		users_fill(($(this).data('page') - 1) * 100);
-	});
+	});*/
 }
 
 function users_fill(offset){

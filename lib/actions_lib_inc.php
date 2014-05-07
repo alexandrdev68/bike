@@ -528,29 +528,43 @@ class Actions{
 		$seat_flag = @$_POST['seat'] == 'true' ? true : false;
 		$added = 0;
 		
-		if(isset($_POST['bike_action']) && $_POST['bike_action'] != 'false'){
-			$sms_code = USER::passwGen(6);
-			$sms_code = $sms_code[rand(0,3)];
+		if(isset($_POST['bike_action']) && $_POST['bike_action'] == 'true'){
+			//print_r($_POST); exit;
+			$db = new Dbase();
+			
+			//проверка на уникальность смс-ключа
+			do{
+				$sms_code = USER::passwGen(6);
+				$sms_code = $sms_code[rand(0,3)];
+				$sql = "SELECT `sms_code` FROM `actions` WHERE `sms_code` = '{$sms_code}'";
+				$arRes = $db->getArray($sql);
+			}while($arRes !== false);
+			
 			
 			$arUser = USER::getFullInfo($_POST['user_id']);
 			if($arUser === false){
 				$response = array('status'=>'bad', 'message'=>TEMP::$Lang['SYSTEM']['wrong_sql_request']);
 				return json_encode($response);
 			}
-			$arRes = DBase::setRecord(array('table'=>'action', 'fields'=>array(
-	             													'klient_id'=>$_POST['user_id'],
-	               													'time_start'=>time(),
-	              													'amount_summ'=>0,
-	               													'renttime_summ'=>0,
-	               													'sms_code'=>$sms_code
-               												)));
-            if($arRes['status'] == true){
-            	$arRes = TEMP::sendSMS($arUser['phone'], TEMP::$Lang['txtsms_congratulation_action_start'].$sms_code , true);
-            	if($arRes['status'] === false){
-            		/*$response = array('status'=>'bad', 'message'=>$arRes['error']);
-					return json_encode($response);*/
-            	}
-            }
+			$sql = "SELECT `klient_id` FROM `actions` WHERE `klient_id` = {$_POST['user_id']}";
+			$arRes = $db->getArray($sql);
+			if($arRes == false){
+				$arRes = DBase::setRecord(array('table'=>'action', 'fields'=>array(
+		             													'klient_id'=>$_POST['user_id'],
+		               													'time_start'=>time(),
+		              													'amount_summ'=>0,
+		               													'renttime_summ'=>0,
+		               													'sms_code'=>$sms_code
+	               												)));
+	            if($arRes['status'] == true){
+	            	//$arRes = TEMP::sendSMS($arUser['phone'], TEMP::$Lang['txtsms_congratulation_action_start'].$sms_code , true);
+	            	if($arRes['status'] === false){
+	            		/*$response = array('status'=>'bad', 'message'=>$arRes['error']);
+						return json_encode($response);*/
+	            	}
+	            }
+			}
+			
 		}
 		
 		if($seat_flag === true) $added += 10;
@@ -1014,6 +1028,48 @@ class Actions{
 		$arRes[0]['score'] = ($arRes[0]['score'] - $top_score) / 100;
 		
 		return json_encode(array('status'=>"ok", 'u_pos'=>$user_position, 'actions_count'=>$action_users_count, 'u_info'=>$arRes[0], 'leaders'=>$arRes1, 'upper'=>$arRes3));
+	}
+#---------------------------------------
+	function get_actions_list_handler(){
+		
+		$db = new Dbase();
+		$rows = Dbase::getCountRowsOfTable('action');
+		$curr_page = ceil(@$_POST['from_user_offset'] / 100);
+		$offset = @$_POST['from_user_offset'];
+		$pages = ceil($rows / 100);
+		$len = 8;
+		$arNav = array();
+		if($pages > 1){
+			$arNav = BIKE::build_nav($curr_page + 1, $pages, $len);
+		}
+		
+		
+		$sql = "SELECT
+				`a`.`klient_id`,
+				`a`.`amount_summ` as `scores`,
+				`a`.`renttime_summ`,
+				`a`.`time_start`,
+				`u`.`id`,
+				`u`.`name`,
+				`u`.`patronymic`,
+				`u`.`surname`,
+				`u`.`user_level` FROM `action` `a` 
+				LEFT OUTER JOIN `users` `u` ON `a`.`klient_id` = `u`.`id` 
+				ORDER BY `amount_summ` DESC LIMIT {$offset}, 100";
+		$arRes = $db->getArray($sql);
+		if(!$arRes){
+			return json_encode(array('status'=>'bad', 'message'=>'error: '.$sql));
+		}
+		$top_score = $arRes[0]['scores'];
+		foreach($arRes as $num=>$item){
+			$arRes[$num]['scores'] = ($arRes[$num]['scores'] - $top_score) / 100;
+			$arRes[$num]['name'] .= ' '.$item['surname'].' '.$item['patronymic'];
+			unset($arRes[$num]['patronymic']);
+			unset($arRes[$num]['surname']);
+			$arRes[$num]['time_start'] = date('d.m.Y H:i', $item['time_start']);
+		}
+		
+		return json_encode(array('status'=>"ok", 'actions_list'=>$arRes));
 	}
 #---------------------------------------
 }
