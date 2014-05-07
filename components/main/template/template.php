@@ -54,7 +54,7 @@
     <li class="active"><a href="#_bikesAllPage" data-toggle="tab"><?=TEMP::$Lang['bikes_in_store']?></a></li>
     <li><a href="#_bikesRent" data-toggle="tab"><?=TEMP::$Lang['bikes_in_rent']?></a></li>
     <?if($_SESSION['CURRUSER']['user_level'] != '2'):?><li><a href="#_reportView" data-toggle="tab"><?=TEMP::$Lang['reports_view']?></a></li><?endif?>
-    <?if(USER::isAdmin()):?><li><a href="#_actionListPage" data-toggle="tab"><?=TEMP::$Lang['txt_action_menu_item']?></a></li><?endif?>
+    <?if(USER::isAdmin() && BIKE_ACTION):?><li><a href="#_actionListPage" data-toggle="tab"><?=TEMP::$Lang['txt_action_menu_item']?></a></li><?endif?>
   </ul>
   <div class="tab-content">
 	<?if(USER::isAdmin()):?>
@@ -120,7 +120,7 @@
 		<?=TEMP::component('reports', array())?>
 	</div>
 	<?endif?>
-	<?if(USER::isAdmin()):?>
+	<?if(USER::isAdmin() && BIKE_ACTION):?>
 	<div class="tab-pane" id="_actionListPage">
 		<?=TEMP::component('admin_action', array())?>
 	</div>

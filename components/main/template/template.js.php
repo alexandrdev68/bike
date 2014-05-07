@@ -305,6 +305,11 @@ function main_init(){
 		$('form._searchForm input:first-child').attr('name', $(this).attr('href'));
 		bikesRent_fill('on_rent');
 	});
+
+	$('a[href="#_actionListPage"]').click(function(event){
+		event.preventDefault();
+		bike.actions_fill();
+	});
 };
 
 function build_navchain(chain){
@@ -315,30 +320,6 @@ function build_navchain(chain){
 			users_fill((page - 1) * 100);
 		}
 	});
-
-	/*$('div._usersNavChain ul li').detach();
-	var elChain = '';
-	for(var num in chain){
-		switch(chain[num]){
-			case 'curr':
-				elChain = '<li class="active"><a data-page="' + chain['current'] + '" href="#">' + chain['current'] + '</a></li>';
-				break;
-			case '<':
-				elChain = '<li class="disabled"><a data-page="' + (chain['current'] - 1) + '" href="#"> \< </a></li>';
-				break;
-			case '>':
-				elChain = '<li class="disabled"><a data-page="' + (chain['current'] + 1) + '" href="#"> \> </a></li>';
-				break;
-			default :
-				elChain = '<li class="disabled"><a data-page="' + (chain[num]) + '" href="#">' + chain[num] + '</a></li>';
-				break;
-		}
-		if(num != 'current') $('div._usersNavChain ul').append(elChain);
-	}
-	$('div._usersNavChain ul li a').on('click', function(event){
-		event.preventDefault();
-		users_fill(($(this).data('page') - 1) * 100);
-	});*/
 }
 
 function users_fill(offset){

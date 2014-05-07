@@ -479,6 +479,9 @@ var bike = {
 				if(params.chain.current == clickedPage) return false;
 				params.onPageChange(clickedPage);
 			});
+		},
+		actions_fill : function(){
+			
 		}
 };
 
