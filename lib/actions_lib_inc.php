@@ -298,9 +298,9 @@ class Actions{
 			//если пользователю ограничен обзор велосипедов только одним пунктом
 			if(isset($properties['store']) && $on_rent == 'no'){
 				$store_id = (int)$properties['store'];
-				$sqlWhere = 'WHERE `b`.`id` >= '.$from_id.' AND `b`.`on_rent` = "'.$on_rent.'" AND `b`.`store_id` = '.$store_id.' ORDER BY `b`.`id` LIMIT 100';
+				$sqlWhere = ' FROM `bikes` `b` LEFT OUTER JOIN `store` `s` ON `b`.`store_id` = `s`.`id` WHERE `b`.`id` >= '.$from_id.' AND `b`.`on_rent` = "'.$on_rent.'" AND `b`.`store_id` = '.$store_id.' ORDER BY `b`.`id` LIMIT 100';
 			}elseif($on_rent == 1){
-				$sqlSelect = 'SELECT `b`.`id`, 
+				/*$sqlSelect = 'SELECT `b`.`id`, 
 					`b`.`model`,
 					`b`.`store_id`, 
 					`b`.`properties`,
@@ -317,13 +317,37 @@ class Actions{
 					`u`.`patronymic`,
 					`u`.`surname`,
 					`u`.`phone`';
-				$sqlWhere = 'LEFT OUTER JOIN `rent` `r` ON `b`.`id` = `r`.`bike_id` LEFT OUTER JOIN `users` `u` ON `u`.`id` = `r`.`klient_id` WHERE `b`.`id` >= '.$from_id.' AND `b`.`on_rent` = `r`.`id` ORDER BY `r`.`time_start` LIMIT 100';
+				$sqlWhere = 'LEFT OUTER JOIN `rent` `r` ON `b`.`id` = `r`.`bike_id` LEFT OUTER JOIN `users` `u` ON `u`.`id` = `r`.`klient_id` WHERE `b`.`id` >= '.$from_id.' AND `b`.`on_rent` = `r`.`id` ORDER BY `r`.`time_start` LIMIT 100';*/
+				
+				$sqlSelect = 'SELECT 
+					`r`.`id`,
+					`r`.`bike_id`,
+					`r`.`time_start`,
+					`r`.`project_time`,
+					`r`.`klient_id`,
+					`r`.`properties` AS `rent_prop`,
+					`b`.`id`, 
+					`b`.`model`,
+					`b`.`store_id`, 
+					`b`.`properties`,
+					`b`.`foto`,
+					`b`.`serial_id`,
+					`s`.`adress`,
+					`u`.`name`,
+					`u`.`patronymic`,
+					`u`.`surname`,
+					`u`.`phone`';
+				
+				$sqlWhere = " FROM `rent` `r` LEFT OUTER JOIN `bikes` `b` ON `r`.`bike_id` = `b`.`id` 
+							LEFT OUTER JOIN `store` `s` ON `s`.`id` = `b`.`store_id` 
+							LEFT OUTER JOIN `users` `u` ON `r`.`klient_id` = `u`.`id`
+							 WHERE `r`.`time_end` = 0 ORDER BY `r`.`time_start` LIMIT 100";
 			}else{
 				
 				$sqlWhere = 'WHERE `b`.`id` >= '.$from_id.' AND `b`.`on_rent` = "'.$on_rent.'" ORDER BY `b`.`id` LIMIT 100';
 			}
 			
-			$sql = $sqlSelect.' FROM `bikes` `b` LEFT OUTER JOIN `store` `s` ON `s`.`id` = `b`.`store_id` '.$sqlWhere;
+			$sql = $sqlSelect.$sqlWhere;
 			//echo $sql; die();
 			$arResult = $db->getArray($sql);
 			if($arResult === false){

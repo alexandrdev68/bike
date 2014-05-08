@@ -120,6 +120,14 @@ class BIKE extends USER{
 		$sql = "UPDATE `rent` SET `time_end` = {$currTime}, `amount` = {$amount} WHERE `bike_id`= {$bike_id} AND `time_end` = 0";
 		$sql2 = "UPDATE `bikes` SET `on_rent` = 'no', `store_id` = {$store_id} WHERE `id` = {$bike_id}";
 		
+		$result = mysql_query($sql);
+		$result2 = mysql_query($sql2);
+		
+		if($result === false || $result2 === false){
+			self::addMess(TEMP::$Lang['SYSTEM']['error_stop_rent'].$sql.'   '.$sql2);
+			return false;
+		}
+		
 		//под акцию
 		if($action_client !== null){
 			$sql3 = "UPDATE `action` SET `renttime_summ` = `renttime_summ` + {$rent_period}, `amount_summ` = `amount_summ` + {$amount} WHERE `klient_id` = {$action_client}";
@@ -130,13 +138,6 @@ class BIKE extends USER{
 			}
 		}
 		
-		$result = mysql_query($sql);
-		$result2 = mysql_query($sql2);
-		
-		if($result === false || $result2 === false){
-			self::addMess(TEMP::$Lang['SYSTEM']['error_stop_rent'].$sql.'   '.$sql2);
-			return false;
-		}
 		return array('time_stop'=>$currTime, 'amount'=>$amount);
 	}
 

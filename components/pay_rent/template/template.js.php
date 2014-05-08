@@ -1,6 +1,69 @@
 <script>
 $(document).ready(payrent_init);
 
+function pay_rent_handler(){
+	var self = $(this);
+	self.off('click');
+	if(user.currId == null) return false;
+	var currBlackElement = $('div._findList table._usListTable tr._blackList' + user.currId);
+	if(currBlackElement !== undefined && $(currBlackElement).find('input[name="uRent"]').prop('checked')){
+		$('div._payrentAlert span._messtext').text('<?=TEMP::$Lang['user_in_black_list']?>');
+		$('div._payrentAlert').addClass('alert-error').slideDown('fast').delay('3000').slideUp('fast');
+		return false;
+	}
+	var print = $('input._print' + user.currId).prop('checked');
+	var seat = $('input._seat' + user.currId).prop('checked');
+	var rent_period = $('input._timecnt' + user.currId).val();
+	var sendData = {'action' : 'go_rent',
+        	'user_id' : user.currId,
+        	'print' : print,
+        	'seat' : seat,
+        	'rent_period': rent_period, 
+        	'bike_id': bike.currId}
+	<?if(BIKE_ACTION):?>
+		if(document.querySelector('input._action' + user.currId) !== null){
+			sendData.bike_action = $('input._action' + user.currId).prop('checked');
+		}
+	<?endif?>
+	$.ajax({
+        url: window.location,
+        type:"POST",
+        data: sendData,
+        dataType: 'json',
+        success: function(response) {
+        	if(response.status == 'ok'){
+        		$('span._messtext').text(response.message);
+				$('div._payrentAlert strong').text("<?=TEMP::$Lang['congratulation']?>!");
+        		$('div._payrentAlert').slideDown('fast').removeClass('alert-error').delay('3000').slideUp('fast', function(){
+	        		$('div._payrentModal').modal('hide');
+	        		$('button._uRentConfirm').on('click', pay_rent_handler);
+	        		var bikeList = $('table._bkListTable tr');
+	        		bike.findInList(bike.currId, '_bkListTable', 'bikeid', function(del_num){
+	                	$(bikeList[del_num]).fadeOut('slow', function(){
+		                	$(bikeList[del_num]).detach();
+		                });
+	                }, '._payInRent');
+	        	});
+        		
+        		if(response.print == 'yes'){
+        			window.open('/main/print', 'print');
+        		}
+                
+            }else if(response.status == 'bad'){
+            	$('div._payrentAlert strong').text(response.message);
+            	$('div._payrentAlert strong').text("<?=TEMP::$Lang['warning']?>!");
+				$('div._payrentAlert span._messtext').text(response.message);
+				$('div._payrentAlert').addClass('alert-error').slideDown('fast').delay('3000').slideUp('fast');
+            }else if(response.status == 'session_close'){
+	        	bike.sessionStopped();
+	        }
+        },
+        error: function(response){
+        	
+        }
+	});
+}
+
 function payrent_init(){
 	var usList;
 	user.keypressflag = false;
@@ -134,65 +197,7 @@ function payrent_init(){
 		});
 	});
 
-	$('button._uRentConfirm').click(function(){
-		if(user.currId == null) return false;
-		var currBlackElement = $('div._findList table._usListTable tr._blackList' + user.currId);
-		if(currBlackElement !== undefined && $(currBlackElement).find('input[name="uRent"]').prop('checked')){
-			$('div._payrentAlert span._messtext').text('<?=TEMP::$Lang['user_in_black_list']?>');
-			$('div._payrentAlert').addClass('alert-error').slideDown('fast').delay('3000').slideUp('fast');
-			return false;
-		}
-		var print = $('input._print' + user.currId).prop('checked');
-		var seat = $('input._seat' + user.currId).prop('checked');
-		var rent_period = $('input._timecnt' + user.currId).val();
-		var sendData = {'action' : 'go_rent',
-	        	'user_id' : user.currId,
-	        	'print' : print,
-	        	'seat' : seat,
-	        	'rent_period': rent_period, 
-	        	'bike_id': bike.currId}
-    	<?if(BIKE_ACTION):?>
-			if(document.querySelector('input._action' + user.currId) !== null){
-				sendData.bike_action = $('input._action' + user.currId).prop('checked');
-			}
-    	<?endif?>
-		$.ajax({
-	        url: window.location,
-	        type:"POST",
-	        data: sendData,
-	        dataType: 'json',
-	        success: function(response) {
-	        	if(response.status == 'ok'){
-	        		$('span._messtext').text(response.message);
-					$('div._payrentAlert strong').text("<?=TEMP::$Lang['congratulation']?>!");
-	        		$('div._payrentAlert').slideDown('fast').removeClass('alert-error').delay('3000').slideUp('fast', function(){
-		        		$('div._payrentModal').modal('hide');
-		        		var bikeList = $('table._bkListTable tr');
-		        		bike.findInList(bike.currId, '_bkListTable', 'bikeid', function(del_num){
-		                	$(bikeList[del_num]).fadeOut('slow', function(){
-			                	$(bikeList[del_num]).detach();
-			                });
-		                }, '._payInRent');
-		        	});
-	        		
-	        		if(response.print == 'yes'){
-	        			window.open('/main/print', 'print');
-	        		}
-	                
-	            }else if(response.status == 'bad'){
-	            	$('div._payrentAlert strong').text(response.message);
-	            	$('div._payrentAlert strong').text("<?=TEMP::$Lang['warning']?>!");
-					$('div._payrentAlert span._messtext').text(response.message);
-					$('div._payrentAlert').addClass('alert-error').slideDown('fast').delay('3000').slideUp('fast');
-	            }else if(response.status == 'session_close'){
-		        	bike.sessionStopped();
-		        }
-	        },
-	        error: function(response){
-	        	
-	        }
-		});
-	});
+	$('button._uRentConfirm').on('click', pay_rent_handler);
 
 	$('div._payrentModal').on('hide', function(){
 		$('div._payrentModal ._usListTable tr._uInfo').detach();
