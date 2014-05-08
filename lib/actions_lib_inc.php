@@ -1031,7 +1031,7 @@ class Actions{
 	}
 #---------------------------------------
 	function get_actions_list_handler(){
-		
+		if(!USER::isAdmin()) return json_encode(array('status'=>'bad', 'message'=>'permission denied'));
 		$db = new Dbase();
 		$rows = Dbase::getCountRowsOfTable('action');
 		$curr_page = ceil(@$_POST['from_user_offset'] / 100);
@@ -1060,7 +1060,13 @@ class Actions{
 		if(!$arRes){
 			return json_encode(array('status'=>'bad', 'message'=>'error: '.$sql));
 		}
-		$top_score = $arRes[0]['scores'];
+		
+		$sql1 = "SELECT `amount_summ` FROM `action` ORDER BY `amount_summ` DESC LIMIT 1";
+		$arRes1 = $db->getArray($sql1);
+		if(!$arRes1){
+			return json_encode(array('status'=>'bad', 'message'=>'error: '.$sql1));
+		}
+		$top_score = $arRes1[0]['amount_summ'];
 		foreach($arRes as $num=>$item){
 			$arRes[$num]['scores'] = ($arRes[$num]['scores'] - $top_score) / 100;
 			$arRes[$num]['name'] .= ' '.$item['surname'].' '.$item['patronymic'];
@@ -1069,7 +1075,7 @@ class Actions{
 			$arRes[$num]['time_start'] = date('d.m.Y H:i', $item['time_start']);
 		}
 		
-		return json_encode(array('status'=>"ok", 'actions_list'=>$arRes));
+		return json_encode(array('status'=>"ok", 'actions_list'=>$arRes, 'nav'=>$arNav));
 	}
 #---------------------------------------
 }

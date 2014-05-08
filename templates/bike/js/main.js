@@ -450,12 +450,13 @@ var bike = {
 		buildNavChain : function(params){
 			params = params || {};
 			params.target = params.target || 'body';
-			params.chain = params.chain || {1 : 'curr', 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, current:1};
+			params.chain = params.chain || {1 : 'curr', 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:'>', current:1};
 			params.onPageChange = params.onPageChange || function(page){
 				
 			};
 			$(params.target + ' ul li').detach();
 			var elChain = '';
+			var elAppend = $(params.target + ' ul');
 			for(var num in params.chain){
 				switch(params.chain[num]){
 					case 'curr':
@@ -471,7 +472,7 @@ var bike = {
 						elChain = '<li class="disabled"><a data-page="' + (params.chain[num]) + '" href="#">' + params.chain[num] + '</a></li>';
 						break;
 				}
-				if(num != 'current') $('div._usersNavChain ul').append(elChain);
+				if(num != 'current') elAppend.append(elChain);
 			}
 			$(params.target + ' ul li a').on('click', function(event){
 				event.preventDefault();
@@ -480,8 +481,10 @@ var bike = {
 				params.onPageChange(clickedPage);
 			});
 		},
-		actions_fill : function(){
-			
+		actions_fill : function(offset){
+			actions_report.send({
+				data : {action : 'get_actions_list', from_user_offset : 0}
+			});
 		}
 };
 

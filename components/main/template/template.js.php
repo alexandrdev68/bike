@@ -308,7 +308,7 @@ function main_init(){
 
 	$('a[href="#_actionListPage"]').click(function(event){
 		event.preventDefault();
-		bike.actions_fill();
+		bike.actions_fill(0);
 	});
 };
 
