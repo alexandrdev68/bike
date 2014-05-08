@@ -631,6 +631,10 @@ var user = {
 		                $('div._userLive span').text(response['info'].properties === null ? '---' : response['info'].properties.live_place === undefined ? '---' : response['info'].properties.live_place);
 		                $('div._userRentBikeInfo span').text(response['info'].bike_id === null ? '---' : response['info'].model + ' Ser.No:' + response['info'].serial_id + ' No:' + response['info'].bike_id);
 		                $('div._userRentBikeTime').data('now', response['info'].now * 1000).data('time_start', response['info'].bike_id === null ? 'no' : response['info'].time_start * 1000);
+		                if(!!response.info.action_klient && response.info.action_klient !== null) $('div._useractionInfo').removeClass('hidden');
+		                else{
+		                	if(!$('div._useractionInfo').hasClass('hidden')) $('div._useractionInfo').addClass('hidden');
+		                }
 		                if(response['info'].properties !== null && response['info'].properties.blackList == 'on') $('div._userBlack').show();
 		                else $('div._userBlack').hide();
 		                $('div._userInfoWin').modal('show');

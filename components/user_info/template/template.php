@@ -20,6 +20,7 @@
     <div>
       <!-- <div class="span5 _userRentBikeInfo"><strong><?=TEMP::$Lang['on_rent_text']?>:</strong> <span></span></div>
       <div class="span5 _userRentBikeTime"><strong><?=TEMP::$Lang['time_on_rent']?>:</strong> <span></span></div>-->
+      <div class="span5 _useractionInfo hidden"><strong class="text-error"><?=TEMP::$Lang['txt_action_bike_for_1_hrn']?>:</strong> <span></span></div>
     </div>
     
   </div>
