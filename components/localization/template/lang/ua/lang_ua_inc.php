@@ -119,7 +119,8 @@ TEMP::$Lang = array(
 	'txt_your_diff_from_leader'=>'Відставання від лідера',
 	'txt_counter_code_too_big'=>'Ви перевищили кількість спроб вводу!',
 	'txt_go_to_the_site'=>'Перейти на сайт',
-	'txt_action_menu_item'=>'Учасники акції'
+	'txt_action_menu_item'=>'Учасники акції',
+	'txt_leader_scores'=>'Кількість балів'
 );
 
 TEMP::$Lang['SYSTEM'] = array(

@@ -5,7 +5,7 @@ var actions_list = new tableFromData({
 	head : {name : "<?=TEMP::$Lang['pib_table']?>",
 		klient_id : '',
 		time_start : "<?=TEMP::$Lang['txt_action_user_start_from']?>",
-		scores : "<?=TEMP::$Lang['txt_leader_different']?>"
+		scores : "<?=TEMP::$Lang['txt_leader_scores']?>"
 	},
 	content : {
 		scores : '<i>#$#</i>',
