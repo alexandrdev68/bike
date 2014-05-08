@@ -1,8 +1,7 @@
 <script>
 $(document).ready(payrent_init);
 
-function pay_rent_handler(){
-	var self = $(this);
+function pay_rent_handler(self){
 	self.off('click');
 	if(user.currId == null) return false;
 	var currBlackElement = $('div._findList table._usListTable tr._blackList' + user.currId);
@@ -36,7 +35,9 @@ function pay_rent_handler(){
 				$('div._payrentAlert strong').text("<?=TEMP::$Lang['congratulation']?>!");
         		$('div._payrentAlert').slideDown('fast').removeClass('alert-error').delay('3000').slideUp('fast', function(){
 	        		$('div._payrentModal').modal('hide');
-	        		$('button._uRentConfirm').on('click', pay_rent_handler);
+	        		$('button._uRentConfirm').on('click', function(){
+		        		pay_rent_handler($(this));
+		        	});
 	        		var bikeList = $('table._bkListTable tr');
 	        		bike.findInList(bike.currId, '_bkListTable', 'bikeid', function(del_num){
 	                	$(bikeList[del_num]).fadeOut('slow', function(){
@@ -197,7 +198,9 @@ function payrent_init(){
 		});
 	});
 
-	$('button._uRentConfirm').on('click', pay_rent_handler);
+	$('button._uRentConfirm').on('click', function(){
+		pay_rent_handler($(this));
+	});
 
 	$('div._payrentModal').on('hide', function(){
 		$('div._payrentModal ._usListTable tr._uInfo').detach();

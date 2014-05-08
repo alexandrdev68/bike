@@ -344,7 +344,7 @@ class Actions{
 							 WHERE `r`.`time_end` = 0 ORDER BY `r`.`time_start` LIMIT 100";
 			}else{
 				
-				$sqlWhere = 'WHERE `b`.`id` >= '.$from_id.' AND `b`.`on_rent` = "'.$on_rent.'" ORDER BY `b`.`id` LIMIT 100';
+				$sqlWhere = ' FROM `bikes` `b` LEFT OUTER JOIN `store` `s` ON `b`.`store_id` = `s`.`id` WHERE `b`.`id` >= '.$from_id.' AND `b`.`on_rent` = "'.$on_rent.'" ORDER BY `b`.`id` LIMIT 100';
 			}
 			
 			$sql = $sqlSelect.$sqlWhere;
