@@ -151,54 +151,77 @@ function payrent_init(){
 	$('form._payrentForm').submit(function(event){
 		event.preventDefault();
 
-		$(this).ajaxSubmit({
-			type: 'post',
-			dataType : 'json',
-			data : {'action' : 'add_klient'},
-			url: window.location,
-			success: function(response) {
-				if(response.status == 'ok'){
-
-					user.find({
-						word : $('form._payrentForm input[name="uPhone"]').val(),
-						maxLength : 3,
-						onFind : function(list){
-							//console.log(list);
-							//process(list);
-							$('div._payrentModal ._usListTable tr._uInfo').detach();
-							for(var l in list){
-								usList = new userData(list[l], 'no');
-								$('div._payrentModal ._usListTable').append(usList.html);
-							}
-							userData.num = 1;
-							$('table._usListTable tr._uInfo td input[name="uRent"]').attr('checked', true);
-							user.currId = list[0].id;
-						}
-					});
-
-					$('button._uRentConfirm').fadeIn('fast');
-					
-					$('span._messtext').text(response.message);
-					$('div._payrentAlert strong').text("<?=TEMP::$Lang['congratulation']?>!");
-					$('form._payrentForm').clearForm();
-					$('div._payrentAlert').slideDown('fast').removeClass('alert-error').delay('3000').slideUp();
-					$('div._payrentForm').delay('3000').fadeOut('slow', function(){
-						$('div._findList').fadeIn('slow');
-					});
-					$('#load_user_foto').val('');
-				}else if(response.status == 'error'){
-					$('div._payrentAlert strong').text("<?=TEMP::$Lang['warning']?>!");
-					$('span._messtext').text(response.message);
-					$('div._payrentAlert').addClass('alert-error').slideDown('fast').delay('3000').slideUp();
-				}else if(response.status == 'session_close'){
-		        	bike.sessionStopped();
-		        }
-				
+		var actionSend = new serverRequest({
+			data : {action : 'search_like_this', 
+				uFirstname : $('form._payrentForm input[name="uFirstname"]').val(),
+				uLastname : $('form._payrentForm input[name="uLastname"]').val(),
+				uPatronymic : $('form._payrentForm input[name="uPatronymic"]').val()
 			},
-			error : function(response){
-				console.log('bad');
+			success : function(response){
+				if(response.status == 'ok'){
+					if(response.users_likes_this.length > 0){
+						return false;
+					}else{
+						$('form._payrentForm').ajaxSubmit({
+							type: 'post',
+							dataType : 'json',
+							data : {'action' : 'add_klient'},
+							url: window.location,
+							success: function(response) {
+								if(response.status == 'ok'){
+	
+									user.find({
+										word : $('form._payrentForm input[name="uPhone"]').val(),
+										maxLength : 3,
+										onFind : function(list){
+											//console.log(list);
+											//process(list);
+											$('div._payrentModal ._usListTable tr._uInfo').detach();
+											for(var l in list){
+												usList = new userData(list[l], 'no');
+												$('div._payrentModal ._usListTable').append(usList.html);
+											}
+											userData.num = 1;
+											$('table._usListTable tr._uInfo td input[name="uRent"]').attr('checked', true);
+											user.currId = list[0].id;
+										}
+									});
+	
+									$('button._uRentConfirm').fadeIn('fast');
+									
+									$('span._messtext').text(response.message);
+									$('div._payrentAlert strong').text("<?=TEMP::$Lang['congratulation']?>!");
+									$('form._payrentForm').clearForm();
+									$('div._payrentAlert').slideDown('fast').removeClass('alert-error').delay('3000').slideUp();
+									$('div._payrentForm').delay('3000').fadeOut('slow', function(){
+										$('div._findList').fadeIn('slow');
+									});
+									$('#load_user_foto').val('');
+								}else if(response.status == 'error'){
+									$('div._payrentAlert strong').text("<?=TEMP::$Lang['warning']?>!");
+									$('span._messtext').text(response.message);
+									$('div._payrentAlert').addClass('alert-error').slideDown('fast').delay('3000').slideUp();
+								}else if(response.status == 'session_close'){
+						        	bike.sessionStopped();
+						        }
+								
+							},
+							error : function(response){
+								console.log('bad');
+							}
+						});
+					}
+	            }else if(response.status == 'session_close'){
+	            	bike.sessionStopped();
+	            }else{
+	            	
+	            }
 			}
 		});
+		
+		actionSend.send();
+
+		
 	});
 
 	$('button._uRentConfirm').on('click', function(){

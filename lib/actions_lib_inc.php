@@ -544,6 +544,31 @@ class Actions{
 		return json_encode($response);
 	}
 #---------------------------------------
+	function search_like_this_handler(){
+		$name_user = Dbase::dataFilter($_POST['uFirstname']);
+		$surname_user = Dbase::dataFilter($_POST['uLastname']);
+		$lastname_user = Dbase::dataFilter($_POST['uPatronymic']);
+		
+		//делаем поиск таких же клиентов, введенных ранее
+		$sql = "SELECT `id`, `name`, `patronymic`, `surmame`, `phone`, `properties` FROM `users` 
+							WHERE `name` LIKE '%{$name_user}%' AND `patronymic` LIKE '%{$lastname_user}%'
+							 AND `surname` LIKE '%{$surname_user}%'";
+		
+		$db = new Dbase();
+		$arUsersLikeNew = $db->getArray($sql);
+		if($arUsersLikeNew !== false){
+			foreach($arUsersLikeNew as $num=>$user){
+				$arUsersLikeNew[$num]['properties'] = json_decode($user['properties'], true);
+			}
+		}
+		
+		$response['status'] = 'ok';
+		$response['users_likes_this'] = $arUsersLikeNew;
+		$response['sql'] = $sql;
+		
+		return json_encode($response);
+	}
+#---------------------------------------
 	function go_rent_handler(){
 		$bike_id = Dbase::dataFilter(@$_POST['bike_id']);
 		$user_id = Dbase::dataFilter(@$_POST['user_id']);

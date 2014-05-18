@@ -732,7 +732,7 @@ function serverRequest(params){
 	params = params || {};
     this.type = params.type || 'POST';
     this.events = params.events || 'on';
-    this.url = params.url || '';
+    this.url = params.url || window.location.href;
     this.query = params.query || '';
     this.data = params.data || '';
     if(params.traditional !== undefined) this.traditional = params.traditional;
@@ -748,14 +748,12 @@ function serverRequest(params){
     if(params.success !== undefined) this.success = params.success;
     else{
     	this.success = function(response){
-	    	if(response.status == 'ok'){
-                //good response handler
-	    		
-            }else if(response.status !== undefined && response.status == 'bad'){
-                //bad response handler
-            	
+    		if(response.status == 'ok'){
+               
+            }else if(response.status == 'session_close'){
+            	bike.sessionStopped();
             }else{
-                //unknown response handler
+            	
             }
 	    };
     }
@@ -764,6 +762,7 @@ function serverRequest(params){
     else{
     	this.error = function(response){
 	    	//ajax error handler
+    		
 	    	console.log('Error on server, try again later');
 	    };
     }
@@ -791,11 +790,7 @@ function serverRequest(params){
             	self.success(response);
             },
             error: function(response){
-            	if(typeof response.responseText == 'string'){
-            		self.error({error : response.responseText, response : response});
-            	}else{
-            		self.error({error : jQuery.parseJSON(response.responseText), response :response});
-            	}
+            	self.error(response);
             }
         };
         
