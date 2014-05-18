@@ -23,6 +23,7 @@
 		    	<table class="table table-striped _usListTable">
 					<tr>
 						<th>№</th>
+						<?if(USER::isAdmin()):?><th>UID</th><?endif?>
 						<?if(USER::isAdmin()):?><th>Login</th><?endif?>
 						<th><?=TEMP::$Lang['pib_table']?></th>
 						<th><?=TEMP::$Lang['input_phone']?></th>

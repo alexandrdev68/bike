@@ -10,7 +10,7 @@ function userData(data, full){
 		return userData.num++;
 	};
 	this.html = '<tr class="_uInfo' + (data.properties === null ? '' : data.properties.blackList == 'on' ? ' error _blackList' + data.id : '') + '"><td>' + userData.getNum() + '</td>' +
-	'<td>' + data.id + '</td>' + <?if(USER::isAdmin()):?>'<td>' + (data.properties === null ? '' : data.properties.blackList == 'on' ? '(<i class="icon-thumbs-down"></i>) ' : '') + 
+	<?if(USER::isAdmin()):?>'<td>' + data.id + '</td>' + '<td>' + (data.properties === null ? '' : data.properties.blackList == 'on' ? '(<i class="icon-thumbs-down"></i>) ' : '') + 
 	data.login + '</td>' + <?endif?>'<td>' + data.name + 
 	(data.surname === undefined ? '' : ' ' + data.surname) + (data.patronymic === undefined ? '' : ' ' + data.patronymic) + '</td>' +
 	(full == 'yes' ? '<td>' + data.phone + '</td><td class="_level">' + data.user_level + '</td><td><i class="icon-remove _delUsr" data-userId="' + data.id + '"></i> <i class="icon-pencil _edUsr" data-userId="' + data.id + '"></i></td></tr>' : '<td>'+

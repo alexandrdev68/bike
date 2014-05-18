@@ -93,6 +93,7 @@ function payrent_init(){
 						onFind : function(list){
 							//console.log(list);
 							//process(list);
+							userData.num = 1;
 							user.findLoader('hide');
 							$('div._payrentModal ._usListTable tr._uInfo').detach();
 							for(var l in list){
