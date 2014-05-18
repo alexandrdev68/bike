@@ -24,12 +24,14 @@ function pay_rent_handler(self){
 			sendData.bike_action = $('input._action' + user.currId).prop('checked');
 		}
 	<?endif?>
+	$('div._findShadow, div._findLoader').show();
 	$.ajax({
         url: window.location,
         type:"POST",
         data: sendData,
         dataType: 'json',
         success: function(response) {
+        	$('div._findShadow, div._findLoader').hide();
         	if(response.status == 'ok'){
         		$('span._messtext').text(response.message);
 				$('div._payrentAlert strong').text("<?=TEMP::$Lang['congratulation']?>!");
