@@ -77,7 +77,8 @@
 		<div class="usListContainer _usContnr">
 			<table class="table table-striped _usListTable">
 				<tr>
-					<th>№</th>
+					<th><?=TEMP::$Lang['pos_number']?></th>
+					<th>UID</th>
 					<th>Login</th>
 					<th><?=TEMP::$Lang['pib_table']?></th>
 					<th><?=TEMP::$Lang['input_phone']?></th>
