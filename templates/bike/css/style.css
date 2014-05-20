@@ -81,4 +81,11 @@ div._payrentModal{
 	left: 50%;
     margin-left: -40%;
     width: 80%;
-} 
+}
+span[data-blacklist="yes"]{
+	display:block;
+	background-color:#F2DEDE;
+}
+span[data-blacklist="no"]{
+	display:none;
+}

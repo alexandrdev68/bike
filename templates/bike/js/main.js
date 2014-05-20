@@ -498,6 +498,7 @@ var user = {
 		currentCoordinates : 0,
 		keypressedInterval : 400,
 		keyIntevalId : null,
+		addUserConfirm : false,
 		getUsersList : function (from){
 			from = from || {
 					from_user_id : 0,

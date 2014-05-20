@@ -150,97 +150,115 @@ function payrent_init(){
 
 	var usersLikeThis_table = new tableFromData({
 		head : {fullName : "<?=TEMP::$Lang['pib_table']?>",
-			phone : "<?=TEMP::$Lang['input_phone']?>"
+			phone : "<?=TEMP::$Lang['input_phone']?>",
+			blackList : ''
 		},
 		content : {
-			phone : '<i>#$#</i>'
+			phone : '<i>#$#</i>',
+			blackList : '<span class="text-center" data-blacklist="#$#"><i class="icon-thumbs-down"></i></span>'
 		},
 		classes : 'table table-striped _usersLikeThisList',
 		counter : true
 	});
+
+	function formAddSubmit(){
+		$('form._payrentForm').ajaxSubmit({
+			type: 'post',
+			dataType : 'json',
+			data : {'action' : 'add_klient'},
+			url: window.location,
+			success: function(response) {
+				if(response.status == 'ok'){
+					user.addUserConfirm = false;
+					user.find({
+						word : $('form._payrentForm input[name="uPhone"]').val(),
+						maxLength : 3,
+						onFind : function(list){
+							//console.log(list);
+							//process(list);
+							$('div._payrentModal ._usListTable tr._uInfo').detach();
+							for(var l in list){
+								usList = new userData(list[l], 'no');
+								$('div._payrentModal ._usListTable').append(usList.html);
+							}
+							userData.num = 1;
+							$('table._usListTable tr._uInfo td input[name="uRent"]').attr('checked', true);
+							user.currId = list[0].id;
+						}
+					});
+
+					$('button._uRentConfirm').fadeIn('fast');
+					
+					$('span._messtext').text(response.message);
+					$('div._payrentAlert strong').text("<?=TEMP::$Lang['congratulation']?>!");
+					$('form._payrentForm').clearForm();
+					$('div._payrentAlert').slideDown('fast').removeClass('alert-error').delay('3000').slideUp();
+					$('div._payrentForm').delay('3000').fadeOut('slow', function(){
+						$('div._findList').fadeIn('slow');
+						$('div._users_like_this_container').empty();
+					});
+					$('#load_user_foto').val('');
+				}else if(response.status == 'error'){
+					$('div._payrentAlert strong').text("<?=TEMP::$Lang['warning']?>!");
+					$('span._messtext').text(response.message);
+					$('div._users_like_this_container').empty();
+					$('div._payrentAlert').addClass('alert-error').slideDown('fast').delay('3000').slideUp();
+				}else if(response.status == 'session_close'){
+		        	bike.sessionStopped();
+		        }
+				
+			},
+			error : function(response){
+				console.log('bad');
+			}
+		});
+	}
 	
 	$('form._payrentForm').submit(function(event){
 		event.preventDefault();
 
-		var actionSend = new serverRequest({
-			data : {action : 'search_like_this', 
-				uFirstname : $('form._payrentForm input[name="uFirstname"]').val(),
-				uLastname : $('form._payrentForm input[name="uLastname"]').val(),
-				uPatronymic : $('form._payrentForm input[name="uPatronymic"]').val()
-			},
-			success : function(response){
-				if(response.status == 'ok'){
-					if(response.users_likes_this.length > 0){
-						for(var num in response.users_likes_this){
-							response.users_likes_this[num]['fullName'] = response.users_likes_this[num]['name'] + ' ' + 
-																			response.users_likes_this[num]['surname'] + ' ' + 
-																			response.users_likes_this[num]['patronymic'];
-						}
-						usersLikeThis_table.fill(response.users_likes_this);
-						var html = '<div class="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>';
-						    html += '<strong></strong><?=TEMP::$Lang["txt_user_like_this"]?></div>';
-						$('div._users_like_this_container').append(html);
-						$('div._users_like_this_container').append(usersLikeThis_table.table);
-						return false;
-					}else{
-						$('form._payrentForm').ajaxSubmit({
-							type: 'post',
-							dataType : 'json',
-							data : {'action' : 'add_klient'},
-							url: window.location,
-							success: function(response) {
-								if(response.status == 'ok'){
-	
-									user.find({
-										word : $('form._payrentForm input[name="uPhone"]').val(),
-										maxLength : 3,
-										onFind : function(list){
-											//console.log(list);
-											//process(list);
-											$('div._payrentModal ._usListTable tr._uInfo').detach();
-											for(var l in list){
-												usList = new userData(list[l], 'no');
-												$('div._payrentModal ._usListTable').append(usList.html);
-											}
-											userData.num = 1;
-											$('table._usListTable tr._uInfo td input[name="uRent"]').attr('checked', true);
-											user.currId = list[0].id;
-										}
-									});
-	
-									$('button._uRentConfirm').fadeIn('fast');
-									
-									$('span._messtext').text(response.message);
-									$('div._payrentAlert strong').text("<?=TEMP::$Lang['congratulation']?>!");
-									$('form._payrentForm').clearForm();
-									$('div._payrentAlert').slideDown('fast').removeClass('alert-error').delay('3000').slideUp();
-									$('div._payrentForm').delay('3000').fadeOut('slow', function(){
-										$('div._findList').fadeIn('slow');
-									});
-									$('#load_user_foto').val('');
-								}else if(response.status == 'error'){
-									$('div._payrentAlert strong').text("<?=TEMP::$Lang['warning']?>!");
-									$('span._messtext').text(response.message);
-									$('div._payrentAlert').addClass('alert-error').slideDown('fast').delay('3000').slideUp();
-								}else if(response.status == 'session_close'){
-						        	bike.sessionStopped();
-						        }
-								
-							},
-							error : function(response){
-								console.log('bad');
+		if(!user.addUserConfirm){
+			var actionSend = new serverRequest({
+				data : {action : 'search_like_this', 
+					uFirstname : $('form._payrentForm input[name="uFirstname"]').val(),
+					uLastname : $('form._payrentForm input[name="uLastname"]').val(),
+					uPatronymic : $('form._payrentForm input[name="uPatronymic"]').val()
+				},
+				success : function(response){
+					if(response.status == 'ok'){
+						if(response.users_likes_this.length > 0){
+							for(var num in response.users_likes_this){
+								response.users_likes_this[num]['fullName'] = response.users_likes_this[num]['name'] + ' ' + 
+																				response.users_likes_this[num]['surname'] + ' ' + 
+																				response.users_likes_this[num]['patronymic'];
+								if(response.users_likes_this[num]['properties'] == null) response.users_likes_this[num]['properties'] = {};
+								response.users_likes_this[num]['blackList'] = (!!response.users_likes_this[num]['properties']['blackList'] && response.users_likes_this[num]['properties']['blackList'] == 'on' ? 'yes' : 'no');
 							}
-						});
-					}
-	            }else if(response.status == 'session_close'){
-	            	bike.sessionStopped();
-	            }else{
-	            	
-	            }
-			}
-		});
+							usersLikeThis_table.fill(response.users_likes_this);
+							var html = '<div class="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>';
+							    html += '<strong></strong><?=TEMP::$Lang["txt_user_like_this"]?></div>';
+							$('div._users_like_this_container').append(html);
+							$('div._users_like_this_container').append(usersLikeThis_table.table);
+							user.addUserConfirm = true;
+							return false;
+						}else{
+							formAddSubmit();
+						}
+		            }else if(response.status == 'session_close'){
+		            	bike.sessionStopped();
+		            }else{
+		            	
+		            }
+				}
+			});
+
+			actionSend.send();
+		}else{
+			formAddSubmit();
+		}
 		
-		actionSend.send();
+		
+		
 
 		
 	});
