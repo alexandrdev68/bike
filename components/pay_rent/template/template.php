@@ -51,6 +51,7 @@
 				    <button type="submit" class="btn btn-large btn-primary"><?=TEMP::$Lang['add_btn']?></button>
 			    </div>
 				</form>
+				<div class="_users_like_this_container"></div>
 			</div>
 		</div>
 		<div class="modal-footer">

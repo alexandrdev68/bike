@@ -148,6 +148,17 @@ function payrent_init(){
 		$('button._uRentConfirm').fadeOut('fast');
 	});
 
+	var usersLikeThis_table = new tableFromData({
+		head : {fullName : "<?=TEMP::$Lang['pib_table']?>",
+			phone : "<?=TEMP::$Lang['input_phone']?>"
+		},
+		content : {
+			phone : '<i>#$#</i>'
+		},
+		classes : 'table table-striped _usersLikeThisList',
+		counter : true
+	});
+	
 	$('form._payrentForm').submit(function(event){
 		event.preventDefault();
 
@@ -160,6 +171,16 @@ function payrent_init(){
 			success : function(response){
 				if(response.status == 'ok'){
 					if(response.users_likes_this.length > 0){
+						for(var num in response.users_likes_this){
+							response.users_likes_this[num]['fullName'] = response.users_likes_this[num]['name'] + ' ' + 
+																			response.users_likes_this[num]['surname'] + ' ' + 
+																			response.users_likes_this[num]['patronymic'];
+						}
+						usersLikeThis_table.fill(response.users_likes_this);
+						var html = '<div class="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>';
+						    html += '<strong></strong><?=TEMP::$Lang["txt_user_like_this"]?></div>';
+						$('div._users_like_this_container').append(html);
+						$('div._users_like_this_container').append(usersLikeThis_table.table);
 						return false;
 					}else{
 						$('form._payrentForm').ajaxSubmit({
@@ -230,6 +251,7 @@ function payrent_init(){
 
 	$('div._payrentModal').on('hide', function(){
 		$('div._payrentModal ._usListTable tr._uInfo').detach();
+		$('div._users_like_this_container').empty();
 		$('#user_finder').val('');
 	})
 

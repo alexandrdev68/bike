@@ -550,9 +550,8 @@ class Actions{
 		$lastname_user = Dbase::dataFilter($_POST['uPatronymic']);
 		
 		//делаем поиск таких же клиентов, введенных ранее
-		$sql = "SELECT `id`, `name`, `patronymic`, `surmame`, `phone`, `properties` FROM `users` 
-							WHERE `name` LIKE '%{$name_user}%' AND `patronymic` LIKE '%{$lastname_user}%'
-							 AND `surname` LIKE '%{$surname_user}%'";
+		$sql = "SELECT `id`, `name`, `patronymic`, `surname`, `phone`, `properties` FROM `users` 
+							WHERE `name` LIKE '%{$name_user}%' AND `patronymic` LIKE '%{$lastname_user}%'";
 		
 		$db = new Dbase();
 		$arUsersLikeNew = $db->getArray($sql);
@@ -564,7 +563,7 @@ class Actions{
 		
 		$response['status'] = 'ok';
 		$response['users_likes_this'] = $arUsersLikeNew;
-		$response['sql'] = $sql;
+		//$response['sql'] = $sql;
 		
 		return json_encode($response);
 	}

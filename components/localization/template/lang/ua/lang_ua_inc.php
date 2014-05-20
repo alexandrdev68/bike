@@ -120,7 +120,8 @@ TEMP::$Lang = array(
 	'txt_counter_code_too_big'=>'Ви перевищили кількість спроб вводу!',
 	'txt_go_to_the_site'=>'Перейти на сайт',
 	'txt_action_menu_item'=>'Учасники акції',
-	'txt_leader_scores'=>'Кількість балів'
+	'txt_leader_scores'=>'Кількість балів',
+	'txt_user_like_this'=>'В базі даних вже є клієнт(и) зі схожим ім`ям, якщо все одно хочете додати - тисніть "Додати" ще раз'
 );
 
 TEMP::$Lang['SYSTEM'] = array(
