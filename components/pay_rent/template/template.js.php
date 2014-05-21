@@ -168,6 +168,7 @@ function payrent_init(){
 			data : {'action' : 'add_klient'},
 			url: window.location,
 			success: function(response) {
+				$('form._payrentForm button').prop('disabled', false);
 				if(response.status == 'ok'){
 					user.addUserConfirm = false;
 					user.find({
@@ -216,7 +217,7 @@ function payrent_init(){
 	
 	$('form._payrentForm').submit(function(event){
 		event.preventDefault();
-
+		$('form._payrentForm button').prop('disabled', true);
 		if(!user.addUserConfirm){
 			var actionSend = new serverRequest({
 				data : {action : 'search_like_this', 
@@ -225,6 +226,7 @@ function payrent_init(){
 					uPatronymic : $('form._payrentForm input[name="uPatronymic"]').val()
 				},
 				success : function(response){
+					$('form._payrentForm button').prop('disabled', false);
 					if(response.status == 'ok'){
 						if(response.users_likes_this.length > 0){
 							for(var num in response.users_likes_this){

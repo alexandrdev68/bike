@@ -434,7 +434,7 @@ class Actions{
 	function find_user_handler(){
 			$db = new Dbase();
 			$_POST['key'] = Dbase::dataFilter(@$_POST['key']);
-			if(USER::isAdmin()){
+			/*if(USER::isAdmin()){
 				$sql_where = 'WHERE (u.login LIKE "%'.@$_POST['key'].
 						'%" OR u.name LIKE "%'.@$_POST['key'].
 						'%" OR u.patronymic LIKE "%'.@$_POST['key'].
@@ -445,7 +445,15 @@ class Actions{
 				$sql_where = 'WHERE (u.login LIKE "%'.@$_POST['key'].
 						'%" OR u.phone LIKE "%'.@$_POST['key'].
 						'%") AND u.user_level = 4 LIMIT 20';
-			}
+			}*/
+			
+			$sql_where = 'WHERE (u.login LIKE "%'.@$_POST['key'].
+						'%" OR u.name LIKE "%'.@$_POST['key'].
+						'%" OR u.patronymic LIKE "%'.@$_POST['key'].
+						'%" OR u.surname LIKE "%'.@$_POST['key'].
+						'%" OR u.phone LIKE "%'.@$_POST['key'].
+						'%") AND u.user_level = 4 LIMIT 20';
+			
 			//если действует акция
 			if(BIKE_ACTION){
 				$sql = 'SELECT `u`.`id`, 
