@@ -49,7 +49,8 @@ function pay_rent_handler(self){
 	        	});
         		
         		if(response.print == 'yes'){
-        			window.open('/main/print', 'print');
+        			var params = "menubar=no,location=no,resizable=yes,scrollbars=yes,status=yes";
+        			var print_win = window.open("/main/print", "_blank", params);
         		}
                 
             }else if(response.status == 'bad'){

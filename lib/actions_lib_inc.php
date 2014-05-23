@@ -635,6 +635,7 @@ class Actions{
 				if(isset($_POST['bike_action']) && $_POST['bike_action'] != 'false') $_SESSION['PRINT']['action_ofert'] = true;
 				else $_SESSION['PRINT']['action_ofert'] = false;
 				$response['print'] = 'yes';
+				//$response['print_data'] = $_SESSION['PRINT'];
 			}
 		}else{
 			$response = array('status'=>'bad', 'message'=>USER::lastMessage());
