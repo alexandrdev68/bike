@@ -4,7 +4,7 @@ if(!isset($_SESSION['CURRUSER'])) header('Location: /');
 error_reporting(E_ALL);
 
 //для не админа возвращаем HTML
-if(!USER::isAdmin()){
+if(isset($_COOKIE['print_type']) && $_COOKIE['print_type'] == 'html'){
 	
 	TEMP::component('HTML_print', $_SESSION['PRINT']);
 	
