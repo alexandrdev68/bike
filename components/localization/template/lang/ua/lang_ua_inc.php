@@ -123,6 +123,8 @@ TEMP::$Lang = array(
 	'txt_leader_scores'=>'Кількість балів',
 	'txt_user_like_this'=>'В базі даних вже є клієнт(и) зі схожим ім`ям, якщо все одно хочете додати - тисніть "Додати" ще раз',
 	'txt_export_HTML'=>'Експорт в HTML',
+	'mn_properties'=>'Налаштування',
+	'txt_chkbx_print_type'=>'Друк в HTML',
 );
 
 TEMP::$Lang['SYSTEM'] = array(

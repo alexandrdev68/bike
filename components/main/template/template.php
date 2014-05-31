@@ -55,6 +55,7 @@
     <li><a href="#_bikesRent" data-toggle="tab"><?=TEMP::$Lang['bikes_in_rent']?></a></li>
     <?if($_SESSION['CURRUSER']['user_level'] != '2'):?><li><a href="#_reportView" data-toggle="tab"><?=TEMP::$Lang['reports_view']?></a></li><?endif?>
     <?if(USER::isAdmin() && BIKE_ACTION):?><li><a href="#_actionListPage" data-toggle="tab"><?=TEMP::$Lang['txt_action_menu_item']?></a></li><?endif?>
+    <li><a href="#_Properties" data-toggle="tab"><?=TEMP::$Lang['mn_properties']?></a></li>
   </ul>
   <div class="tab-content">
 	<?if(USER::isAdmin()):?>
@@ -126,6 +127,9 @@
 		<?=TEMP::component('admin_action', array())?>
 	</div>
 	<?endif?>
+	<div class="tab-pane" id="_Properties">
+		<?TEMP::component('program_properties', array())?>
+	</div>
   </div>
 </div>
 

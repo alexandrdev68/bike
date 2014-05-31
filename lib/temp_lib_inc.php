@@ -45,7 +45,7 @@
 	
     
     static public function sendSMS($phone, $text, $translit = false){
-    	return false;
+    	//return false;
     	$arParams = array();
     	$arRet = array();
     	if(!is_object(self::$sms)){

@@ -58,6 +58,9 @@ function pay_rent_handler(self){
             	$('div._payrentAlert strong').text("<?=TEMP::$Lang['warning']?>!");
 				$('div._payrentAlert span._messtext').text(response.message);
 				$('div._payrentAlert').addClass('alert-error').slideDown('fast').delay('3000').slideUp('fast');
+				$('button._uRentConfirm').on('click', function(){
+	        		pay_rent_handler($(this));
+	        	});
             }else if(response.status == 'session_close'){
 	        	bike.sessionStopped();
 	        }
