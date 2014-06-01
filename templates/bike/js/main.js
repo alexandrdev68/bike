@@ -553,7 +553,7 @@ var user = {
 			        return "";
 			    },
 			    del : function(name){
-			    	Pbank.cookie.set(name, '', -1);
+			    	user.cookie.set(name, '', -1);
 			    }
 		},
 		findLoader : function(oper){

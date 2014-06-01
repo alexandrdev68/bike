@@ -671,6 +671,7 @@ class Actions{
 						`b`.`model`,
 						`b`.`serial_id`,
 						`b`.`foto`,
+						`b`.`store_id`,
 						`a`.`klient_id` as `action_klient`,
 						`a`.`renttime_summ` as `action_time`
 						 FROM `users` `u` 
@@ -697,7 +698,8 @@ class Actions{
 						`r`.`properties` AS `rent_prop`,
 						`b`.`model`,
 						`b`.`serial_id`,
-						`b`.`foto`
+						`b`.`foto`,
+						`b`.`store_id`
 						 FROM `users` `u` 
 							LEFT OUTER JOIN `rent` `r` ON `r`.`klient_id` = `u`.`id` 
 							AND `r`.`time_end` = 0 AND `r`.`bike_id` = '.$bike_id.'
@@ -712,6 +714,7 @@ class Actions{
 		}
 		$arInfo = $arInfo[0];
 		
+		print_r($arInfo); exit;
 		
 		if(@$arInfo['rent_prop']['added'] > 0) $added += 1000;
 		
