@@ -714,7 +714,7 @@ class Actions{
 		}
 		$arInfo = $arInfo[0];
 		
-		print_r($arInfo); exit;
+		//print_r($arInfo); exit;
 		
 		if(@$arInfo['rent_prop']['added'] > 0) $added += 1000;
 		
