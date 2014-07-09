@@ -78,6 +78,14 @@ class BIKE extends USER{
     		return false;
 		}
 		
+		//получаем данные о велосипеде для записи номера пункта проката в информацию о прокате
+		$bikeInfo = self::getInfo($bike_id);
+		if($bikeInfo !== false){
+			$store_id = $bikeInfo['store_id'];
+		}else{
+			$store_id = NULL;
+		}
+		
 		$time_start = time();
 		//переводим часы в секунды
 		$time = $time * 3600;
@@ -85,8 +93,8 @@ class BIKE extends USER{
 		$added *= 100;
 		$added_json = addslashes(json_encode(array('added'=>$added)));
 		
-		$sql1 = "INSERT INTO `rent` (`bike_id`, `klient_id`, `time_start`, `project_time`, `properties`) 
-									VALUES ({$bike_id}, {$user_id}, {$time_start}, {$time}, '{$added_json}')";
+		$sql1 = "INSERT INTO `rent` (`bike_id`, `klient_id`, `time_start`, `store_start`, `project_time`, `properties`) 
+									VALUES ({$bike_id}, {$user_id}, {$time_start}, {$store_id}, {$time}, '{$added_json}')";
 		$result1 = mysql_query($sql1);
 		$last_id = mysql_insert_id();
 		$sql2 = "UPDATE `bikes` SET `on_rent` = '{$last_id}' WHERE `id` = {$bike_id}";
@@ -117,7 +125,7 @@ class BIKE extends USER{
 		
 		$amount = ($amount * 100) + (int)$added;
 
-		$sql = "UPDATE `rent` SET `time_end` = {$currTime}, `amount` = {$amount} WHERE `bike_id`= {$bike_id} AND `time_end` = 0";
+		$sql = "UPDATE `rent` SET `time_end` = {$currTime}, `amount` = {$amount}, `store_finish` = {$store_id} WHERE `bike_id`= {$bike_id} AND `time_end` = 0";
 		$sql2 = "UPDATE `bikes` SET `on_rent` = 'no', `store_id` = {$store_id} WHERE `id` = {$bike_id}";
 		
 		$result = mysql_query($sql);
