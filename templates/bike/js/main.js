@@ -354,7 +354,7 @@ var bike = {
 		},
 		numberFormat : function(number){
 			number = number.toString();
-			if(!/(^[0-9]{1,}[\.\,]{0,1}[0-9]{0,}$)/.test(number)) return false;
+			if(!/(^[-0-9]{1,}[\.\,]{0,1}[0-9]{0,}$)/.test(number)) return false;
 			number = number.split(',').join('.');
 			var arNum = number.split('.');
 			var numLen = arNum[0].length;

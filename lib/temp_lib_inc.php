@@ -84,4 +84,11 @@
     }
     
     
+    //вставляет внутрь массива другой массив со смещением ключей
+	//$array - массив куда надо вставить, $pos - номер позиции, $value - вставляемое значение
+    static public function insert_in_array($array, $pos, $value){
+         array_splice($array, $pos, 0, $value);
+         return $array;
+    }
+    
 }?>

@@ -296,7 +296,7 @@ class Actions{
 					`s`.`adress`';
 			
 			//если пользователю ограничен обзор велосипедов только одним пунктом
-			if(isset($properties['store']) && $on_rent == 'no'){
+			if(isset($properties['store']) && !USER::isAdmin() && $on_rent == 'no'){
 				$store_id = (int)$properties['store'];
 				$sqlWhere = ' FROM `bikes` `b` LEFT OUTER JOIN `store` `s` ON `b`.`store_id` = `s`.`id` WHERE `b`.`id` >= '.$from_id.' AND `b`.`on_rent` = "'.$on_rent.'" AND `b`.`store_id` = '.$store_id.' ORDER BY `b`.`id` LIMIT 100';
 			}elseif($on_rent == 1){
@@ -932,9 +932,28 @@ class Actions{
 		$to = strtotime($day.'-'.$month.'-'.$year.' 23:59:59');
 
 		$arRents = BIKE::getRentsFromPeriod($from, $to, $store_id);
-		/*foreach($arRents as $index=>$value){
-			
-		}*/
+		//print_r($arRents); exit;
+		foreach($arRents as $index=>$rent){
+			$arRents[$index]['real_time'] = $rent['time_end'] - $rent['time_start'];
+			if($rent['store_start'] != $rent['store_finish']){
+				$project_amount = BIKE::getRentAmount($rent['project_time']) * 100;
+				$arRents[$index]['project_amount'] = $project_amount;
+				$real_amount = $rent['amount'];
+				if((int)$real_amount > (int)$project_amount){
+					$diff_amount = $real_amount - $project_amount;
+					$arRents[$index]['amount'] = $arRents[$index]['amount'] - $diff_amount;
+					$arDiffStoreRent[0] = $rent;
+					$arDiffStoreRent[0]['amount'] = $diff_amount;
+					$arRents = TEMP::insert_in_array($arRents, $index, $arDiffStoreRent);
+				}elseif((int)$real_amount < (int)$project_amount){
+					$diff_amount = $real_amount - $project_amount;
+					$arDiffStoreRent[0] = $rent;
+					$arDiffStoreRent[0]['amount'] = $diff_amount;
+					$arRents = TEMP::insert_in_array($arRents, $index, $arDiffStoreRent);
+				}
+			}
+		}
+		
 		$response = array('status'=>'ok', 'rents'=>$arRents);
 		return json_encode($response);
 	}
