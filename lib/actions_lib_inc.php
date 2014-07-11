@@ -933,26 +933,6 @@ class Actions{
 
 		$arRents = BIKE::getRentsFromPeriod($from, $to, $store_id);
 		//print_r($arRents); exit;
-		foreach($arRents as $index=>$rent){
-			$arRents[$index]['real_time'] = $rent['time_end'] - $rent['time_start'];
-			if($rent['store_start'] != $rent['store_finish']){
-				$project_amount = BIKE::getRentAmount($rent['project_time']) * 100;
-				$arRents[$index]['project_amount'] = $project_amount;
-				$real_amount = $rent['amount'];
-				if((int)$real_amount > (int)$project_amount){
-					$diff_amount = $real_amount - $project_amount;
-					$arRents[$index]['amount'] = $arRents[$index]['amount'] - $diff_amount;
-					$arDiffStoreRent[0] = $rent;
-					$arDiffStoreRent[0]['amount'] = $diff_amount;
-					$arRents = TEMP::insert_in_array($arRents, $index, $arDiffStoreRent);
-				}elseif((int)$real_amount < (int)$project_amount){
-					$diff_amount = $real_amount - $project_amount;
-					$arDiffStoreRent[0] = $rent;
-					$arDiffStoreRent[0]['amount'] = $diff_amount;
-					$arRents = TEMP::insert_in_array($arRents, $index, $arDiffStoreRent);
-				}
-			}
-		}
 		
 		$response = array('status'=>'ok', 'rents'=>$arRents);
 		return json_encode($response);

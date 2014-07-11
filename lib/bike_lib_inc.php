@@ -258,11 +258,40 @@ class BIKE extends USER{
 						`u`.`patronymic` FROM `rent` `r` LEFT OUTER JOIN `bikes` `b` ON `r`.`bike_id` = `b`.`id` 
 														LEFT OUTER JOIN `users` `u` ON `u`.`id` = `r`.`klient_id` 
 														WHERE `r`.`time_end` >= {$date_from} AND `r`.`time_end` <= {$dato_to}  AND `r`.`time_end` <> 0"
-														.($store == 'no' ? '' : " AND `b`.`store_id` = {$store} || `r`.`store_start` = {$store} || `r`.`store_finish` = {$store}")
+														.($store == 'no' ? '' : " AND (`b`.`store_id` = {$store} || (`r`.`store_start` = {$store} && `r`.`store_finish` <> '') 
+														|| `r`.`store_finish` = {$store})")
 														." AND `r`.`amount` <> -1 ORDER BY `r`.`time_end` LIMIT 5000";
-
-		$arRes = self::getData($sql);
-		return $arRes;
+		//echo $sql; exit;
+		$arRents = self::getData($sql);
+		//print_r($arRents); exit;
+		foreach($arRents as $index=>$rent){
+			$arRents[$index]['real_time'] = $rent['time_end'] - $rent['time_start'];
+			if($rent['store_start'] != $rent['store_finish']){
+				$project_amount = BIKE::getRentAmount($rent['project_time']) * 100;
+				$arRents[$index]['project_amount'] = $project_amount;
+				$real_amount = (int)$rent['amount'];
+				if((int)$real_amount > (int)$project_amount){
+					$diff_amount = $real_amount - $project_amount;
+					$arRents[$index]['amount'] = $arRents[$index]['amount'] - $diff_amount;
+					$arDiffStoreRent[0] = $rent;
+					$arDiffStoreRent[0]['amount'] = $diff_amount;
+					if($store !== 'no' && $arDiffStoreRent[0]['store_finish'] == $store){
+						unset($arRents[$index]);
+						$arRents = TEMP::insert_in_array($arRents, $index, $arDiffStoreRent);
+					}
+				}elseif((int)$real_amount < (int)$project_amount){
+					$diff_amount = $real_amount - $project_amount;
+					$arRents[$index]['amount'] = $project_amount;
+					$arDiffStoreRent[0] = $rent;
+					$arDiffStoreRent[0]['amount'] = $diff_amount;
+					if($store !== 'no' && $arDiffStoreRent[0]['store_finish'] == $store){
+						unset($arRents[$index]);
+						$arRents = TEMP::insert_in_array($arRents, $index, $arDiffStoreRent);
+					}
+				}
+			}
+		}
+		return $arRents;
 	}
 	
 	

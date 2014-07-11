@@ -170,7 +170,7 @@ function reports_init(){
 		$('div.btn-group.open').removeClass('open');
 	});
 
-	if(bike.storeId === null){
+	if(bike.storeId === undefined || bike.storeId === null){
 		$('li._storeReportSelect').show();
 	}else $('li._storeReportSelect a').data('store_id', bike.storeId);
 
