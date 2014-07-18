@@ -55,7 +55,7 @@
 			spl_autoload_register('class_autoload');
     	}
     	
-		if($translit) $text = SMSclient::translit($text);
+		if($translit) $text = self::$sms->translit($text);
 		$id = self::$sms->sendSMS('Olimpia', $phone, $text);
 		
 		if(self::$sms->hasErrors()){
