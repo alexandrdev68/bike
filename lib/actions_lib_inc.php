@@ -1117,7 +1117,7 @@ class Actions{
 				ORDER BY `amount_summ` DESC LIMIT {$offset}, 100";
 		$arRes = $db->getArray($sql);
 		if(!$arRes){
-			return json_encode(array('status'=>'bad', 'message'=>'error: '.$sql));
+			return json_encode(array('status'=>'bad', 'message'=>'error: '));
 		}
 		
 		foreach($arRes as $num=>$item){
@@ -1129,6 +1129,35 @@ class Actions{
 		}
 		
 		return json_encode(array('status'=>"ok", 'actions_list'=>$arRes, 'nav'=>$arNav));
+	}
+#---------------------------------------
+	function send_sms_handler(){
+		$client_id = (int)Dbase::dataFilter($_POST['user_id']);
+		$client_phone = Dbase::dataFilter($_POST['user_phone']);
+		
+		if($client_id == '' || $client_phone == ''){
+			return json_encode(array('status'=>'bad', 'message'=>'bad dataset for request'));
+		}
+		
+		$sql = "SELECT `sms_code` FROM `action` WHERE `klient_id` = {$client_id} LIMIT 1";
+		
+		$db = new Dbase();
+		$arRes = $db->getArray($sql);
+		if(!$arRes){
+			return json_encode(array('status'=>'bad', 'message'=>'error: bad sql request'));
+		}
+		
+		$text = TEMP::$Lang['txt_sms_double_send'].$arRes[0]['sms_code'];
+		
+		$arRet = TEMP::sendSMS($client_phone, $text, true);
+		
+		if($arRet['status'] === true){
+			$arResponse = array('status'=>'ok', 'message'=>TEMP::$Lang['txt_sms_send_success']);
+		}else{
+			$arResponse = array('status'=>'bad', 'message'=>TEMP::$Lang['txt_sms_send_bad']);
+		}
+		
+		return json_encode($arResponse);
 	}
 #---------------------------------------
 }

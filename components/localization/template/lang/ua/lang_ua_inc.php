@@ -125,6 +125,10 @@ TEMP::$Lang = array(
 	'txt_export_HTML'=>'Експорт в HTML',
 	'mn_properties'=>'Налаштування',
 	'txt_chkbx_print_type'=>'Друк в HTML',
+	'txt_send_sms_code'=>'надіслати код смс',
+	'txt_sms_double_send'=>'Для перегляду балів http://bike.ibex.org.ua/action, ваш код: ',
+	'txt_sms_send_success'=>'СМС успішно відправлено',
+	'txt_sms_send_bad'=>'Помилка під час відправлення СМС',
 );
 
 TEMP::$Lang['SYSTEM'] = array(

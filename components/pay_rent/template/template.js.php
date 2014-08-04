@@ -115,8 +115,14 @@ function payrent_init(){
 								
 							});
 
-							$('tr._uInfo input').click(function(event){
+							$('tr._uInfo input, tr._uInfo button').click(function(event){
 								event.stopPropagation();
+							});
+
+							$('button._sendSMSBtn').on('click', function(event){
+								send_sms.send({
+									data : {action : 'send_sms', user_id : $(this).data('userid'), user_phone : $(this).data('userphone')}
+								});
 							});
 
 							userData.num = 1;
@@ -277,7 +283,25 @@ function payrent_init(){
 		$('div._payrentModal ._usListTable tr._uInfo').detach();
 		$('div._users_like_this_container').empty();
 		$('#user_finder').val('');
-	})
+	});
+
+	var send_sms = new serverRequest({
+		url : '/',
+		dataType : 'json',
+		success : function(response){
+			if(response.status == 'ok'){
+				$('div._payrentAlert strong').text(response.message);
+				$('div._payrentAlert strong').text("<?=TEMP::$Lang['congratulation']?>!");
+				$('div._payrentAlert span._messtext').text(response.message);
+				$('div._payrentAlert').removeClass('alert-error').slideDown('fast').delay('3000').slideUp('fast');
+			}else if(response.status == 'bad'){
+				$('div._payrentAlert strong').text(response.message);
+            	$('div._payrentAlert strong').text("<?=TEMP::$Lang['warning']?>!");
+				$('div._payrentAlert span._messtext').text(response.message);
+				$('div._payrentAlert').addClass('alert-error').slideDown('fast').delay('3000').slideUp('fast');
+			}
+		}
+	});
 
 }
 </script>
