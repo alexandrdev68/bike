@@ -10,21 +10,21 @@
   </div>
   <div class="modal-body">
     <div class="_edUserFoto user_foto">
-      <img src="" alt="no foto" width="380" height="285" class="img-polaroid">
+      <img data-vtemplate_edituser="src=photo" src="" alt="no foto" width="380" height="285" class="img-polaroid">
     </div>
     <form class="form-inline _edUserForm">
 	    <div class="control-group">
 		    <div class="controls">
-		    	<input required name="uLogin" type="text" id="editLogin" placeholder="Login">
+		    	<input required name="uLogin" type="text" id="editLogin" placeholder="Login" data-vtemplate_edituser="value=login">
 		    </div>
 	    </div>
 	    <div class="control-group">
 		    <div class="controls">
-		    	<input name="uFirstname" type="text" id="editName" placeholder="<?=TEMP::$Lang['input_firstName']?>">
-		    	<input name="uLastname" type="text" id="editFirst" placeholder="<?=TEMP::$Lang['input_patronymic']?>">
-		    	<input name="uPatronymic" type="text" id="editPatronymic" placeholder="<?=TEMP::$Lang['input_lastName']?>">
-		    	<input name="uPhone" type="text" placeholder="<?=TEMP::$Lang['input_phone']?>">
-		    	<input name="uLivePlace" type="text" placeholder="<?=TEMP::$Lang['input_live_place']?>">
+		    	<input data-vtemplate_edituser="value=name" name="uFirstname" type="text" id="editName" placeholder="<?=TEMP::$Lang['input_firstName']?>">
+		    	<input data-vtemplate_edituser="value=surname" name="uLastname" type="text" id="editFirst" placeholder="<?=TEMP::$Lang['input_patronymic']?>">
+		    	<input data-vtemplate_edituser="value=patronymic" name="uPatronymic" type="text" id="editPatronymic" placeholder="<?=TEMP::$Lang['input_lastName']?>">
+		    	<input data-vtemplate_edituser="value=phone" name="uPhone" type="text" placeholder="<?=TEMP::$Lang['input_phone']?>">
+		    	<input data-vtemplate_edituser="value=phone" name="uLivePlace" type="text" placeholder="<?=TEMP::$Lang['input_live_place']?>">
 		    	<input type="hidden" name="uId" value="">
 		    </div>
 	    </div>
@@ -32,7 +32,7 @@
 		    
 		    <div class="controls">
 		    	<label class="control-label" for="editLevel"><?=TEMP::$Lang['input_level']?>:
-		    	<select required name="uLevel" id="editLevel">
+		    	<select data-vtemplate_edituser="function=user_level_set:user_level" required name="uLevel" id="editLevel">
 					<option value="552071">admin</option>
 					<option value="1">reception</option>
 					<option value="2">user</option>
@@ -40,7 +40,7 @@
 				</select>
 				</label>
 				<label class="control-label" for="editselectStore"><?=TEMP::$Lang['select_store']?>:
-				<select name="resStore" id="editselectStore" disabled>
+				<select data-vtemplate_edituser="function=store_set:properties" name="resStore" id="editselectStore" disabled>
 					<option></option>
 					<?foreach($arRes as $store):?><option value="<?=$store['id']?>"><?=$store['adress']?></option><?endforeach?>
 				</select>
@@ -48,7 +48,7 @@
 		    </div>
 		    <div class="controls">
 		    	<label class="control-label" for="editBlackList"><span class="text-warning"><?=TEMP::$Lang['add_black_list']?>:</span>
-					<input id="editBlackList" type="checkbox" name="blackList">
+					<input data-vtemplate_edituser="function=blacklist_set:properties" id="editBlackList" type="checkbox" name="blackList">
 				</label>
 		    </div>
 	    </div>

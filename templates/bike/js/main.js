@@ -829,3 +829,64 @@ function serverRequest(params){
     };
 
 };
+
+function VTemplate(params){
+	params = params || {};
+	
+	if(!!params.tmpName)
+		this.tmpName = params.tmpName;
+	else
+		return false;
+	
+	if(!!params.functions)
+		this.functions = params.functions;
+	
+	VTemplate.prototype.addTextNode = function(element, text){
+		var textNode = document.createTextNode(text);
+		element.appendChild(textNode);
+	};
+	
+	this.workElement = {};
+	
+	VTemplate.prototype.render = function(data){
+		var self = this;
+		var tempElements = document.querySelectorAll('[data-vtemplate_' + self.tmpName + ']');
+		var tmpSplit = [];
+		var dataValue = '';
+		var index = 'vtemplate_' + self.tmpName;
+		var target = '';
+		var targetVariable = '';
+		console.log(tempElements);
+		for(var num = 0; num < tempElements.length; num++){
+			
+			dataValue = tempElements[num].dataset[index];
+			tmpSplit = dataValue.split('=', 2);
+			target = tmpSplit[0];
+			targetVariable = tmpSplit[1];
+			
+			if(target != 'function'){
+				if(!!!data[targetVariable])
+					continue;
+			}
+			
+			switch(target){
+				case 'text':
+					self.addTextNode(tempElements[num], data[targetVariable]);
+					break;
+				case 'value':
+					tempElements[num].value = data[targetVariable];
+					break;
+				case 'src':
+					tempElements[num].setAttribute('src', data[targetVariable]);
+					break;
+				case 'function':
+					var fSplit = targetVariable.split(':', 2);
+					if(!!!data[fSplit[1]])
+						continue;
+					self.workElement = tempElements[num];
+					self.functions[fSplit[0]](data[fSplit[1]]);
+					break;
+			}
+		}
+	};
+} 

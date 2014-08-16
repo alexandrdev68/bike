@@ -7,21 +7,27 @@ function eduser_init(){
 		$('div._eduserAlert').slideUp('fast');
 	});
 
+	var editUser = new VTemplate({
+		tmpName : 'edituser',
+		functions : {
+			user_level_set : function(level){
+				editUser.workElement.value = level;
+				if(level == 4) $('form._edUserForm select[name="resStore"]').attr('disabled', true);
+				else $('form._edUserForm select[name="resStore"]').attr('disabled', false);
+			},
+			store_set : function(properties){
+				editUser.workElement.value = (properties === null ? '' : properties.store === undefined ? '' : properties.store);
+			},
+			blacklist_set : function(properties){
+				$(editUser.workElement).prop('checked', properties === null ? false : properties.blackList == 'on' ? true : false);
+			}
+		}
+	});
+
+	
 	$('div._editUserModal').on('show', function(){
 		user.getById(user.currId, function(response){
-			$('div._edUserFoto').html('<img alt="no foto" src="' + response['info'].photo + '" width="380" height="285" class="img-polaroid">');
-			$('#editLogin').val(response.info.login);
-			$('#editName').val(response.info.name);
-			$('#editFirst').val(response.info.surname);
-			$('#editPatronymic').val(response.info.patronymic);
-			$('form._edUserForm input[name="uPhone"]').val(response.info.phone);
-			$('form._edUserForm input[name="uId"]').val(user.currId);
-			$('form._edUserForm input[name="uLivePlace"]').val(response['info'].properties === null ? '' : response['info'].properties.live_place === undefined ? '' : response['info'].properties.live_place);
-			$('form._edUserForm select[name="uLevel"]').val(response.info.user_level);
-			$('form._edUserForm select[name="resStore"]').val(response['info'].properties === null ? '' : response['info'].properties.store === undefined ? '' : response['info'].properties.store);
-			$('#editBlackList').prop('checked', response['info'].properties === null ? false : response['info'].properties.blackList == 'on' ? true : false);
-			if(response.info.user_level == 4) $('form._edUserForm select[name="resStore"]').attr('disabled', true);
-			else $('form._edUserForm select[name="resStore"]').attr('disabled', false);
+			editUser.render(response.info);
 		});
 	})
 	
