@@ -1,9 +1,9 @@
 <?php
 class BIKE extends USER{
 	
-	static public $firstHourAmount = 20;
-	static public $dayAmount = 70;
-	static public $nextHourAmount = 10;
+	static public $firstHourAmount = 30;
+	static public $dayAmount = 150;
+	static public $nextHourAmount = 20;
 	static public $timeBuffer = 15;
 
 /**
