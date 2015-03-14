@@ -4,6 +4,7 @@ class BIKE extends USER{
 	static public $firstHourAmount = 30;
 	static public $dayAmount = 150;
 	static public $nextHourAmount = 20;
+	static public $added = 20;
 	static public $timeBuffer = 15;
 
 /**
@@ -210,7 +211,7 @@ class BIKE extends USER{
 		$hours = $arDiff['hours'];
 		$minutes = $arDiff['minutes'];
 
-		$amount = $days * 70;
+		$amount = $days * self::$dayAmount;
 		if($amount == 0){
 			$amount += $amount == 0 && ($hours * 60 + $minutes <= 60 + self::$timeBuffer) ? self::$firstHourAmount : ($minutes <= self::$timeBuffer ? self::$firstHourAmount + (($hours - 1) * self::$nextHourAmount) : self::$firstHourAmount + ($hours * self::$nextHourAmount));
 		}else{

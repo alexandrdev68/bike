@@ -716,7 +716,7 @@ class Actions{
 		
 		//print_r($arInfo); exit;
 		
-		if(@$arInfo['rent_prop']['added'] > 0) $added += 1000;
+		if(@$arInfo['rent_prop']['added'] > 0) $added += BIKE::$added * 100;
 		
 		unset($arInfo['foto']);
 		unset($arInfo['time_end']);
