@@ -623,7 +623,7 @@ class Actions{
 			
 		}
 		
-		if($seat_flag === true) $added += 10;
+		if($seat_flag === true) $added += BIKE::$added;
 		
 		if(BIKE::startRent($bike_id, $user_id, $rent_period, $added) === true){
 			$response = array('status'=>'ok', 'print'=>'no', 'message'=>USER::lastMessage());
