@@ -149,12 +149,14 @@
 			  <button class="btn btn-block _regPage"><?=TEMP::$Lang['registration']?></button>
 			  <button class="btn btn-block _addBike"><?=TEMP::$Lang['add_bike_btn']?></button>
 			  <button class="btn btn-block _storesManage"><?=TEMP::$Lang['stores_manage']?></button>
+			  <button class="btn btn-block _smsManage"><?=TEMP::$Lang['sms_menu']?></button>
 			</div>
 		</div>
 		<div class="span10 _viewPort">
 			<span><?TEMP::component('register', array())?></span>
 			<span><?TEMP::component('bike_add', array())?></span>
 			<span><?TEMP::component('store_manage', array())?></span>
+			<span><?=TEMP::component('work_with_sms', array())?></span>
 		</div>
 	</div>
 </div>

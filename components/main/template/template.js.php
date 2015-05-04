@@ -343,7 +343,7 @@ function users_fill(offset){
 			//userData.num = offset + 1;
 			userEventInit();
 
-			$('tr._uInfo').click(function(){
+			$('tr._uInfo').on('click', function(){
 						var user_id = $(this).find('i._delUsr').data('userid');
 					
 						user.showInfo(user_id);

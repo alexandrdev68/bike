@@ -14,6 +14,7 @@ TEMP::$Lang = array(
 	'congratulation'=>'Вітаю',
 	'field_required_text'=>'це поле обов\'язкове для заповнення',
 	'users_list'=>'Список користувачів',
+	'sms_menu'=>'смс',
 	'bikes_in_store'=>'Велосипеди на складі',
 	'bikes_in_rent'=>'Велосипеди в прокаті',
 	'view_mn'=>'Перегляд',
@@ -129,6 +130,16 @@ TEMP::$Lang = array(
 	'txt_sms_double_send'=>'Для перегляду балів http://bike.ibex.org.ua/action, ваш код: ',
 	'txt_sms_send_success'=>'СМС успішно відправлено',
 	'txt_sms_send_bad'=>'Помилка під час відправлення СМС',
+	'add_sms_people_btn'=>'Додати до списку розсилки',
+	'send_sms_all_btn'=>'Виділити',
+	'send_sms_selected'=>'Відправити смс',
+	'sms_resseler_text_header'=>'СМС розсилка',
+	'sms_text_field'=>'Текст смс',
+	'sms_text_1'=>'Буде відправлено: ',
+	'sms_text_2'=>'sms',
+	'sms_text_3'=>'Увімкнути транслітерацію',
+	'sms_text_4'=>'Відправити',
+	'sms_text_5'=>'Всіх крім учасників акції',
 );
 
 TEMP::$Lang['SYSTEM'] = array(

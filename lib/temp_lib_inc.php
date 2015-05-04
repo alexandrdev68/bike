@@ -42,7 +42,17 @@
             }     
     }
     
-	
+	static public function sendSMS_test($phone, $text, $translit = false){
+		if(!is_object(self::$sms)){
+			spl_autoload_unregister('class_autoload');
+			require_once($_SERVER['DOCUMENT_ROOT'].'/lib/alphasms-client-api/smsclient.class.php');
+			self::$sms = new SMSclient(SMS_LOGIN, SMS_PASSW, SMS_API_KEY);
+			spl_autoload_register('class_autoload');
+		}
+		
+		if($translit) $text = self::$sms->translit($text);
+		return array('phone'=>$phone, 'text'=>$text, 'translit'=>$translit);
+	}
     
     static public function sendSMS($phone, $text, $translit = false){
     	//return false;

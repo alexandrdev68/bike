@@ -31,6 +31,7 @@
         }
     }
     
+    
     static protected function getData($sql){
     	$result = mysql_query($sql);
     	if($result !== false){
@@ -66,10 +67,10 @@
 	 * Пример: Dbase->getArray('SELECT * FROM myDB');
 	 * @var public function
 	 */
-	public function getArray($query){
+	public function getArray($query, $assoc = true){
 		$result = mysql_query($query);
 		if($result === false) return false;
-		while($arResult[] = mysql_fetch_assoc($result)){
+		while($arResult[] = ($assoc === true ? mysql_fetch_assoc($result) : mysql_fetch_row($result))){
 			
 		};
 		array_pop($arResult);

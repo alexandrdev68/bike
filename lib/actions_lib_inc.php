@@ -1160,5 +1160,80 @@ class Actions{
 		return json_encode($arResponse);
 	}
 #---------------------------------------
+
+	function smsResseller_handler(){
+		$text = Dbase::dataFilter($_POST['sms_text']);
+		$translit = Dbase::dataFilter($_POST['translit']);
+		$translit = ($translit == 'on' ? true : false);
+		
+		$arRequest = array('table'=>'``',
+				'fields'=>'',
+				'order_by'=>'phone',
+				//'left_outer_join'=>'`transactions_log` `t` ON `p`.`ttn` = `t`.`uttn` AND `t`.`status` = 5',
+				'sort'=>'DESC',
+				'where'=>' `id` = '.implode(',', $_POST['users_id']),
+		);
+		
+		$sql = "SELECT `name`, `patronymic`, `surname`, `phone` FROM `users` WHERE `id` in(".implode(',', $_POST['users_id']).")";
+		
+		$db = new Dbase();
+		$arUsers = $db->getArray($sql);
+		
+		if(count($arUsers) > 0){
+			foreach($arUsers as $user){
+				//$arRet = TEMP::sendSMS_test($user['phone'], $text, $translit);
+				$arRet = TEMP::sendSMS($user['phone'], $text, $translit);
+				$arResponse[] = array('phone'=>$user['phone'], 'sms_status'=>$arRet);
+			}
+		}
+		
+		
+		return json_encode(array('status'=>0, 'response'=>$arResponse));
+	}
+	
+#---------------------------------------
+
+	function smsUsersSelect_handler(){
+		$filter = Dbase::dataFilter($_POST['filter']);
+		$type = Dbase::dataFilter($_POST['type']);
+		$page = Dbase::dataFilter($_POST['page']);
+		$porcion = 1000;
+		
+		switch($filter){
+			case 'all_not_action':
+				$db = new Dbase();
+				if($type == 'count'){
+					$sql = 'SELECT COUNT(`u`.`id`) FROM bike.users `u` 
+							LEFT JOIN `action` `a` ON `a`.`klient_id` = `u`.`id` 
+							WHERE `a`.`klient_id` IS NULL;';
+					$arRes = $db->getArray($sql);
+					$arRes = $arRes[0]['COUNT(`u`.`id`)'];
+					return json_encode(array('status'=>0, 
+							'sms_count'=>$arRes, 
+							'pages'=>(int)ceil($arRes / $porcion), 
+							'porcion'=>$porcion, 
+							'type'=>$type));
+				}elseif($type == 'get'){
+					$sql = 'SELECT `u`.`id` FROM bike.users `u` 
+							LEFT JOIN `action` `a` ON `a`.`klient_id` = `u`.`id` 
+							WHERE `a`.`klient_id` IS NULL LIMIT '.($page * $porcion).', '.$porcion.';';
+					$arRes = $db->getArray($sql, false);
+					array_walk($arRes, function(&$ar, $key){
+						$ar = (int)$ar[0];
+					});
+					if(count($arRes) > 0){
+						return json_encode(array('status'=>0,
+								'users'=>$arRes,
+								'type'=>$type));
+					}
+				}
+				break;
+		}
+		
+		
+		
+	}
+	
+#---------------------------------------
 }
 ?>
