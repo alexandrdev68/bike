@@ -87,9 +87,16 @@ SMSSender.ajax = new serverRequest({
 	dataType : 'json',
 	data : {action : 'smsResseller'},
 	success : function(response){
-		for(var s = 0; s < SMSSender.ajax.data.users_id.length; s++){
-			delete(SMSSender.selectedUsers[SMSSender.inArray(SMSSender.selectedUsers, SMSSender.ajax.data.users_id[s])]);
+		for(var v = 0; v < response.result.length; v++){
+			if(response.result[v]['sms_status']['status'] === true){
+				//for(var s = 0; s < SMSSender.ajax.data.users_id.length; s++){
+				//console.log(SMSSender.inArray(SMSSender.selectedUsers, response.result[v]['uid']));
+				delete(SMSSender.selectedUsers[SMSSender.inArray(SMSSender.selectedUsers, SMSSender.toType('integer', response.result[v]['uid']))]);
+				//}
+			}
+			
 		}
+		
 		var percent = SMSSender.toType('integer', SMSSender.countSendedSMS / SMSSender.countSMS * 100);
 		$('div._sms_progressbar div').width(percent + '%').text(percent + '%');
 		if(!SMSSender.resselerFinish){

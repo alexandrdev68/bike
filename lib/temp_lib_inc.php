@@ -51,7 +51,7 @@
 		}
 		
 		if($translit) $text = self::$sms->translit($text);
-		return array('phone'=>$phone, 'text'=>$text, 'translit'=>$translit);
+		return array('status'=>(rand(0,1) == 0 ? true : false), 'phone'=>$phone, 'text'=>$text, 'translit'=>$translit);
 	}
     
     static public function sendSMS($phone, $text, $translit = false){

@@ -1174,7 +1174,7 @@ class Actions{
 				'where'=>' `id` = '.implode(',', $_POST['users_id']),
 		);
 		
-		$sql = "SELECT `name`, `patronymic`, `surname`, `phone` FROM `users` WHERE `id` in(".implode(',', $_POST['users_id']).")";
+		$sql = "SELECT `id`, `name`, `patronymic`, `surname`, `phone` FROM `users` WHERE `id` in(".implode(',', $_POST['users_id']).")";
 		
 		$db = new Dbase();
 		$arUsers = $db->getArray($sql);
@@ -1183,12 +1183,12 @@ class Actions{
 			foreach($arUsers as $user){
 				//$arRet = TEMP::sendSMS_test($user['phone'], $text, $translit);
 				$arRet = TEMP::sendSMS($user['phone'], $text, $translit);
-				$arResponse[] = array('phone'=>$user['phone'], 'sms_status'=>$arRet);
+				$arResponse[] = array('phone'=>$user['phone'], 'sms_status'=>$arRet, 'uid'=>$user['id']);
 			}
 		}
 		
 		
-		return json_encode(array('status'=>0, 'response'=>$arResponse));
+		return json_encode(array('status'=>0, 'result'=>$arResponse));
 	}
 	
 #---------------------------------------
