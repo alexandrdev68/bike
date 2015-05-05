@@ -127,7 +127,7 @@ SMSSender.ajaxSelect = new serverRequest({
 			SMSSender.ajaxSelect.send();
 		}else if(response.type == 'get'){
 			for(var us = 0; us < response.users.length; us++){
-				SMSSender.selectedUsers.push(response.users[us]);
+				SMSSender.selectedUsers.push(SMSSender.toType('integer', response.users[us]));
 			}
 			SMSSender.pagesNum--;
 			if(SMSSender.pagesNum > 0){

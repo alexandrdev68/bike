@@ -1218,9 +1218,9 @@ class Actions{
 							LEFT JOIN `action` `a` ON `a`.`klient_id` = `u`.`id` 
 							WHERE `a`.`klient_id` IS NULL LIMIT '.($page * $porcion).', '.$porcion.';';
 					$arRes = $db->getArray($sql, false);
-					array_walk($arRes, function(&$ar, $key){
+					/*array_walk($arRes, function(&$ar, $key){
 						$ar = (int)$ar[0];
-					});
+					});*/
 					if(count($arRes) > 0){
 						return json_encode(array('status'=>0,
 								'users'=>$arRes,
