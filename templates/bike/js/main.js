@@ -752,10 +752,10 @@ function tableFromData(params){
         if(me.counter) me.table += '<th>№</th>';
         for(var v in me.head){
             me.table += '<th>' + me.head[v] + '</th>';
-        }
-        me.table += '</tr>'
+        };
+        me.table += '</tr>';
     };
-}
+};
 
 function serverRequest(params){
 	params = params || {};
