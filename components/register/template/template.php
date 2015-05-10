@@ -43,6 +43,9 @@
 			    </div>
 			    <div class="control-group">
 			    	<div class="controls">
+						<label><?=TEMP::$Lang['from_another_city']?>
+					    <input type="checkbox" name="another_city" value="yes">
+					    </label>
 						<label class="control-label" for="load_user_foto"><?=TEMP::$Lang['load_photo']?></label>
 						<input required id="load_user_foto" name="foto" type="file" value="">
 					</div>

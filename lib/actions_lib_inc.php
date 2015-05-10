@@ -8,6 +8,7 @@ class Actions{
 		$surname_user = Dbase::dataFilter($_POST['uLastname']);
 		$lastname_user = Dbase::dataFilter($_POST['uPatronymic']);
 		$phone = Dbase::dataFilter($_POST['uPhone']);
+		$another_place = (isset($_POST['another_city']) ? Dbase::dataFilter($_POST['another_city']) : 'no');
 		//если регистрируем клиента - логин не нужен
 		if($user_level == 4) $id_user = $phone;
 		$pass = @$_POST['uPassword'];
@@ -47,7 +48,7 @@ class Actions{
 			return json_encode($response);
 		}
 
-		$arProperties = array();
+		$arProperties = array('another_place'=>$another_place);
 		//формирование допсвойств, если они заданы
 		if(isset($_POST['resStore'])){
 			$arProperties['store'] = $_POST['resStore'];
@@ -79,6 +80,7 @@ class Actions{
 		$lastname_user = Dbase::dataFilter($_POST['uPatronymic']);
 		$id = Dbase::dataFilter($_POST['uId']);
 		$phone = Dbase::dataFilter($_POST['uPhone']);
+		$another_place = (isset($_POST['another_place']) ? Dbase::dataFilter($_POST['another_place']) : 'no');
 		$arUser = USER::getFullInfo($id);
 		
 		
@@ -125,7 +127,7 @@ class Actions{
 			if(isset($_POST['blackList']) && $_POST['blackList'] != '') $arProperties['blackList'] = Dbase::dataFilter($_POST['blackList']);
 			else $arProperties['blackList'] = 'off';
 		}
-		
+		$arProperties['another_place'] = $another_place;
 		//print_r($arProperties); exit;
 		
 		//изменение данных пользователя в БД
@@ -496,6 +498,7 @@ class Actions{
 		$surname_user = Dbase::dataFilter($_POST['uLastname']);
 		$lastname_user = Dbase::dataFilter($_POST['uPatronymic']);
 		$live_place = Dbase::dataFilter($_POST['uLivePlace']);
+		$another_place = (isset($_POST['another_city']) ? Dbase::dataFilter($_POST['another_city']) : 'no');
 		//echo json_encode($live_place); die();
 		$phone = @$_POST['uPhone'];
 		//проверка полей формы
@@ -532,6 +535,11 @@ class Actions{
 			}
 		}else $imagepath = '';
 		
+		$properties = array('another_place'=>$another_place);
+		if($live_place != ''){
+			$properties['live_place'] = $live_place;
+		}
+		
 
 		//добавление пользователя в БД
 		$arFields = array('login'=>(string)$id_user,
@@ -539,7 +547,7 @@ class Actions{
     							'phone'=>(string)$phone,
 	  							'patronymic'=>(string)$lastname_user,
 	  							'surname'=>(string)$surname_user,
-	  							'properties'=>$live_place == '' ? '' : addslashes(json_encode (array('live_place'=>$live_place))),
+	  							'properties'=>addslashes(json_encode ($properties)),
 	  							'photo'=>$imagepath, 
 	  							'user_level'=>'4');
 		//print_r($arFields); die();

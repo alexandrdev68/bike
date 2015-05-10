@@ -4,6 +4,19 @@ $(document).ready(payrent_init);
 function pay_rent_handler(self){
 	self.off('click');
 	if(user.currId == null) return false;
+	if(!!user.currIdProperties){
+		if(!!user.currIdProperties.another_place){
+			if(user.currIdProperties.another_place == 'yes'){
+				$('div._payrentAlert').addClass('alert-error').slideDown('fast');
+				$('div._payrentAlert span._messtext').text('<?=TEMP::$Lang['user_from_another_city']?>');
+				user.currIdProperties.another_place = 'confirmed';
+				$('button._uRentConfirm').on('click', function(){
+	        		pay_rent_handler($(this));
+	        	});
+	        	return false;
+			}
+		}
+	}
 	var currBlackElement = $('div._findList table._usListTable tr._blackList' + user.currId);
 	if(currBlackElement !== undefined && $(currBlackElement).find('input[name="uRent"]').prop('checked')){
 		$('div._payrentAlert span._messtext').text('<?=TEMP::$Lang['user_in_black_list']?>');
@@ -96,6 +109,7 @@ function payrent_init(){
 						maxLength : 3,
 						onFind : function(list){
 							//console.log(list);
+							user.list = list;
 							//process(list);
 							userData.num = 1;
 							user.findLoader('hide');
@@ -130,9 +144,16 @@ function payrent_init(){
 							//setTimeout('user.keypressflag = false', 1000);
 							var list = $('table._usListTable tr._uInfo td input[name="uRent"]');
 							$(list[0]).attr('checked', true);
+							//console.log(list);
 							user.currId = $(list[0]).data('userid');
+							user.currIdProperties = user.list[0].properties;
 							$(list).on('click', function(){
 								user.currId = $(this).data('userid');
+								for(var num in user.list){
+									if(user.list[num].id == user.currId){
+										user.currIdProperties = user.list[num].properties;
+									}
+								}
 							});
 						}
 					});
@@ -195,6 +216,7 @@ function payrent_init(){
 							userData.num = 1;
 							$('table._usListTable tr._uInfo td input[name="uRent"]').attr('checked', true);
 							user.currId = list[0].id;
+							user.currIdProperties = list[0].properties;
 						}
 					});
 

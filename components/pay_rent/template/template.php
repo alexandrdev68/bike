@@ -37,12 +37,19 @@
 				<form class="form-inline _payrentForm">
 				<div class="control-group">
 					<!--<input required name="uLogin" type="text" placeholder="Login">-->
-					<input required name="uPhone" type="text" placeholder="<?=TEMP::$Lang['input_phone']?>">
-					<input name="uFirstname" type="text" placeholder="<?=TEMP::$Lang['input_firstName']?>">
-				    <input name="uLastname" type="text" placeholder="<?=TEMP::$Lang['input_patronymic']?>">
-				    <input name="uPatronymic" type="text" placeholder="<?=TEMP::$Lang['input_lastName']?>">
-				    <input name="uLivePlace" type="text" placeholder="<?=TEMP::$Lang['input_live_place']?>">
 					<div class="controls">
+						<input required name="uPhone" type="text" placeholder="<?=TEMP::$Lang['input_phone']?>">
+						<input name="uFirstname" type="text" placeholder="<?=TEMP::$Lang['input_firstName']?>">
+						<input name="uLastname" type="text" placeholder="<?=TEMP::$Lang['input_patronymic']?>">
+					</div>
+					<div class="controls top_margin10">
+					    <input name="uPatronymic" type="text" placeholder="<?=TEMP::$Lang['input_lastName']?>">
+					    <input name="uLivePlace" type="text" placeholder="<?=TEMP::$Lang['input_live_place']?>">
+					    <label><?=TEMP::$Lang['from_another_city']?>
+					    <input type="checkbox" name="another_city" value="yes">
+					    </label>
+				    </div>
+					<div class="controls top_margin10">
 						<label class="control-label" for="load_user_foto"><?=TEMP::$Lang['load_photo']?></label>
 						<input id="load_user_foto" name="foto" type="file" value="">
 					</div>

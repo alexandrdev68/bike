@@ -856,7 +856,7 @@ function VTemplate(params){
 		var index = 'vtemplate_' + self.tmpName;
 		var target = '';
 		var targetVariable = '';
-		console.log(tempElements);
+		//console.log(tempElements);
 		for(var num = 0; num < tempElements.length; num++){
 			
 			dataValue = tempElements[num].dataset[index];

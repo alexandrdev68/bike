@@ -20,6 +20,12 @@ function eduser_init(){
 			},
 			blacklist_set : function(properties){
 				$(editUser.workElement).prop('checked', properties === null ? false : properties.blackList == 'on' ? true : false);
+			},
+			live_place_set : function(properties){
+				$(editUser.workElement).val(properties === null ? '' : !!properties.live_place ? properties.live_place : '');
+			},
+			another_city_set : function(properties){
+				$(editUser.workElement).prop('checked', properties === null ? false : properties.another_place == 'yes' ? true : false);
 			}
 		}
 	});
@@ -27,6 +33,7 @@ function eduser_init(){
 	
 	$('div._editUserModal').on('show', function(){
 		user.getById(user.currId, function(response){
+			response.info.id = user.currId;
 			editUser.render(response.info);
 		});
 	})

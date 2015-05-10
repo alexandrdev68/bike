@@ -140,6 +140,8 @@ TEMP::$Lang = array(
 	'sms_text_3'=>'Увімкнути транслітерацію',
 	'sms_text_4'=>'Відправити',
 	'sms_text_5'=>'Всіх крім учасників акції',
+	'from_another_city'=>'З іншого міста',
+	'user_from_another_city'=>'Цей користувач з іншого міста, необхідно внести залог',
 );
 
 TEMP::$Lang['SYSTEM'] = array(

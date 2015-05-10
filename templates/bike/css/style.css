@@ -77,7 +77,7 @@ div.usListContainer{
 	overflow:auto;
 }
 
-div._payrentModal{
+div._payrentModal, div._editUserModal{
 	left: 50%;
     margin-left: -40%;
     width: 80%;
@@ -88,4 +88,10 @@ span[data-blacklist="yes"]{
 }
 span[data-blacklist="no"]{
 	display:none;
+}
+.top_margin10{
+	margin-top:10px;
+}
+.left_margin0{
+	margin-left:0;
 }
