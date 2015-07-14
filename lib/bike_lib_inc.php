@@ -259,7 +259,8 @@ class BIKE extends USER{
 						`u`.`patronymic` FROM `rent` `r` LEFT OUTER JOIN `bikes` `b` ON `r`.`bike_id` = `b`.`id` 
 														LEFT OUTER JOIN `users` `u` ON `u`.`id` = `r`.`klient_id` 
 														WHERE `r`.`time_end` >= {$date_from} AND `r`.`time_end` <= {$dato_to}  AND `r`.`time_end` <> 0"
-														.($store == 'no' ? '' : " AND `r`.`store_finish` = {$store}")
+														.($store == 'no' ? '' : " AND ((`r`.`store_start` = {$store} && `r`.`store_finish` <> '') 
+														|| `r`.`store_finish` = {$store})")
 														." AND `r`.`amount` <> -1 ORDER BY `r`.`time_end` LIMIT 5000";
 		//echo $sql; exit;
 		$arRents = self::getData($sql);
