@@ -1,6 +1,11 @@
 <script>
 $(document).ready(reports_init);
 
+var stores = {
+	<?foreach($arRes as $index=>$value):?>
+	<?=$value['id']?> : '<?=$value['adress']?>',
+	<?endforeach?>
+}
 function reportData(data, checked){
 	checked = checked || '';
 	if(reportData.num === undefined) reportData.num = 1;
@@ -13,6 +18,9 @@ function reportData(data, checked){
 	'<td>' + data.serial_id + '</td>' +
 	'<td>' + bike.getTimeString(new Date((data.time_end - data.time_start) * 1000), ':') + '</td>' +
 	'<td>' + bike.getTimeString(new Date(data.project_time * 1000), ':') + '</td>' +
+	'<td>' + stores[data.store_start] + '</td>' +
+	'<td>' + stores[data.store_finish] + '</td>' +
+	'<td>' + stores[data.store_id] + '</td>' +
 	'<td class="_rentAmount" data-rent_amount="' + (parseFloat(data.amount) / 100) + '">' + 
 	bike.numberFormat(parseFloat(data.amount) / 100) + '</td>' +
 	'<?if(USER::isAdmin()):?><td class="_calcFlag"><input data-rent_id="' + data.rent_id + '" type="checkbox" ' + checked + '></td><?endif?></tr>';
@@ -26,7 +34,7 @@ function dayReport(){
 			var rpRow = new reportData(response.rents[rep]);
 			$('div._reportsView table._reportList').append(rpRow.html);
 		};
-		$('div._reportsView table._reportList').append('<tr class="_rInfo"><th><?=TEMP::$Lang['summ_text']?></th><th></th><th></th><th></th><th></th><th></th><th>' + bike.numberFormat(calc_report_summ()) + '</th><?if(USER::isAdmin()):?><th></th><?endif?></tr>')
+		$('div._reportsView table._reportList').append('<tr class="_rInfo"><th><?=TEMP::$Lang['summ_text']?></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>' + bike.numberFormat(calc_report_summ()) + '</th><?if(USER::isAdmin()):?><th></th><?endif?></tr>')
 		reportData.num = 1;
 		$('input._mainReportChckBox').attr('checked', false);
 	});
@@ -66,7 +74,7 @@ function periodReport(){
 			var rpRow = new reportData(response.rents[rep]);
 			$('div._reportsView table._reportList').append(rpRow.html);
 		};
-		$('div._reportsView table._reportList').append('<tr class="_rInfo"><th><?=TEMP::$Lang['summ_text']?></th><th></th><th></th><th></th><th></th><th></th><th>' + bike.numberFormat(calc_report_summ()) + '</th><?if(USER::isAdmin()):?><th></th><?endif?></tr>')
+		$('div._reportsView table._reportList').append('<tr class="_rInfo"><th><?=TEMP::$Lang['summ_text']?></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>' + bike.numberFormat(calc_report_summ()) + '</th><?if(USER::isAdmin()):?><th></th><?endif?></tr>')
 		reportData.num = 1;
 		$('input._mainReportChckBox').attr('checked', false);
 	});

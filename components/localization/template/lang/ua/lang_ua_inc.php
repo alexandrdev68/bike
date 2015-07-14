@@ -142,6 +142,9 @@ TEMP::$Lang = array(
 	'sms_text_5'=>'Всіх крім учасників акції',
 	'from_another_city'=>'З іншого міста',
 	'user_from_another_city'=>'Цей користувач з іншого міста, необхідно внести залог',
+	'store_start_text'=>'Взято в пункті',
+	'store_end_text'=>'Здано в пункті',
+	'current_store_text'=>'На даний момент в пункті'
 );
 
 TEMP::$Lang['SYSTEM'] = array(

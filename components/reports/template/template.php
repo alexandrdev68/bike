@@ -58,6 +58,9 @@
 			<th><?=TEMP::$Lang['serial_id']?></th>
 			<th><?=TEMP::$Lang['time_on_rent']?></th>
 			<th><?=TEMP::$Lang['payment_time']?></th>
+			<th><?=TEMP::$Lang['store_start_text']?></th>
+			<th><?=TEMP::$Lang['store_end_text']?></th>
+			<th><?=TEMP::$Lang['current_store_text']?></th>
 			<th><?=TEMP::$Lang['real_amount']?></th>
 			<?if(USER::isAdmin()):?><th><input type="checkbox" class="_mainReportChckBox"></th><?endif?>
 		</tr>

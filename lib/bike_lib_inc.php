@@ -254,6 +254,7 @@ class BIKE extends USER{
 						`b`.`model`,
 						`b`.`id`,
 						`b`.`serial_id`,
+						`b`.`store_id`,
 						`u`.`name`,
 						`u`.`surname`,
 						`u`.`patronymic` FROM `rent` `r` LEFT OUTER JOIN `bikes` `b` ON `r`.`bike_id` = `b`.`id` 
