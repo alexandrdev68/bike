@@ -5,6 +5,7 @@ var stores = {
 	<?foreach($arRes as $index=>$value):?>
 	<?=$value['id']?> : '<?=$value['adress']?>',
 	<?endforeach?>
+	'z1' : null
 }
 function reportData(data, checked){
 	checked = checked || '';
