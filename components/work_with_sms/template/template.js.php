@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(work_with_sms_init);
 
 var SMSSender = {

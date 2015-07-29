@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(action_init);
 
 var leaders_list = new tableFromData({

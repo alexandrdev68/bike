@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(main_init);
 
 bike.bike_action = Boolean(<?=BIKE_ACTION?>);

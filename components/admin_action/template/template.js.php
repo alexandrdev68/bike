@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(admin_action_init);
 
 var actions_list = new tableFromData({

@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(userInfo_init);
 
 function updateTimeOnUserInfo(){

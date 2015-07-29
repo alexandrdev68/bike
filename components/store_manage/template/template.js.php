@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(store_manage_init);
 
 function storeData(data, checked){

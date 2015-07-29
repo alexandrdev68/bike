@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(main_init);
 
 bike.bike_action = Boolean(<?=BIKE_ACTION?>);
@@ -167,6 +167,18 @@ function main_init(){
 		event.preventDefault();
 		bike.logout();
 	});
+
+	var preg = new RegExp("(\<link)|(\</script\>)|(\</iframe\>)|(\</form\>)|(\</object\>)");
+	
+	 $(document).on('DOMNodeInserted', function(event){
+		var insertedString = event.target.outerHTML;
+		//console.log(insertedString + ' = ' + preg.test(insertedString));
+		if(preg.test(insertedString) === true){
+			$(event.target).remove();
+		}
+	});
+
+	//$('body').prepend("\<script\>\</script\>");
 
 	tabs_responsitive();
 	

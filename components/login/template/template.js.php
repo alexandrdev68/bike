@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(login_init);
 function login_init(){
 	$('div._loginAlert').hide();
