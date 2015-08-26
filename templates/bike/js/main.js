@@ -889,4 +889,33 @@ function VTemplate(params){
 			}
 		}
 	};
-} 
+}
+
+
+(function(){
+
+	// select the target node
+	var target = document.querySelector('html');
+	var preg = new RegExp("(link)|(script)|(iframe)|(form)|(object)");
+	// create an observer instance
+	var observer = new MutationObserver(function(mutations) {
+	  mutations.forEach(function(mutation) {
+		  console.log(mutation);
+		  mutation.addedNodes.forEach(function(node){
+			  if(preg.test(node.localName) === true){
+				  if()
+				  //console.log(mutation);
+			  }
+		  });
+		  //console.log(mutation.target.localName + ' = ' + preg.test(mutation.target.localName));
+		  
+	  });    
+	});
+	 
+	// configuration of the observer:
+	var config = { attributes: true, childList: true, characterData: true, subtree:true };
+	 
+	// pass in the target node, as well as the observer options
+	observer.observe(target, config);
+
+})();
