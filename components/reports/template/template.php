@@ -47,7 +47,7 @@
 				</li>
 				
 			</ul>
-			<?if(USER::isAdmin()):?><ul class="nav pull-right"><li class="divider-vertical"></li><li><button class="btn btn-danger _cancelRents"><?=TEMP::$Lang['clear_rent_btn']?></button></li></ul><?endif?>
+			<?if(USER::isSuperAdmin()):?><ul class="nav pull-right"><li class="divider-vertical"></li><li><button class="btn btn-danger _cancelRents"><?=TEMP::$Lang['clear_rent_btn']?></button></li></ul><?endif?>
 		</div>
 	</div>
 	<table class="table table-striped _reportList">
