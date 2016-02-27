@@ -27,6 +27,7 @@
 				    <div class="controls">
 				    	<label class="control-label" for="createLevel"><?=TEMP::$Lang['input_level']?>:
 				    	<select required name="uLevel" id="createLevel">
+							<?if(USER::isSuperAdmin()):?><option value="552081">SU</option><?endif?>
 							<option value="552071">admin</option>
 							<option value="1">reception</option>
 							<option value="2">user</option>

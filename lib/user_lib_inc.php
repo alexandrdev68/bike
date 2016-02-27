@@ -329,7 +329,12 @@
 	 * @var static function
 	 */
     static public function isAdmin(){
-    	if(@$_SESSION['CURRUSER']['user_level'] == 552071) return true;
+    	if(@$_SESSION['CURRUSER']['user_level'] == 552071 || @$_SESSION['CURRUSER']['user_level'] == 552081) return true;
+    	else return false;
+    }
+    
+    static public function isSuperAdmin(){
+    	if(@$_SESSION['CURRUSER']['user_level'] == 552081) return true;
     	else return false;
     }
     

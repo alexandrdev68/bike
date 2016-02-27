@@ -25,3 +25,4 @@
 		<![endif]-->
 </head>
 <body class="bg_all">
+<div id="test" class="some-control"></div>

@@ -354,7 +354,7 @@ var bike = {
 		},
 		numberFormat : function(number){
 			number = number.toString();
-			if(!/(^[-0-9]{1,}[\.\,]{0,1}[0-9]{0,}$)/.test(number)) return false;
+			if(!/(^[0-9]{1,}[\.\,]{0,1}[0-9]{0,}$)/.test(number)) return false;
 			number = number.split(',').join('.');
 			var arNum = number.split('.');
 			var numLen = arNum[0].length;
@@ -399,92 +399,6 @@ var bike = {
 		        	
 		        }
 			});
-		},
-		toType : function(type, value){
-			switch(type){
-			case 'string' :
-				return String(value);
-				break;
-			case 'integer' :
-				return parseInt(value);
-				break;
-			case 'float' :
-				return parseFloat(value);
-				break;
-			default:
-				return value;
-			}
-		},
-		sortArray : function(prod, direct){
-			    akk = [];//массив для хранения промежуточных значений
-			    for(var c = 0; c < prod.length; c++){
-			        akk[0] = bike.toType('integer', prod[c]['amount_source']);
-			        //console.log(akk[0]);
-			        findtiny = false;//триггер нахождения самого маленького числа в массиве (true, если найдено, по умолчанию - false)
-			        for(var i = c; i < prod.length; i++){
-			            akk[2] = bike.toType('integer', prod[i]['amount_source']);
-			            if(direct){ //если по возрастанию то...
-			                if(akk[2] < akk[0]){
-			                    findtiny = true;
-			                    akk[0] = akk[2];
-			                    akk[1] = i;
-			                };
-			            }else{ //по убыванию...
-			                if(akk[2] > akk[0]){
-			                    findtiny = true;
-			                    akk[0] = akk[2];
-			                    akk[1] = i;
-			                };
-			            }
-			        };
-			        if(findtiny){
-			            a1 = akk[1];
-			            akk[3] = prod[c];
-			            prod[c] = prod[a1];
-			            prod[a1] = akk[3];
-			        }
-			    };
-			    return prod;
-			
-		},
-		buildNavChain : function(params){
-			params = params || {};
-			params.target = params.target || 'body';
-			params.chain = params.chain || {1 : 'curr', 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:'>', current:1};
-			params.onPageChange = params.onPageChange || function(page){
-				
-			};
-			$(params.target + ' ul li').detach();
-			var elChain = '';
-			var elAppend = $(params.target + ' ul');
-			for(var num in params.chain){
-				switch(params.chain[num]){
-					case 'curr':
-						elChain = '<li class="active"><a data-page="' + params.chain['current'] + '" href="#">' + params.chain['current'] + '</a></li>';
-						break;
-					case '<':
-						elChain = '<li class="disabled"><a data-page="' + (params.chain['current'] - 1) + '" href="#"> \< </a></li>';
-						break;
-					case '>':
-						elChain = '<li class="disabled"><a data-page="' + (params.chain['current'] + 1) + '" href="#"> \> </a></li>';
-						break;
-					default :
-						elChain = '<li class="disabled"><a data-page="' + (params.chain[num]) + '" href="#">' + params.chain[num] + '</a></li>';
-						break;
-				}
-				if(num != 'current') elAppend.append(elChain);
-			}
-			$(params.target + ' ul li a').on('click', function(event){
-				event.preventDefault();
-				var clickedPage = $(this).data('page');
-				if(params.chain.current == clickedPage) return false;
-				params.onPageChange(clickedPage);
-			});
-		},
-		actions_fill : function(offset){
-			actions_report.send({
-				data : {action : 'get_actions_list', from_user_offset : 0}
-			});
 		}
 };
 
@@ -498,7 +412,6 @@ var user = {
 		currentCoordinates : 0,
 		keypressedInterval : 400,
 		keyIntevalId : null,
-		addUserConfirm : false,
 		getUsersList : function (from){
 			from = from || {
 					from_user_id : 0,
@@ -527,34 +440,6 @@ var user = {
 				        	
 				        }
 				});
-		},
-		cookie : {
-				set : function(name, value, mins) {
-			        if (mins) {
-			            var date = new Date();
-			            date.setTime(date.getTime() + (mins * 60 * 1000));
-			            var expires = "; expires=" + date.toGMTString();
-			        }
-			        else var expires = "";
-			        document.cookie = name + "=" + value + expires + "; path=/";
-			    },
-			    get : function(c_name) {
-			        if (document.cookie.length > 0) {
-			            c_start = document.cookie.indexOf(c_name + "=");
-			            if (c_start != -1) {
-			                c_start = c_start + c_name.length + 1;
-			                c_end = document.cookie.indexOf(";", c_start);
-			                if (c_end == -1) {
-			                    c_end = document.cookie.length;
-			                }
-			                return unescape(document.cookie.substring(c_start, c_end));
-			            }
-			        }
-			        return "";
-			    },
-			    del : function(name){
-			    	user.cookie.set(name, '', -1);
-			    }
 		},
 		findLoader : function(oper){
 			var loader = $('div._findLoader');
@@ -660,10 +545,6 @@ var user = {
 		                $('div._userLive span').text(response['info'].properties === null ? '---' : response['info'].properties.live_place === undefined ? '---' : response['info'].properties.live_place);
 		                $('div._userRentBikeInfo span').text(response['info'].bike_id === null ? '---' : response['info'].model + ' Ser.No:' + response['info'].serial_id + ' No:' + response['info'].bike_id);
 		                $('div._userRentBikeTime').data('now', response['info'].now * 1000).data('time_start', response['info'].bike_id === null ? 'no' : response['info'].time_start * 1000);
-		                if(!!response.info.action_klient && response.info.action_klient !== null) $('div._useractionInfo').removeClass('hidden');
-		                else{
-		                	if(!$('div._useractionInfo').hasClass('hidden')) $('div._useractionInfo').addClass('hidden');
-		                }
 		                if(response['info'].properties !== null && response['info'].properties.blackList == 'on') $('div._userBlack').show();
 		                else $('div._userBlack').hide();
 		                $('div._userInfoWin').modal('show');
@@ -752,16 +633,16 @@ function tableFromData(params){
         if(me.counter) me.table += '<th>№</th>';
         for(var v in me.head){
             me.table += '<th>' + me.head[v] + '</th>';
-        };
-        me.table += '</tr>';
+        }
+        me.table += '</tr>'
     };
-};
+}
 
 function serverRequest(params){
 	params = params || {};
     this.type = params.type || 'POST';
     this.events = params.events || 'on';
-    this.url = params.url || window.location.href;
+    this.url = params.url || '';
     this.query = params.query || '';
     this.data = params.data || '';
     if(params.traditional !== undefined) this.traditional = params.traditional;
@@ -777,12 +658,14 @@ function serverRequest(params){
     if(params.success !== undefined) this.success = params.success;
     else{
     	this.success = function(response){
-    		if(response.status == 'ok'){
-               
-            }else if(response.status == 'session_close'){
-            	bike.sessionStopped();
-            }else{
+	    	if(response.status == 'ok'){
+                //good response handler
+	    		
+            }else if(response.status !== undefined && response.status == 'bad'){
+                //bad response handler
             	
+            }else{
+                //unknown response handler
             }
 	    };
     }
@@ -791,7 +674,6 @@ function serverRequest(params){
     else{
     	this.error = function(response){
 	    	//ajax error handler
-    		
 	    	console.log('Error on server, try again later');
 	    };
     }
@@ -819,7 +701,11 @@ function serverRequest(params){
             	self.success(response);
             },
             error: function(response){
-            	self.error(response);
+            	if(typeof response.responseText == 'string'){
+            		self.error({error : response.responseText, response : response});
+            	}else{
+            		self.error({error : jQuery.parseJSON(response.responseText), response :response});
+            	}
             }
         };
         
@@ -829,64 +715,3 @@ function serverRequest(params){
     };
 
 };
-
-function VTemplate(params){
-	params = params || {};
-	
-	if(!!params.tmpName)
-		this.tmpName = params.tmpName;
-	else
-		return false;
-	
-	if(!!params.functions)
-		this.functions = params.functions;
-	
-	VTemplate.prototype.addTextNode = function(element, text){
-		var textNode = document.createTextNode(text);
-		element.appendChild(textNode);
-	};
-	
-	this.workElement = {};
-	
-	VTemplate.prototype.render = function(data){
-		var self = this;
-		var tempElements = document.querySelectorAll('[data-vtemplate_' + self.tmpName + ']');
-		var tmpSplit = [];
-		var dataValue = '';
-		var index = 'vtemplate_' + self.tmpName;
-		var target = '';
-		var targetVariable = '';
-		//console.log(tempElements);
-		for(var num = 0; num < tempElements.length; num++){
-			
-			dataValue = tempElements[num].dataset[index];
-			tmpSplit = dataValue.split('=', 2);
-			target = tmpSplit[0];
-			targetVariable = tmpSplit[1];
-			
-			if(target != 'function'){
-				if(!!!data[targetVariable])
-					continue;
-			}
-			
-			switch(target){
-				case 'text':
-					self.addTextNode(tempElements[num], data[targetVariable]);
-					break;
-				case 'value':
-					tempElements[num].value = data[targetVariable];
-					break;
-				case 'src':
-					tempElements[num].setAttribute('src', data[targetVariable]);
-					break;
-				case 'function':
-					var fSplit = targetVariable.split(':', 2);
-					if(!!!data[fSplit[1]])
-						continue;
-					self.workElement = tempElements[num];
-					self.functions[fSplit[0]](data[fSplit[1]]);
-					break;
-			}
-		}
-	};
-}

@@ -178,18 +178,6 @@ function main_init(){
 		bike.logout();
 	});
 
-	var preg = new RegExp("(\<link)|(\</script\>)|(\</iframe\>)|(\</form\>)|(\</object\>)");
-	
-	 $(document).on('DOMNodeInserted', function(event){
-		var insertedString = event.target.outerHTML;
-		//console.log(insertedString + ' = ' + preg.test(insertedString));
-		if(preg.test(insertedString) === true){
-			$(event.target).remove();
-		}
-	});
-
-	//$('body').prepend("\<script\>\</script\>");
-
 	tabs_responsitive();
 	
 	$(window).resize(function(){

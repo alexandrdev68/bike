@@ -125,7 +125,7 @@ class Graph {
 	 * Пример: Graph::upload_photo('upload/photo/', 1024);
 	 * 
 	 */
-	static public function upload_photo($uploadDir = '../upload/', $filename, $maxsize = 2146304){
+	static public function upload_photo($uploadDir = '../upload/', $filename, $maxsize = 10240000){
 		//print_r(@$_FILES); die();
 		if(@$_FILES['foto']['size'] > $maxsize){
 			return array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['upload_photo_to_big']);

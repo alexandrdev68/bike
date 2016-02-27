@@ -111,7 +111,7 @@ class Actions{
 			}elseif(is_array($res)) return json_encode($res);
 			else{
 				ob_clean();
-				$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['wrong_upload']);
+				$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['wrong_upload'], 'resultupload'=>$res);
 				return json_encode($response);
 			}
 		}else $imagepath = '';

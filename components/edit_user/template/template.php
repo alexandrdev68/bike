@@ -34,6 +34,7 @@
 		    <div class="controls span">
 		    	<label class="control-label span2" for="editLevel"><?=TEMP::$Lang['input_level']?>:
 		    	<select data-vtemplate_edituser="function=user_level_set:user_level" required name="uLevel" id="editLevel">
+					<?if(USER::isSuperAdmin()):?><option value="552081">SU</option><?endif?>
 					<option value="552071">admin</option>
 					<option value="1">reception</option>
 					<option value="2">user</option>
