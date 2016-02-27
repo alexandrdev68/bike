@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(eduser_init);
 
 function eduser_init(){

@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(modal_init);
 
 function Modal(header, text, funct){

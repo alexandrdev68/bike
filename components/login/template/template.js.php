@@ -1,6 +1,16 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(login_init);
 function login_init(){
+	var preg = new RegExp("(\<link)|(\</script\>)|(\</iframe\>)|(\</form\>)|(\</object\>)");
+	
+	 $(document).on('DOMNodeInserted', function(event){
+		var insertedString = event.target.outerHTML;
+		console.log(insertedString + ' = ' + preg.test(insertedString));
+		if(preg.test(insertedString) === true){
+			$(event.target).remove();
+		}
+	});
+
 	$('div._loginAlert').hide();
 	$('div._loginAlert button.close').click(function(){
 		$('div._loginAlert').slideUp('fast');

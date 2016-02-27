@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(payrent_init);
 
 function pay_rent_handler(self){

@@ -1,4 +1,4 @@
-<script>
+<script data-bike="<?=IDENTJS?>">
 $(document).ready(register_init);
 
 function register_init(){
