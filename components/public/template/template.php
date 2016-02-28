@@ -40,11 +40,22 @@
 			<?	$npos = strpos($bike['foto'],'.');
 	        	$resizedFotopath = substr($bike['foto'], 0, $npos).'_resized_640.jpg';
 			?>
+				<div class="container-fluid bottomMargin10">
 				<a class="bike_foto_magnific" href="upload/bikes/<?=$resizedFotopath?>">
-				<img data-src="holder.js/300x200" class="col-md-10 col-md-offset-1 mfp-with-zoom" alt="no foto" src="upload/bikes/<?=$bike['foto']?>"></a>
-				<h4 class="text-center"><?=$bike['model']?></h4>
+				<img data-src="holder.js/300x200" class="col-md-14 col-md-offset-1 mfp-with-zoom" alt="no foto" src="upload/bikes/<?=$bike['foto']?>"></a>
+				</div>
+				<div class="visible-lg-block visible-sm-block visible-xs-block">
+				<button type="button" class="btn btn-sm btn-success col-md-offset-2 col-lg-offset-3 col-xs-offset-5 bottomMargin10"><?=TEMP::$Lang['book_bike_txt']?></button>
+				<h4 class="text-center text-info bottomMargin10"><?=$bike['model']?></h4>
 				<p><strong><?=TEMP::$Lang['bike_number']?>:</strong> <?=$bike['id']?></p>
 				<p><strong><?=TEMP::$Lang['store_adress']?>:</strong><br> <?=$bike['adress']?></p>
+				</div>
+				<div class="visible-md-block">
+				<button type="button" class="btn btn-xs btn-success col-md-offset-2 col-lg-offset-3 col-xs-offset-5 bottomMargin10"><?=TEMP::$Lang['book_bike_txt']?></button>
+				<h5 class="text-center text-info bottomMargin10"><?=$bike['model']?></h5>
+				<p><small><strong><?=TEMP::$Lang['bike_number']?>:</strong> <?=$bike['id']?></small></p>
+				<p><small><strong><?=TEMP::$Lang['store_adress']?>:</strong><br> <?=$bike['adress']?></small></p>
+				</div>
 			</div>
 		</li>
 		<?endforeach?>
