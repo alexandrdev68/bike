@@ -21,7 +21,7 @@
 			<li class="dropdown _storeReportSelect">
 				<a class="dropdown-toggle" data-toggle="dropdown" data-store_id="no" href="#"><span class="_storeReportText"><?=$store_title?></span> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="/public?place=in_store" data-value="<?=$value['id']?>">Всі пункти</a></li>
+						<li><a href="/public?place=in_store" data-value="<?=$value['id']?>"><?=TEMP::$Lang['all_stores_txt']?></a></li>
 						<?foreach($_SESSION['STORES'] as $value):?><li><a href="/public?place=in_store&store_id=<?=$value['id']?>" data-value="<?=$value['id']?>"><?=$value['adress']?></a></li><?endforeach?>
 					</ul>
 			</li>
@@ -41,10 +41,10 @@
 	        	$resizedFotopath = substr($bike['foto'], 0, $npos).'_resized_640.jpg';
 			?>
 				<a class="bike_foto_magnific" href="upload/bikes/<?=$resizedFotopath?>">
-				<img data-src="holder.js/300x200" class="col-md-10 col-md-offset-1" alt="no foto" src="upload/bikes/<?=$bike['foto']?>"></a>
+				<img data-src="holder.js/300x200" class="col-md-10 col-md-offset-1 mfp-with-zoom" alt="no foto" src="upload/bikes/<?=$bike['foto']?>"></a>
 				<h4 class="text-center"><?=$bike['model']?></h4>
 				<p><strong><?=TEMP::$Lang['bike_number']?>:</strong> <?=$bike['id']?></p>
-				<p><strong><?=TEMP::$Lang['store_adress']?>:</strong> <?=$bike['adress']?></p>
+				<p><strong><?=TEMP::$Lang['store_adress']?>:</strong><br> <?=$bike['adress']?></p>
 			</div>
 		</li>
 		<?endforeach?>
