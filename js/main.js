@@ -846,11 +846,34 @@ function VTemplate(params){
 		element.appendChild(textNode);
 	};
 	
+	VTemplate.prototype.textNode = function(element, text){
+		if(element.childNodes.length > 0){
+			for(var i = 0; i < element.childNodes.length; i++)
+				element.removeChild(element.childNodes[i]);
+		}
+		element.appendChild(document.createTextNode(text));
+	};
+	
 	this.workElement = {};
 	
-	VTemplate.prototype.render = function(data){
+	this.afterRender = params.afterRender || function(tempElements){
+		
+	};
+	
+	VTemplate.prototype.render = function(data, element){
+		element = element || null;
 		var self = this;
-		var tempElements = document.querySelectorAll('[data-vtemplate_' + self.tmpName + ']');
+		if(!!!data){
+			console.log('data is not defined in template render function. template name: ' + self.tmpName);
+			return false;
+		}
+		if(element !== null){
+			if(element.length === undefined)
+				element = [element];
+			var tempElements = element;
+		}else{
+			var tempElements = document.querySelectorAll('[data-vtemplate_' + self.tmpName + ']');
+		}
 		var tmpSplit = [];
 		var dataValue = '';
 		var index = 'vtemplate_' + self.tmpName;
@@ -863,30 +886,60 @@ function VTemplate(params){
 			tmpSplit = dataValue.split('=', 2);
 			target = tmpSplit[0];
 			targetVariable = tmpSplit[1];
-			
 			if(target != 'function'){
-				if(!!!data[targetVariable])
+				targetVariable = 'data.' + targetVariable;
+				if(!!!eval(targetVariable))
 					continue;
+				targetVariable = eval(targetVariable);
 			}
 			
 			switch(target){
 				case 'text':
-					self.addTextNode(tempElements[num], data[targetVariable]);
+					self.textNode(tempElements[num], targetVariable);
 					break;
 				case 'value':
-					tempElements[num].value = data[targetVariable];
+					tempElements[num].value = targetVariable;
 					break;
 				case 'src':
-					tempElements[num].setAttribute('src', data[targetVariable]);
+					tempElements[num].setAttribute('src', targetVariable);
 					break;
 				case 'function':
 					var fSplit = targetVariable.split(':', 2);
-					if(!!!data[fSplit[1]])
+					if(fSplit[1] == '*'){
+						fSplit[1] = 'data';
+					}else{
+						fSplit[1] = 'data.' + fSplit[1];
+					}
+					if(!!!eval(fSplit[1]))
 						continue;
+					fSplit[1] = eval(fSplit[1]);
+					if(typeof(self.functions[fSplit[0]]) != 'function'){
+						console.log('function: "' + fSplit[0] + '" not set in ' + tempElements[num].outerHTML);
+						continue;
+					}
 					self.workElement = tempElements[num];
-					self.functions[fSplit[0]](data[fSplit[1]]);
+					self.functions[fSplit[0]](fSplit[1]);
 					break;
+				case 'bind':
+					if (document.addEventListener) {
+						var addEvent = function(elem, type, handler) {
+							elem.addEventListener(type, handler, false)
+						}
+						var removeEvent = function(elem, type, handler) {
+							elem.removeEventListener(type, handler, false)
+						}
+					}else{
+						var addEvent = function(elem, type, handler) {
+							elem.attachEvent("on" + type, handler)
+						}
+						var removeEvent = function(elem, type, handler) {
+							elem.detachEvent("on" + type, handler)
+						}
+					}
+					addEvent(tempElements[num], 
 			}
 		}
+		self.afterRender(tempElements);
 	};
+}
 }
