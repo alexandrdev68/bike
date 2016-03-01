@@ -11,7 +11,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="<?=TEMP::$curr_temp_path?>/bootstrap/css/bootstrap-responsive.css" data-bike="<?=IDENTJS?>" rel="stylesheet">
 	<script data-bike="<?=IDENTJS?>" src="<?=TEMP::$js_dir?>/jquery-1.9.1.min.js"></script>
-	<script data-bike="<?=IDENTJS?>" src="<?=TEMP::$js_dir?>/main.js?ver=<?=VERSION?>"></script>
+	<script data-bike="<?=IDENTJS?>" src="js/main.js?ver=<?=VERSION?>"></script>
 	<meta name="bike" content="application for bike manage">
 	<!--[if lt IE 9]>
 		   <script>
