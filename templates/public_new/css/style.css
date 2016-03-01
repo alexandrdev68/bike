@@ -105,8 +105,36 @@ div.topMargin10{
 	margin-top:10px;
 }
 
+.topMargin40{
+	margin-top:40px;
+}
+
+.topMargin30{
+	margin-top:30px;
+}
+
+.topMargin50{
+	margin-top:50px;
+}
+
+.topMargin60{
+	margin-top:60px;
+}
+
 .bottomMargin10{
 	margin-bottom:10px;
+}
+
+.minHeight50{
+	min-height:50pt;
+}
+
+.minHeight60{
+	min-height:60pt;
+}
+
+.minHeight70{
+	min-height:70pt;
 }
 
 .mfp-fade.mfp-bg {
@@ -140,4 +168,8 @@ div.topMargin10{
 /* content animate out */
 .mfp-fade.mfp-wrap.mfp-removing .mfp-content {
   opacity: 0;
+}
+
+.bikes_list_public{
+	min-height:250pt;
 }
