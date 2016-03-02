@@ -15,6 +15,19 @@ function get_max_height(elements){
 	return max;
 }
 
+var public_page_template = new VTemplate({
+	tmpName : 'public_page'
+});
+
+public_page_template.eventFunctions = {
+		order_button_handler : function(event){
+			if(event.target.nodeName == 'BUTTON'){
+				
+			}
+			console.log(event.target.nodeName);
+		}
+}
+
 function public_init(){
 
 	$('.bike_foto_magnific').magnificPopup({

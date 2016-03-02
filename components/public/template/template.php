@@ -31,7 +31,7 @@
 </nav>
 <div class="row">
   <div class="col-md-12 col-md-offset-1">
-	<ul class="thumbnails">
+	<ul  data-vtemplate_public_page="event=click:order_button_handler" class="thumbnails">
 		<?foreach($arBikes as $num=>$bike):?>
 		<?$thisIsLast = (fmod($num, 5) == 0);?>
 		<?if($thisIsLast):?><div class="underline"></div><?endif?>
@@ -62,3 +62,4 @@
 	</ul>
   </div>
 </div>
+<?TEMP::component('order_payment', array())?>
