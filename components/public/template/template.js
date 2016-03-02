@@ -1,4 +1,3 @@
-<script data-bike="<?=IDENTJS?>">
 $(document).ready(public_init);
 
 function get_max_height(elements){
@@ -52,4 +51,3 @@ function public_init(){
 	});
 			
 }
-</script>
