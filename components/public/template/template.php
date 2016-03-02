@@ -62,4 +62,4 @@
 	</ul>
   </div>
 </div>
-<?TEMP::component('order_payment', array())?>
+<?TEMP::component('public/order_payment', array())?>
