@@ -144,7 +144,9 @@ TEMP::$Lang = array(
 	'user_from_another_city'=>'Цей користувач з іншого міста, необхідно внести залог',
 	'store_start_text'=>'Взято в пункті',
 	'store_end_text'=>'Здано в пункті',
-	'current_store_text'=>'На даний момент в пункті'
+	'current_store_text'=>'На даний момент в пункті',
+	'all_stores_txt'=>"Всі пункти",
+	'book_bike_txt'=>'Замовити'
 );
 
 TEMP::$Lang['SYSTEM'] = array(

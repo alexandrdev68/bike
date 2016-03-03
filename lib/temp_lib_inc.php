@@ -37,7 +37,10 @@
     static public function component($name, $arPar, $template = true){
             include($_SERVER['DOCUMENT_ROOT'].'/components/'.$name.'/component.php');
             if($template){
-            	if(file_exists($_SERVER['DOCUMENT_ROOT'].'/components/'.$name.'/template/template.js.php')) include($_SERVER['DOCUMENT_ROOT'].'/components/'.$name.'/template/template.js.php');
+            	if(file_exists($_SERVER['DOCUMENT_ROOT'].'/components/'.$name.'/template/template.js.php'))
+            		include($_SERVER['DOCUMENT_ROOT'].'/components/'.$name.'/template/template.js.php');
+            	elseif(file_exists($_SERVER['DOCUMENT_ROOT'].'/components/'.$name.'/template/template.js'))
+            			echo '<script data-bike="'.IDENTJS.'" src="components/'.$name.'/template/template.js?ver='.VERSION.'"></script>';
             	include($_SERVER['DOCUMENT_ROOT'].'/components/'.$name.'/template/template.php');
             }     
     }

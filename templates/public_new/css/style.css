@@ -104,3 +104,72 @@ div.topMargin20{
 div.topMargin10{
 	margin-top:10px;
 }
+
+.topMargin40{
+	margin-top:40px;
+}
+
+.topMargin30{
+	margin-top:30px;
+}
+
+.topMargin50{
+	margin-top:50px;
+}
+
+.topMargin60{
+	margin-top:60px;
+}
+
+.bottomMargin10{
+	margin-bottom:10px;
+}
+
+.minHeight50{
+	min-height:50pt;
+}
+
+.minHeight60{
+	min-height:60pt;
+}
+
+.minHeight70{
+	min-height:70pt;
+}
+
+.mfp-fade.mfp-bg {
+  opacity: 0;
+
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+}
+/* overlay animate in */
+.mfp-fade.mfp-bg.mfp-ready {
+  opacity: 0.8;
+}
+/* overlay animate out */
+.mfp-fade.mfp-bg.mfp-removing {
+  opacity: 0;
+}
+
+/* content at start */
+.mfp-fade.mfp-wrap .mfp-content {
+  opacity: 0;
+
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+}
+/* content animate it */
+.mfp-fade.mfp-wrap.mfp-ready .mfp-content {
+  opacity: 1;
+}
+/* content animate out */
+.mfp-fade.mfp-wrap.mfp-removing .mfp-content {
+  opacity: 0;
+}
+
+.bikes_list_public{
+	min-height:250pt;
+}
