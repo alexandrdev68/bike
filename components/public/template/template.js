@@ -20,10 +20,11 @@ var public_page_template = new VTemplate({
 
 public_page_template.eventFunctions = {
 		order_button_handler : function(event){
+			console.log(event);
 			if(event.target.nodeName == 'BUTTON'){
-				
+				payment_window_vtemplate.render();
+				$('div._payment_window').modal('show');
 			}
-			console.log(event.target.nodeName);
 		}
 }
 

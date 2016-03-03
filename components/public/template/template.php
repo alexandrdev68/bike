@@ -45,13 +45,13 @@
 				<img data-src="holder.js/300x200" class="col-md-14 col-md-offset-1 mfp-with-zoom" alt="no foto" src="upload/bikes/<?=$bike['foto']?>"></a>
 				</div>
 				<div class="visible-lg-block visible-sm-block visible-xs-block">
-				<button data-value="<?=$bike['id']?>" type="button" class="btn btn-sm btn-success col-md-offset-2 col-lg-offset-3 col-xs-offset-5 bottomMargin10 topMargin30"><?=TEMP::$Lang['book_bike_txt']?></button>
+				<button data-value="<?=$bike['id']?>" data-img_src="<?=$resizedFotopath?>" type="button" class="btn btn-sm btn-success col-md-offset-2 col-lg-offset-3 col-xs-offset-5 bottomMargin10 topMargin30"><?=TEMP::$Lang['book_bike_txt']?></button>
 				<h4 class="text-center text-info bottomMargin10"><?=$bike['model']?></h4>
 				<p><strong><?=TEMP::$Lang['bike_number']?>:</strong> <?=$bike['id']?></p>
 				<p><strong><?=TEMP::$Lang['store_adress']?>:</strong><br> <?=$bike['adress']?></p>
 				</div>
 				<div class="visible-md-block">
-				<button type="button" data-value="<?=$bike['id']?>" class="btn btn-xs btn-success col-md-offset-2 col-lg-offset-3 col-xs-offset-5 bottomMargin10"><?=TEMP::$Lang['book_bike_txt']?></button>
+				<button type="button" data-value="<?=$bike['id']?>" data-img_src="<?=$resizedFotopath?>" class="btn btn-xs btn-success col-md-offset-2 col-lg-offset-3 col-xs-offset-5 bottomMargin10"><?=TEMP::$Lang['book_bike_txt']?></button>
 				<h5 class="text-center text-info bottomMargin10"><?=$bike['model']?></h5>
 				<p><small><strong><?=TEMP::$Lang['bike_number']?>:</strong> <?=$bike['id']?></small></p>
 				<p><small><strong><?=TEMP::$Lang['store_adress']?>:</strong><br> <?=$bike['adress']?></small></p>
