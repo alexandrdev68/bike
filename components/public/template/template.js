@@ -20,9 +20,10 @@ var public_page_template = new VTemplate({
 
 public_page_template.eventFunctions = {
 		order_button_handler : function(event){
-			console.log(event);
 			if(event.target.nodeName == 'BUTTON'){
-				payment_window_vtemplate.render();
+				payment_window_vtemplate.render({
+					bike_number : event.target.dataset.value
+				});
 				$('div._payment_window').modal('show');
 			}
 		}

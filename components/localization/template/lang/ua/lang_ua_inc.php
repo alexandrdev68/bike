@@ -146,7 +146,9 @@ TEMP::$Lang = array(
 	'store_end_text'=>'Здано в пункті',
 	'current_store_text'=>'На даний момент в пункті',
 	'all_stores_txt'=>"Всі пункти",
-	'book_bike_txt'=>'Замовити'
+	'book_bike_txt'=>'Замовити',
+	'pay_booking_text'=>'Оплатити',
+	'payment_window_header_text'=>'Оплата оренди велосипеда'
 );
 
 TEMP::$Lang['SYSTEM'] = array(
