@@ -11,7 +11,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><?=TEMP::$Lang['exit_btn']?></button>
-        <button data-vtemplate_payment_window="value=bike_number" data-vtemplate_payment_window="event=click:payment_okhandler" type="button" class="btn btn-danger"><?=TEMP::$Lang['pay_booking_text']?></button>
+        <button data-vtemplate_payment_window="value=bike_number,event=click:payment_okhandler" type="button" class="btn btn-danger"><?=TEMP::$Lang['pay_booking_text']?></button>
       </div>
     </div><!-- /.modal-content -->
  

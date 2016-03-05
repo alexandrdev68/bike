@@ -24,6 +24,7 @@ public_page_template.eventFunctions = {
 				payment_window_vtemplate.render({
 					bike_number : event.target.dataset.value
 				});
+				console.log('show modal')
 				$('div._payment_window').modal('show');
 			}
 		}
