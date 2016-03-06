@@ -27,3 +27,5 @@ ADD COLUMN `sms_status` INT NULL AFTER `sms_time`;
 
 ALTER TABLE `bike`.`sms_log` 
 CHANGE COLUMN `sms_status` `sms_status` INT(11) NULL DEFAULT NULL COMMENT '1 - успешно отправлено, нет подтверждения доставки\n0 - доставка подтверждена\n401 - ошибка при отправке' ;
+
+ALTER TABLE `bike`.`rent` ADD COLUMN `store_start` INT NULL  AFTER `time_end` , ADD COLUMN `store_finish` INT NULL  AFTER `store_start`;
