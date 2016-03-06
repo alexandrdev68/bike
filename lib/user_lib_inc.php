@@ -338,6 +338,10 @@
     	else return false;
     }
     
+    static public function isAuthorize(){
+    	if(@$_SESSION['CURRUSER']){}
+    }
+    
     
     //функция генерации пароля возвращает 4 варианта пароля в индексном массиве
 	static public function passwGen($count){

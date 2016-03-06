@@ -904,19 +904,23 @@ function VTemplate(params){
 		var targetVariable = '';
 		for(var num = 0; num < tempElements.length; num++){
 			dataValue = tempElements[num].dataset[index];
-			tmpSplit = dataValue.split('=', 2);
-			target = tmpSplit[0];
-			targetVariable = tmpSplit[1];
-			switch(target){
-				case 'event'://event=click:order_click
-					var fSplit = targetVariable.split(':', 2);
-					if(typeof(self.eventFunctions[fSplit[1]]) != 'function'){
-						console.log('function: "' + fSplit[1] + '" not set in ' + tempElements[num].outerHTML);
-						continue;
-					}
-					self.addEvent(tempElements[num], fSplit[0], self.eventFunctions[fSplit[1]]);
-					break;
+			operationSplit = dataValue.split(',');
+			for(var op = 0; op < operationSplit.length; op++){
+				tmpSplit = operationSplit[op].split('=', 2);
+				target = tmpSplit[0];
+				targetVariable = tmpSplit[1];
+				switch(target){
+					case 'event'://event=click:order_click
+						var fSplit = targetVariable.split(':', 2);
+						if(typeof(self.eventFunctions[fSplit[1]]) != 'function'){
+							console.log('function: "' + fSplit[1] + '" not set in ' + tempElements[num].outerHTML);
+							continue;
+						}
+						self.addEvent(tempElements[num], fSplit[0], self.eventFunctions[fSplit[1]]);
+						break;
+				}
 			}
+			
 		}
 		self.afterRender(tempElements);
 	}
@@ -946,46 +950,49 @@ function VTemplate(params){
 		for(var num = 0; num < tempElements.length; num++){
 			
 			dataValue = tempElements[num].dataset[index];
-			tmpSplit = dataValue.split('=', 2);
-			target = tmpSplit[0];
-			targetVariable = tmpSplit[1];
-			if(target != 'function'){
-				targetVariable = 'data.' + targetVariable;
-				if(!!!eval(targetVariable))
-					continue;
-				targetVariable = eval(targetVariable);
+			operationSplit = dataValue.split(',');
+			for(var op = 0; op < operationSplit.length; op++){
+				tmpSplit = operationSplit[op].split('=', 2);
+				target = tmpSplit[0];
+				targetVariable = tmpSplit[1];
+				if(target != 'function' && target != 'event'){
+					targetVariable = 'data.' + targetVariable;
+					if(!!!eval(targetVariable))
+						continue;
+					targetVariable = eval(targetVariable);
+				}
+				
+				switch(target){
+					case 'text':
+						self.textNode(tempElements[num], targetVariable);
+						break;
+					case 'value':
+						tempElements[num].value = targetVariable;
+						break;
+					case 'src':
+						tempElements[num].setAttribute('src', targetVariable);
+						break;
+					case 'function':
+						var fSplit = targetVariable.split(':', 2);
+						if(fSplit[1] == '*'){
+							fSplit[1] = 'data';
+						}else{
+							fSplit[1] = 'data.' + fSplit[1];
+						}
+						if(!!!eval(fSplit[1]))
+							continue;
+						fSplit[1] = eval(fSplit[1]);
+						if(typeof(self.functions[fSplit[0]]) != 'function'){
+							console.log('function: "' + fSplit[0] + '" not set in ' + tempElements[num].outerHTML);
+							continue;
+						}
+						self.workElement = tempElements[num];
+						self.functions[fSplit[0]](fSplit[1]);
+						break;
+				}
 			}
-			
-			switch(target){
-				case 'text':
-					self.textNode(tempElements[num], targetVariable);
-					break;
-				case 'value':
-					tempElements[num].value = targetVariable;
-					break;
-				case 'src':
-					tempElements[num].setAttribute('src', targetVariable);
-					break;
-				case 'function':
-					var fSplit = targetVariable.split(':', 2);
-					if(fSplit[1] == '*'){
-						fSplit[1] = 'data';
-					}else{
-						fSplit[1] = 'data.' + fSplit[1];
-					}
-					if(!!!eval(fSplit[1]))
-						continue;
-					fSplit[1] = eval(fSplit[1]);
-					if(typeof(self.functions[fSplit[0]]) != 'function'){
-						console.log('function: "' + fSplit[0] + '" not set in ' + tempElements[num].outerHTML);
-						continue;
-					}
-					self.workElement = tempElements[num];
-					self.functions[fSplit[0]](fSplit[1]);
-					break;
-		}
-		self.afterRender(tempElements);
-	};
+			self.afterRender(tempElements);
+		};
 	}
 	this.init();
 }
