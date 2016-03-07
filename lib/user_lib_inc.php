@@ -342,6 +342,10 @@
     	if(@$_SESSION['CURRUSER']){}
     }
     
+    static public function isClient(){
+    	if(@$_SESSION['CURRUSER']['user_level'] == 4) return true;
+    	else return false;
+    }
     
     //функция генерации пароля возвращает 4 варианта пароля в индексном массиве
 	static public function passwGen($count){

@@ -434,6 +434,8 @@ class Actions{
 	}
 #---------------------------------------
 	function find_user_handler(){
+			if(USER::isClient())
+				return json_encode(array('status'=>'bad', 'message'=>'you havn\'t access'));
 			$db = new Dbase();
 			$_POST['key'] = Dbase::dataFilter(@$_POST['key']);
 			/*if(USER::isAdmin()){
@@ -491,7 +493,34 @@ class Actions{
 			$response = array('status'=>'ok', 'find'=>$arResult);
 			return json_encode($response);
 	}
+	
+#---------------------------------------	
+	function find_client_by_phone_handler(){
+		$db = new Dbase();
+		$_POST['phone'] = Dbase::dataFilter(@$_POST['phone']);
+		
+		$sql_where = 'WHERE (u.phone ='.@$_POST['phone'].') AND u.user_level = 4 LIMIT 1';
+		
+		$sql = 'SELECT `u`.`id`,
+					`u`.`name`,
+					`u`.`login`,
+					`u`.`patronymic`,
+					`u`.`surname`,
+					`u`.`properties`
+					 FROM `users` `u` '.$sql_where;
+		
+		$arResult = $db->getArray($sql);
+			
+		if($arResult === false) return array('status'=>'error', 'message'=>TEMP::$Lang['bad_response_find']);
+		foreach($arResult as $num=>$user){
+			$arResult[$num]['properties'] = json_decode($user['properties'], true);
+		}
+		$response = array('status'=>'ok', 'find'=>$arResult);
+		return json_encode($response);
+	}
+	
 #---------------------------------------
+
 	function add_klient_handler(){
 		$id_user = @$_POST['uPhone'];
 		$name_user = Dbase::dataFilter($_POST['uFirstname']);
@@ -927,6 +956,21 @@ class Actions{
 		}else $response = array('status'=>'error', 'message'=>USER::lastMessage());
 		return json_encode($response);
 	}
+	
+#---------------------------------------
+	
+	function get_bike_by_id_public_handler(){
+		$arRes = BIKE::getInfo(Dbase::dataFilter($_POST['bike_id']));
+		if(!empty($arRes['properties'])){
+			$arRes['properties'] = json_decode($arRes['properties'], true);
+		}
+		if($arRes !== false){
+			if($arRes['foto'] != '') $arRes['foto'] = 'upload/bikes/bike_'.$_POST['bike_id'].'_resized_640.jpg';
+			$response = array('status'=>'ok', 'bike_info'=>$arRes);
+		}else $response = array('status'=>'error', 'message'=>USER::lastMessage());
+		return json_encode($response);
+	}
+	
 #---------------------------------------
 	function day_report_handler(){
 		$store_id = Dbase::dataFilter($_POST['store_id']);

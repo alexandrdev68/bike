@@ -1,7 +1,13 @@
 <?php
+$arExclusions = array(
+		'login_action',
+		'find_action_user',
+		'get_bike_by_id_public',
+		'find_client_by_phone',
+);
 
 if(isset($_POST['action'])){
-	if(!isset($_SESSION['CURRUSER']) && @$_POST['action'] !== 'login_action' && @$_POST['action'] !== 'find_action_user'){
+	if(!isset($_SESSION['CURRUSER']) && !in_array(@$_POST['action'], $arExclusions)){
 		echo json_encode(array('status'=>'session_close'));
 		exit;
 	}

@@ -256,21 +256,36 @@ var bike = {
 		        }
 			});
 		},
-		getBikeById : function(id, funct){
+		getBikeById : function(id, funct, isPublic){
 			funct = funct || function(response){
 				
 			};
 			
+			if(isPublic === undefined)
+				isPublic = false;
+			
+			sendData = {
+					'action' : 'get_bike_by_id', 
+					'bike_id': id
+			}
+			
+			if(isPublic){
+				sendData.ispublic = true;
+				sendData.action = 'get_bike_by_id_public';
+			}
+				
+			
 			$.ajax({
 		        url: window.location,
 		        type:"POST",
-		        data: {'action' : 'get_bike_by_id', 'bike_id': id},
+		        data: sendData,
 		        dataType: 'json',
 		        success: function(response) {
 		        	if(response.status == 'ok'){
 		                funct(response);              
 		            }else if(response.status == 'session_close'){
-		            	bike.sessionStopped();
+		            	if(!isPublic)
+		            		bike.sessionStopped();
 		            }else{
 		            	bike.showMainAlert(response.message, 'error');
 		            }
@@ -956,10 +971,17 @@ function VTemplate(params){
 				target = tmpSplit[0];
 				targetVariable = tmpSplit[1];
 				if(target != 'function' && target != 'event'){
+					
 					targetVariable = 'data.' + targetVariable;
 					if(!!!eval(targetVariable))
 						continue;
-					targetVariable = eval(targetVariable);
+					try{
+						targetVariable = eval(targetVariable);
+					}catch(err){
+						console.log(err);
+						continue;
+					}
+					
 				}
 				
 				switch(target){
