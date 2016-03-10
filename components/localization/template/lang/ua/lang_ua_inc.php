@@ -151,6 +151,7 @@ TEMP::$Lang = array(
 	'payment_window_header_text'=>'Оплата оренди велосипеда',
 	'text_phone_template'=>'380XXXXXXXXX',
 	'confirm_my_data_txt'=>'Підтверджую, що це мої дані',
+	'next_txt'=>'Далі',
 );
 
 TEMP::$Lang['SYSTEM'] = array(

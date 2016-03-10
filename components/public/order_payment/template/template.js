@@ -11,6 +11,9 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 		if(response.find.length > 0){
 			var render = {user : response.find[0]};
 			payment_window_vtemplate.render(render);
+			$('button._submit_auth_button').show();
+		}else{
+			$('div._register_fields').show();
 		}
 		
 		

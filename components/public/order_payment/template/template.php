@@ -28,27 +28,25 @@
 			    <label for="InputPhone"><?=TEMP::$Lang['input_phone'].' ('.TEMP::$Lang['text_phone_template'].')'?></label>
 			    <input data-vtemplate_payment_window="event=keyup:on_keypress_phone_verife" type="text" name="phone" class="form-control" id="InputPhone" placeholder="<?=TEMP::$Lang['input_phone']?>">
 		    </div>
+		    <h4 data-vtemplate_payment_window="text=user.patronymic"></h4>
+		    <h4 data-vtemplate_payment_window="text=user.name"></h4>
+		    <h4 data-vtemplate_payment_window="text=user.surname"></h4>
 		  </div>
-		  <div class="form-group">
+		  <div class="form-group disabled _register_fields">
 		    <div class="col-xs-5">
 			    <label for="InputLastname"><?=TEMP::$Lang['input_lastName']?></label>
-			    <input type="text" name="lastname" data-vtemplate_payment_window="value=user.patronymic" class="form-control" id="InputLastname" placeholder="<?=TEMP::$Lang['input_lastName']?>">
+			    <input type="text" name="lastname" class="form-control" id="InputLastname" placeholder="<?=TEMP::$Lang['input_lastName']?>">
 		    </div>
 		    <div class="col-xs-5">
 			    <label for="InputFirsttname"><?=TEMP::$Lang['input_firstName']?></label>
-			    <input data-vtemplate_payment_window="value=user.name" type="text" name="firstname" class="form-control" id="InputFirstname" placeholder="<?=TEMP::$Lang['input_firstName']?>">
+			    <input type="text" name="firstname" class="form-control" id="InputFirstname" placeholder="<?=TEMP::$Lang['input_firstName']?>">
 		    </div>
 		    <div class="col-xs-5">
 			    <label for="InputSecondname"><?=TEMP::$Lang['input_patronymic']?></label>
-			    <input data-vtemplate_payment_window="value=user.surname" type="text" name="secondname" class="form-control" id="InputSecondname" placeholder="<?=TEMP::$Lang['input_patronymic']?>">
+			    <input type="text" name="secondname" class="form-control" id="InputSecondname" placeholder="<?=TEMP::$Lang['input_patronymic']?>">
 		    </div>
 		  </div>
-		<div class="checkbox">
-			<label>
-				<input disabled data-vtemplate_payment_window="event=change:on_user_data_confirm_check" name="data_confirm" class="_confirm_checkbox" type="checkbox"> <?=TEMP::$Lang['confirm_my_data_txt']?>
-			</label>
-		</div>
-		<button type="submit" class="hidden _submit_auth_button"></button>
+			<button type="submit" class="disabled _submit_auth_button"><?=TEMP::$Lang['next_txt']?></button>
 		</form>
 		</div>
       </div>
