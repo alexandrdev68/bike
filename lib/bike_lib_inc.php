@@ -51,6 +51,24 @@ class BIKE extends USER{
 		return count($arRes) > 0 ? $arRes[0] : false;
 	}
 	
+	static public function getStoresAdresses($store_id = null){
+		if(!isset($_SESSION['STORES'])){
+			$db = new Dbase();
+			$sql = "SELECT `id`, adress FROM `store`";
+			$arRes = $db->getArray($sql);
+			$_SESSION['STORES'] = $arRes;
+		}
+		if($store_id === null)
+			return $_SESSION['STORES'];
+		else{
+			foreach($_SESSION['STORES'] as $store){
+				if($store['id'] == $store_id)
+					return $store['adress'];
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 *  Стартует отчет времени проката велосипеда с переданным id для пользователя с переданным id
 	 *  также записывает в базу количество времени проката, переданное в часах

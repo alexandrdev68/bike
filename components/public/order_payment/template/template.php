@@ -14,8 +14,9 @@
 			      <img data-vtemplate_payment_window="src=foto" src="..." alt="...">
 			      <div class="caption">
 			        <h3 data-vtemplate_payment_window="text=model"></h3>
-			        <p>...</p>
-			        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+			        <p><b><?=TEMP::$Lang['bike_number']?></b>: <i data-vtemplate_payment_window="text=id"></i></p>
+			        <p><b><?=TEMP::$Lang['store_adress']?></b>: <i data-vtemplate_payment_window="text=store_address"></i></p>
+			        <p><b><?=TEMP::$Lang['serial_id']?></b>: <i data-vtemplate_payment_window="text=serial_id"></i></p>
 			      </div>
 			    </div>
 			  </div>
@@ -46,7 +47,7 @@
 			    <input type="text" name="secondname" class="form-control" id="InputSecondname" placeholder="<?=TEMP::$Lang['input_patronymic']?>">
 		    </div>
 		  </div>
-			<button type="submit" class="disabled _submit_auth_button"><?=TEMP::$Lang['next_txt']?></button>
+			<button type="submit" class="disabled _submit_auth_button btn btn-default"><?=TEMP::$Lang['next_txt']?> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
 		</form>
 		</div>
       </div>

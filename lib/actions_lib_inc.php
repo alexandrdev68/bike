@@ -966,6 +966,7 @@ class Actions{
 		}
 		if($arRes !== false){
 			if($arRes['foto'] != '') $arRes['foto'] = 'upload/bikes/bike_'.$_POST['bike_id'].'_resized_640.jpg';
+			$arRes['store_address'] = BIKE::getStoresAdresses($arRes['store_id']);
 			$response = array('status'=>'ok', 'bike_info'=>$arRes);
 		}else $response = array('status'=>'error', 'message'=>USER::lastMessage());
 		return json_encode($response);

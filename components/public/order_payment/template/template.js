@@ -38,10 +38,11 @@ payment_window_vtemplate.eventFunctions = {
 		},
 		on_client_auth_submit : function(event){
 			event.preventDefault();
+			clearInterval(payment_window_vtemplate.scan_res);
+			payment_window_vtemplate.scan_started = false;
 			console.log('some submit request');
 		},
 		on_keypress_phone_verife : function(event){
-			console.log(event.target.value);
 			if(event.target.value.length == 12){
 				payment_window_vtemplate.ajaxFindClient.data.phone = event.target.value;
 				payment_window_vtemplate.ajaxFindClient.send();
@@ -55,18 +56,28 @@ payment_window_vtemplate.functions = {
 				return false;
 			}
 			payment_window_vtemplate.scan_started = true;
+			payment_window_vtemplate.button_visible = false;
 			payment_window_vtemplate.scan_res = setInterval(function(){
 				var input_elements = document.querySelectorAll('form._client_auth_form input[type="text"]');
-				var confirm = 0;
+				var confirm = false;
 				for(var i = 0; i < input_elements.length; i++){
 					var val = input_elements[i].value;
-					if(val.length > 1)
-						confirm++;
+					if(val.length > 1){
+						confirm = true;
+					}else{
+						confirm = false;
+						break;
+					}
+						
 				}
-				if(confirm ===4){
-					clearInterval(payment_window_vtemplate.scan_res);
-					payment_window_vtemplate.scan_started = false;
-					$('input._confirm_checkbox').prop('disabled', false);
+				if(confirm){
+					$('button._submit_auth_button').removeClass('disabled');
+					payment_window_vtemplate.button_visible = true;
+				}else{
+					if(payment_window_vtemplate.button_visible){
+						$('button._submit_auth_button').addClass('disabled');
+						payment_window_vtemplate.button_visible = false;
+					}
 				}
 			}, 1000);
 		}
