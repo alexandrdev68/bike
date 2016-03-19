@@ -29,11 +29,15 @@
 			    <label for="InputPhone"><?=TEMP::$Lang['input_phone'].' ('.TEMP::$Lang['text_phone_template'].')'?></label>
 			    <input data-vtemplate_payment_window="event=keyup:on_keypress_phone_verife" type="text" name="phone" class="form-control" id="InputPhone" placeholder="<?=TEMP::$Lang['input_phone']?>">
 		    </div>
-		    <h4 data-vtemplate_payment_window="text=user.patronymic"></h4>
-		    <h4 data-vtemplate_payment_window="text=user.name"></h4>
-		    <h4 data-vtemplate_payment_window="text=user.surname"></h4>
 		  </div>
-		  <div class="form-group disabled _register_fields">
+		  <div class="form-group">
+		  	<div class="col-xs-8">
+			    <i data-vtemplate_payment_window="text=user.patronymic"></i> 
+			    <i data-vtemplate_payment_window="text=user.name"></i> 
+			    <i data-vtemplate_payment_window="text=user.surname"></i>
+		    </div>
+		  </div>
+		  <div class="form-group notshowing _register_fields">
 		    <div class="col-xs-5">
 			    <label for="InputLastname"><?=TEMP::$Lang['input_lastName']?></label>
 			    <input type="text" name="lastname" class="form-control" id="InputLastname" placeholder="<?=TEMP::$Lang['input_lastName']?>">
@@ -47,7 +51,7 @@
 			    <input type="text" name="secondname" class="form-control" id="InputSecondname" placeholder="<?=TEMP::$Lang['input_patronymic']?>">
 		    </div>
 		  </div>
-			<button type="submit" class="disabled _submit_auth_button btn btn-default"><?=TEMP::$Lang['next_txt']?> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
+			<button type="submit" class="notshowing _submit_auth_button btn btn-default"><?=TEMP::$Lang['next_txt']?> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
 		</form>
 		</div>
       </div>

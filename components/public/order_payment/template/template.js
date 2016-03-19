@@ -71,11 +71,11 @@ payment_window_vtemplate.functions = {
 						
 				}
 				if(confirm){
-					$('button._submit_auth_button').removeClass('disabled');
+					$('button._submit_auth_button').show();
 					payment_window_vtemplate.button_visible = true;
 				}else{
 					if(payment_window_vtemplate.button_visible){
-						$('button._submit_auth_button').addClass('disabled');
+						$('button._submit_auth_button').hide();
 						payment_window_vtemplate.button_visible = false;
 					}
 				}

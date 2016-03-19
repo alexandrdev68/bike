@@ -58,7 +58,7 @@ ul li a.bootstrap{
 	text-decoration:none;
 }
 
-div.disabled, li.disabled, ul.disabled, button.disabled{display:none;}
+*.notshowing{display:none;}
 
 img.bkList{height:50px;}
 
