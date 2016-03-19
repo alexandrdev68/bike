@@ -251,6 +251,7 @@
 	 */
 	static public function authorize($arFields){
 		$userinfo = self::getInfo($arFields['login']);
+		//print_r($userinfo); exit;
 		if(isset($_SESSION['CURRUSER'])) unset($_SESSION['CURRUSER']);
 		if(mb_strlen($arFields['login'], 'utf-8') < 3){
 				self::addMess(TEMP::$Lang['SYSTEM']['wrong_login']);

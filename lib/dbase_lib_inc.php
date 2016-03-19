@@ -9,6 +9,25 @@
         self::$messages[] = $message;
     }
     
+    /*
+     * Записывает логи в файл из переменной DBase::$messages
+     * либо записівает в лог строку, переданную в качестве параметра
+     * Dbase::writeLog('some log string');
+     */
+    static public function writeLog($arLogFields = null){
+    
+    	$filename = $_SERVER['DOCUMENT_ROOT'].'/data/logs/oper_'.date('Y-m-d').'.log';
+    	$date = date('Y-m-d H:i:s', time());
+    
+    	if($arLogFields === null)
+    		$logString = $date.' : '.Dbase::$messages[count(Dbase::$messages) - 1];
+    		else $logString = $date.' : '.json_encode($arLogFields);
+    
+    		$logString .= chr(10).chr(13);
+    		file_put_contents($filename, $logString, FILE_APPEND);
+    
+    }
+    
     static protected function clearMess(){
         self::$messages = array();
     }

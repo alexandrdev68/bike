@@ -522,14 +522,14 @@ class Actions{
 #---------------------------------------
 
 	function add_klient_handler(){
-		$id_user = @$_POST['uPhone'];
+		$id_user = Dbase::dataFilter(@$_POST['uPhone']);
 		$name_user = Dbase::dataFilter($_POST['uFirstname']);
 		$surname_user = Dbase::dataFilter($_POST['uLastname']);
 		$lastname_user = Dbase::dataFilter($_POST['uPatronymic']);
 		$live_place = Dbase::dataFilter($_POST['uLivePlace']);
 		$another_place = (isset($_POST['another_city']) ? Dbase::dataFilter($_POST['another_city']) : 'no');
 		//echo json_encode($live_place); die();
-		$phone = @$_POST['uPhone'];
+		$phone = Dbase::dataFilter(@$_POST['uPhone']);
 		//проверка полей формы
 		if(mb_strlen($id_user, 'utf-8') < 3){
 			$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['wrong_login']);

@@ -7,7 +7,6 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 	dataType : 'json',
 	data : {action : 'find_client_by_phone'},
 	success : function(response){
-		console.log(response);
 		if(response.find.length > 0){
 			var render = {user : response.find[0]};
 			payment_window_vtemplate.render(render);
@@ -15,6 +14,20 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 		}else{
 			$('div._register_fields').show();
 		}
+		
+		
+	},
+	error : function(response){
+		console.log('bad');
+	}
+});
+
+payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
+	url : '/',
+	dataType : 'json',
+	data : {action : 'login_action'},
+	success : function(response){
+		console.log('login_action ok');
 		
 		
 	},
@@ -40,7 +53,9 @@ payment_window_vtemplate.eventFunctions = {
 			event.preventDefault();
 			clearInterval(payment_window_vtemplate.scan_res);
 			payment_window_vtemplate.scan_started = false;
-			console.log('some submit request');
+			payment_window_vtemplate.ajaxRegisterClient.data.uLogin = document.getElementById('InputPhone').value;
+			payment_window_vtemplate.ajaxRegisterClient.send();
+			
 		},
 		on_keypress_phone_verife : function(event){
 			if(event.target.value.length == 12){
