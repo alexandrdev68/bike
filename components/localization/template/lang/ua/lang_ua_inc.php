@@ -152,6 +152,7 @@ TEMP::$Lang = array(
 	'text_phone_template'=>'380XXXXXXXXX',
 	'confirm_my_data_txt'=>'Підтверджую, що це мої дані',
 	'next_txt'=>'Далі',
+	'input_smscode'=>'Код смс',
 );
 
 TEMP::$Lang['SYSTEM'] = array(
@@ -207,5 +208,6 @@ TEMP::$Lang['SYSTEM'] = array(
 	'error_cancel_rent'=>'помилка під час анулювання прокату',
 	'error_recalc_rent'=>'Помилка під час перерахунку оренди велосипеда',
 	'period_to_big'=>'Ви вибрали завеликий період (максимум 31 день)',
+	'sms_sent_mess'=>'На ваш номер телефону було надіслано смс з кодом авторизації',
 );
 ?>

@@ -35,6 +35,35 @@
 		$arRes = self::getData($sql);
 		return count($arRes) > 0 ? $arRes[0] : false;
 	}
+	
+	static public function getClientByPhone($phone){
+		$phone = Dbase::dataFilter($phone);
+		
+		
+		$db = new Dbase();
+		
+		$sql_where = 'WHERE (u.phone ='.$phone.') AND u.user_level = 4 LIMIT 10';
+		
+		$sql = 'SELECT `u`.`id`,
+					`u`.`name`,
+					`u`.`login`,
+					`u`.`patronymic`,
+					`u`.`surname`,
+					`u`.`properties`
+					 FROM `users` `u` '.$sql_where;
+		
+		$arResult = $db->getArray($sql);
+			
+		if($arResult === false){
+			Dbase::writeLog($sql);
+			return array('status'=>'error', 'message'=>TEMP::$Lang['bad_response_find']);
+		} 
+		foreach($arResult as $num=>$user){
+			$arResult[$num]['properties'] = json_decode($user['properties'], true);
+		}
+		$response = array('status'=>'ok', 'find'=>$arResult, 'count'=>count($arResult));
+		return $response;
+	}
 
 
 	/**
@@ -132,13 +161,16 @@
 		
 		if(mb_strlen($arFields['login'], 'utf-8') < 3){
 			self::addMess(TEMP::$Lang['SYSTEM']['wrong_login']);
+			self::writeLog();
 			return false;
 		}
 		if(!isset($arFields['user_level'])){
 			self::addMess(TEMP::$Lang['SYSTEM']['user_level_not_set']);
+			self::writeLog();
 			return false;
 		}elseif((mb_strlen(@$arFields['password'], 'utf-8') < self::$minpasswlen || mb_strlen($arFields['password'], 'utf-8') > self::$maxpasswlen) && $arFields['user_level'] != 4){
 			self::addMess(TEMP::$Lang['SYSTEM']['password_to_small1'].self::$minpasswlen.TEMP::$Lang['SYSTEM']['password_to_small2']);
+			self::writeLog();
 			return false;
 		}elseif((mb_strlen(@$arFields['password'], 'utf-8') >= self::$minpasswlen || mb_strlen(@$arFields['password'], 'utf-8') <= self::$maxpasswlen) && $arFields['user_level'] != 4){
 			if(CRYPT_SHA512 == 1){
@@ -151,6 +183,7 @@
 		//проверка существует ли пользователь с таким же именем
 		if(self::getInfo($arFields['login']) !== false){
 			self::addMess(TEMP::$Lang['SYSTEM']['mess_login_was_created1'].$arFields['login'].TEMP::$Lang['SYSTEM']['mess_login_was_created2']);
+			self::writeLog();
 			return false;
 		}
 		
@@ -176,10 +209,12 @@
 		//echo $sql_p1.$sql_p2; die();
 		if(mysql_query($sql_p1.$sql_p2) !==false){
 			self::addMess(TEMP::$Lang['SYSTEM']['mess_user_added']);
+			self::writeLog();
 			return true;
 		}
 		else {
 			self::addMess(TEMP::$Lang['SYSTEM']['mess_user_not_added'].$sql_p1.$sql_p2);
+			self::writeLog();
 			return false;
 		}
 	}
@@ -198,10 +233,12 @@
 	static public function change($arFields, $id, $filtr = true){
 		if(mb_strlen($arFields['login'], 'utf-8') < 3){
 			self::addMess(TEMP::$Lang['SYSTEM']['wrong_login']);
+			self::writeLog();
 			return false;
 		}
 		if(!isset($arFields['user_level'])){
 			self::addMess(TEMP::$Lang['SYSTEM']['user_level_not_set']);
+			self::writeLog();
 			return false;
 		}
 		
@@ -221,10 +258,12 @@
 		$sql .= " WHERE id = ".$id;
 		if(mysql_query($sql) !==false){
 			self::addMess(TEMP::$Lang['SYSTEM']['store_changed_success']);
+			self::writeLog();
 			return true;
 		}
 		else {
 			self::addMess(TEMP::$Lang['SYSTEM']['wrong_sql_request'].$sql);
+			self::writeLog();
 			return false;
 		}
 		
@@ -251,25 +290,33 @@
 	 */
 	static public function authorize($arFields){
 		$userinfo = self::getInfo($arFields['login']);
-		//print_r($userinfo); exit;
 		if(isset($_SESSION['CURRUSER'])) unset($_SESSION['CURRUSER']);
 		if(mb_strlen($arFields['login'], 'utf-8') < 3){
 				self::addMess(TEMP::$Lang['SYSTEM']['wrong_login']);
+				self::writeLog();
 				return false;
 			}elseif(strlen($arFields['password']) < self::$minpasswlen){
 				self::addMess(TEMP::$Lang['SYSTEM']['password_to_small1'].self::$minpasswlen.TEMP::$Lang['SYSTEM']['password_to_small2']);
+				self::writeLog();
 				return false;
 			}elseif (!$userinfo){
 				self::addMess(TEMP::$Lang['SYSTEM']['mess_login_was_created1'].$arFields['login'].TEMP::$Lang['SYSTEM']['not_found']);
+				self::writeLog();
 				return false;
 			}elseif(crypt($arFields['password'], $userinfo['password']) == $userinfo['password']){
 				$_SESSION['CURRUSER'] = $userinfo;
 				self::addMess(TEMP::$Lang['SYSTEM']['mess_login_was_created1'].$arFields['login'].TEMP::$Lang['SYSTEM']['authorize_success']);
+				self::writeLog();
 				return $userinfo['user_level'];
 			}elseif(crypt($arFields['password'], $userinfo['password']) != $userinfo['password']){
 				self::addMess(TEMP::$Lang['SYSTEM']['wrong_passw']);
+				self::writeLog();
 				return false;
 			}
+	}
+	
+	static public function client_authorize(){
+		
 	}
 	
 	static public function lastMessage(){
@@ -287,13 +334,16 @@
     	
     	if(file_exists($path) == false){
     		self::addMess(TEMP::$Lang['SYSTEM']['file_not_exists'].$path);
+    		self::writeLog();
     		return false;
     	}
     	if(unlink($path) === true){
     		self::addMess(TEMP::$Lang['SYSTEM']['file_was_deleted'].$path);
+    		self::writeLog();
     		return true;
     	}else{
     		self::addMess(TEMP::$Lang['SYSTEM']['file_wrong_delete'].$path);
+    		self::writeLog();
     		return false;
     	}
     }
@@ -371,5 +421,15 @@
        };
        $res[] = $tmpArr['string'];$res[] = $tmpArr['string1'];$res[] = $tmpArr['string2'];$res[] = $tmpArr['string3'];
        return $res;
+	}
+	
+	static public function smscodeGen($count = 8){
+		$code = '';
+		if($count > 20)
+			return false;
+		for($i = 0; $i < $count; $i++){
+			$code .= rand(0, 9);
+		}
+		return $code;
 	}
 }?>

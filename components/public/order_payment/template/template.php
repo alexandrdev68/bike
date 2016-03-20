@@ -27,7 +27,7 @@
 		  <div class="form-group">
 		    <div class="col-xs-4">
 			    <label for="InputPhone"><?=TEMP::$Lang['input_phone'].' ('.TEMP::$Lang['text_phone_template'].')'?></label>
-			    <input data-vtemplate_payment_window="event=keyup:on_keypress_phone_verife" type="text" name="phone" class="form-control" id="InputPhone" placeholder="<?=TEMP::$Lang['input_phone']?>">
+			    <input data-vtemplate_payment_window="event=keyup:on_keypress_phone_verife" type="text" name="phone" class="form-control _toscan" id="InputPhone" placeholder="<?=TEMP::$Lang['input_phone']?>">
 		    </div>
 		  </div>
 		  <div class="form-group">
@@ -40,17 +40,24 @@
 		  <div class="form-group notshowing _register_fields">
 		    <div class="col-xs-5">
 			    <label for="InputLastname"><?=TEMP::$Lang['input_lastName']?></label>
-			    <input type="text" name="lastname" class="form-control" id="InputLastname" placeholder="<?=TEMP::$Lang['input_lastName']?>">
+			    <input type="text" name="lastname" class="form-control _toscan" id="InputLastname" placeholder="<?=TEMP::$Lang['input_lastName']?>">
 		    </div>
 		    <div class="col-xs-5">
 			    <label for="InputFirsttname"><?=TEMP::$Lang['input_firstName']?></label>
-			    <input type="text" name="firstname" class="form-control" id="InputFirstname" placeholder="<?=TEMP::$Lang['input_firstName']?>">
+			    <input type="text" name="firstname" class="form-control _toscan" id="InputFirstname" placeholder="<?=TEMP::$Lang['input_firstName']?>">
 		    </div>
 		    <div class="col-xs-5">
 			    <label for="InputSecondname"><?=TEMP::$Lang['input_patronymic']?></label>
-			    <input type="text" name="secondname" class="form-control" id="InputSecondname" placeholder="<?=TEMP::$Lang['input_patronymic']?>">
+			    <input type="text" name="secondname" class="form-control _toscan" id="InputSecondname" placeholder="<?=TEMP::$Lang['input_patronymic']?>">
 		    </div>
 		  </div>
+		  <div class="form-group notshowing _smscode">
+		  	<div class="col-xs-5">
+			    <label for="InputSMSCode"><?=TEMP::$Lang['input_smscode']?></label>
+			    <input type="text" name="smscode" class="form-control" id="InputSMSCode" placeholder="<?=TEMP::$Lang['input_smscode']?>">
+		    </div>
+		  </div>
+		  	<input type="hidden" id="operationType" name="operation">
 			<button type="submit" class="notshowing _submit_auth_button btn btn-default"><?=TEMP::$Lang['next_txt']?> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
 		</form>
 		</div>

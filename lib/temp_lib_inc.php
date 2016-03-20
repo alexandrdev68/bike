@@ -54,7 +54,9 @@
 		}
 		
 		if($translit) $text = self::$sms->translit($text);
-		return array('status'=>(rand(0,1) == 0 ? true : false), 'phone'=>$phone, 'text'=>$text, 'translit'=>$translit);
+		$arSMS = array('status'=>(rand(0,1) == 0 ? true : false), 'phone'=>$phone, 'text'=>$text, 'translit'=>$translit);
+		Dbase::writeLog(implode(chr(10).chr(13), $arSMS));
+		return $arSMS;
 	}
     
     static public function sendSMS($phone, $text, $translit = false){

@@ -11,8 +11,10 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 			var render = {user : response.find[0]};
 			payment_window_vtemplate.render(render);
 			$('button._submit_auth_button').show();
+			document.getElementById('operationType').value = 'auth';
 		}else{
-			$('div._register_fields').show();
+			$('div._register_fields').show()
+			document.getElementById('operationType').value = 'registration';
 		}
 		
 		
@@ -25,9 +27,17 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
 	url : '/',
 	dataType : 'json',
-	data : {action : 'login_action'},
+	data : {action : 'login_client'},
 	success : function(response){
-		console.log('login_action ok');
+		if(response.status == 'ok'){
+			$('._smscode').show();
+			document.getElementById('operationType').value = 'smsconfirm';
+			$('#InputSMSCode').focus();
+			console.log('login_action ok');
+		}else if(response.status == 'bad'){
+			
+		}
+		
 		
 		
 	},
@@ -52,9 +62,24 @@ payment_window_vtemplate.eventFunctions = {
 		on_client_auth_submit : function(event){
 			event.preventDefault();
 			clearInterval(payment_window_vtemplate.scan_res);
-			payment_window_vtemplate.scan_started = false;
-			payment_window_vtemplate.ajaxRegisterClient.data.uLogin = document.getElementById('InputPhone').value;
-			payment_window_vtemplate.ajaxRegisterClient.send();
+			with(payment_window_vtemplate){
+				scan_started = false;
+				ajaxRegisterClient.data.operation = document.getElementById('operationType').value;
+				if(ajaxRegisterClient.data.operation == 'auth'){
+					ajaxRegisterClient.data.phone = document.getElementById('InputPhone').value;
+				}else if(ajaxRegisterClient.data.operation == 'registration'){
+					ajaxRegisterClient.data.phone = document.getElementById('InputPhone').value;
+					ajaxRegisterClient.data.firstname = document.getElementById('InputFirstname').value;
+					ajaxRegisterClient.data.secondname = document.getElementById('InputSecondname').value;
+					ajaxRegisterClient.data.lastname = document.getElementById('InputLastname').value;
+				}else if(ajaxRegisterClient.data.operation == 'smsconfirm'){
+					ajaxRegisterClient.data.smscode = document.getElementById('InputSMSCode').value;
+					if(ajaxRegisterClient.data.smscode == '')
+						return false;
+				} 
+				ajaxRegisterClient.send();
+			}
+			
 			
 		},
 		on_keypress_phone_verife : function(event){
@@ -73,7 +98,7 @@ payment_window_vtemplate.functions = {
 			payment_window_vtemplate.scan_started = true;
 			payment_window_vtemplate.button_visible = false;
 			payment_window_vtemplate.scan_res = setInterval(function(){
-				var input_elements = document.querySelectorAll('form._client_auth_form input[type="text"]');
+				var input_elements = document.querySelectorAll('form._client_auth_form input._toscan');
 				var confirm = false;
 				for(var i = 0; i < input_elements.length; i++){
 					var val = input_elements[i].value;
