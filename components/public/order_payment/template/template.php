@@ -66,6 +66,7 @@
         <button type="button" class="btn btn-default" data-dismiss="modal"><?=TEMP::$Lang['exit_btn']?></button>
         <button data-vtemplate_payment_window="value=id,event=click:payment_okhandler" disabled type="button" class="btn btn-danger"><?=TEMP::$Lang['pay_booking_text']?></button>
       </div>
+    </div>
     </div><!-- /.modal-content -->
  
   </div>
