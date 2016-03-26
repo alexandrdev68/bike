@@ -26,6 +26,11 @@
 					</ul>
 			</li>
 		<?endif?>
+		</ul>
+		
+		<ul class="nav navbar-nav navbar-right">
+			<li <?if(USER::isClient()):?> <?else:?>class="hidden"<?endif?>><a href="#logout_btn"><?=TEMP::$Lang['exit_btn']?></a></li>
+		</ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

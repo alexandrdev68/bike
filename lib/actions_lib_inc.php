@@ -236,8 +236,9 @@ class Actions{
 			$_SESSION['sms_code'] = '';
 			$arClientInfo = array();
 			$arClientInfo = USER::getClientByPhone($phone);
-			$_SESSION['CASH']['ClientInfo'] = $arClientInfo;
+			
 			if($arClientInfo['status'] == 'ok'){
+				TEMP::putInCash('clientInfo', $arClientInfo['find'][0]);
 				if($arClientInfo['count'] == 1){
 					$code = USER::smscodeGen();
 					Dbase::writeLog('login client. sms code was generated');
@@ -249,6 +250,7 @@ class Actions{
 					Dbase::writeLog('login client. There are more than 1 clients by this phone: '.$phone);
 					$response = array('status'=>'bad', 'message'=>'There are more than 1 clients by this phone');
 				}elseif($arClientInfo['count'] == 0){
+					TEMP::deleteFromCash('clientInfo');
 					Dbase::writeLog('login client. Client by this phone is not found: '.$phone);
 					$response = array('status'=>'bad', 'message'=>'Client by this phone is not found');
 				}
@@ -256,13 +258,18 @@ class Actions{
 				$response = array('status'=>'bad', 'message'=>'server error');
 				Dbase::writeLog('login client. error in get client by phone from DB');
 			}
+			
 		}elseif($operation == 'registration'){
 			$_SESSION['sms_code'] = '';
 		}elseif($operation == 'smsconfirm'){
 			$_POST['smscode'] = Dbase::dataFilter($_POST['smscode']);
 			if($_POST['smscode'] == $_SESSION['sms_code']){
-				
+				if(USER::client_authorize(TEMP::getFromCash('clientInfo')) === true){
+					$response = array('status'=>'ok', 'message'=>TEMP::$Lang['auth_succesfull_txt']);
+				};
 			}
+			
+			$_SESSION['sms_code'] = '';
 		}
 		
 		
@@ -270,7 +277,7 @@ class Actions{
 	}
 #---------------------------------------
 	function logout_handler(){
-		if(isset($_SESSION['CURRUSER'])) unset($_SESSION['CURRUSER']);
+		USER::logout();
 		$response = array('status'=>'ok');
 		return json_encode($response);
 	}

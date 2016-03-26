@@ -119,13 +119,37 @@
     	return true;
     }
     
+    
+    /*
+     * видаляє з кешу певну змінну
+     */
+    static public function deleteFromCash($cashname){
+    	if(!isset($_SESSION['CASH'][$cashname])){
+    		Dbase::writeLog('var '.$cashname.' did not find in CASH (delete cash)');
+    	}else{
+    		unset($_SESSION['CASH'][$cashname]);
+    	}
+    	return true;
+    }
+    
     /*
      * Додає в кеш змінну
      */
     static public function putInCash($cashname, $var){
     	if(!isset($_SESSION['CASH']))
     		$_SESSION['CASH'] = array();
-    	push($_SESSION['CASH'], $var);
+    	$_SESSION['CASH'][$cashname] = $var;
+    }
+    
+    
+    /*
+     * вертає данні з кешу
+     */
+    static public function getFromCash($cashname){
+    	if(!isset($_SESSION['CASH'][$cashname])){
+    		Dbase::writeLog('variable with name: '.$cashname.' did not find in cash');
+    	}
+    	return $_SESSION['CASH'][$cashname];
     }
     
 }?>

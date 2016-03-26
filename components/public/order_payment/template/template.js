@@ -121,5 +121,20 @@ payment_window_vtemplate.functions = {
 					}
 				}
 			}, 1000);
+		},
+		scan_authorize : function(){
+			with(payment_window_vtemplate){
+				if(auth_scan_started){
+					return false;
+				}
+				auth_scan_started = true;
+				
+				auth_scan_res = setInterval(function(){
+					
+				}, 1000);
+			}
+			
+			
+			
 		}
 }

@@ -307,7 +307,7 @@
 				$_SESSION['CURRUSER'] = $userinfo;
 				self::addMess(TEMP::$Lang['SYSTEM']['mess_login_was_created1'].$arFields['login'].TEMP::$Lang['SYSTEM']['authorize_success']);
 				self::writeLog();
-				print_r($_SESSION['CURRUSER']);
+				//print_r($_SESSION['CURRUSER']);
 				return $userinfo['user_level'];
 			}elseif(crypt($arFields['password'], $userinfo['password']) != $userinfo['password']){
 				self::addMess(TEMP::$Lang['SYSTEM']['wrong_passw']);
@@ -316,13 +316,28 @@
 			}
 	}
 	
-	static public function client_authorize(){
-		
+	static public function client_authorize($arClientData){
+		if(count($arClientData) == 0){
+			Dbase::writeLog('client data is not set (client_authorize)');
+			return false;
+		}
+		$userinfo = self::getFullInfo($arClientData['id']);
+		$_SESSION['CURRUSER'] = $userinfo;
+		Dbase::writeLog('client with phone'.$_SESSION['CURRUSER']['phone'].' has been authorize');
+		return true;
 	}
 	
 	static public function lastMessage(){
 		$c = count(self::$messages)-1;
 		return self::$messages[$c];
+	}
+	
+	static public function logout(){
+		if(isset($_SESSION['CURRUSER'])){
+			unset($_SESSION['CURRUSER']);
+		}else{
+			Dbase::writeLog('logout impossible, becouse didn\'t login');
+		}
 	}
 	
     /**
@@ -391,7 +406,11 @@
     }
     
     static public function isAuthorize(){
-    	if(@$_SESSION['CURRUSER']){}
+    	if(isset($_SESSION['CURRUSER']['user_level'])){
+    		return true;
+    	}else{
+    		return false;
+    	}
     }
     
     static public function isClient(){
