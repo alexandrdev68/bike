@@ -307,6 +307,7 @@
 				$_SESSION['CURRUSER'] = $userinfo;
 				self::addMess(TEMP::$Lang['SYSTEM']['mess_login_was_created1'].$arFields['login'].TEMP::$Lang['SYSTEM']['authorize_success']);
 				self::writeLog();
+				print_r($_SESSION['CURRUSER']);
 				return $userinfo['user_level'];
 			}elseif(crypt($arFields['password'], $userinfo['password']) != $userinfo['password']){
 				self::addMess(TEMP::$Lang['SYSTEM']['wrong_passw']);

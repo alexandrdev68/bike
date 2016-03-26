@@ -12,6 +12,7 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 			payment_window_vtemplate.render(render);
 			$('button._submit_auth_button').show();
 			document.getElementById('operationType').value = 'auth';
+			$('div._register_fields').hide()
 		}else{
 			$('div._register_fields').show()
 			document.getElementById('operationType').value = 'registration';

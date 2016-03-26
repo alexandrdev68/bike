@@ -236,6 +236,7 @@ class Actions{
 			$_SESSION['sms_code'] = '';
 			$arClientInfo = array();
 			$arClientInfo = USER::getClientByPhone($phone);
+			$_SESSION['CASH']['ClientInfo'] = $arClientInfo;
 			if($arClientInfo['status'] == 'ok'){
 				if($arClientInfo['count'] == 1){
 					$code = USER::smscodeGen();
@@ -258,7 +259,10 @@ class Actions{
 		}elseif($operation == 'registration'){
 			$_SESSION['sms_code'] = '';
 		}elseif($operation == 'smsconfirm'){
-			
+			$_POST['smscode'] = Dbase::dataFilter($_POST['smscode']);
+			if($_POST['smscode'] == $_SESSION['sms_code']){
+				
+			}
 		}
 		
 		

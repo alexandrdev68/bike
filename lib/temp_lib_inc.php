@@ -106,4 +106,26 @@
          return $array;
     }
     
+    
+    /*
+     * Очищує кеш якщо він був заповнении
+     */
+    
+    static public function clearCash(){
+    	if(isset($_SESSION['CASH']) && count($_SESSION['CASH']) > 0){
+    		foreach($_SESSION['CASH'] as $cashItem)
+    			unset($_SESSION['CASH'][$cashItem]);
+    	}
+    	return true;
+    }
+    
+    /*
+     * Додає в кеш змінну
+     */
+    static public function putInCash($cashname, $var){
+    	if(!isset($_SESSION['CASH']))
+    		$_SESSION['CASH'] = array();
+    	push($_SESSION['CASH'], $var);
+    }
+    
 }?>
