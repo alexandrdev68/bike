@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" href="js/jBox-0.3.2/jBox.css?ver=<?=VERSION?>">
-<script data-bike="<?=IDENTJS?>" src="js/jBox-0.3.2/jBox.min.js?ver=<?=VERSION?>"></script>
+<link rel="stylesheet" type="text/css" href="js/jBox-0.3.2/Source/jBox.css?ver=<?=VERSION?>">
+<script data-bike="<?=IDENTJS?>" src="js/jBox-0.3.2/Source/jBox.min.js?ver=<?=VERSION?>"></script>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
