@@ -245,6 +245,7 @@ class Actions{
 					$response = array('status'=>'ok', 'type'=>'auth', 'message'=>TEMP::$Lang['SYSTEM']['sms_sent_mess']);
 					$_SESSION['sms_code'] = $code;
 					$text = 'your sms code: '.$code;
+					//відправка смс
 					TEMP::sendSMS_test($phone, $text);
 				}elseif($arClientInfo['count'] > 1){
 					Dbase::writeLog('login client. There are more than 1 clients by this phone: '.$phone);
@@ -260,8 +261,48 @@ class Actions{
 			}
 			
 		}elseif($operation == 'registration'){
+			//реєстрація користувача
 			$_SESSION['sms_code'] = '';
+			$firstname = Dbase::dataFilter($_POST['firstname']);
+			$lastname = Dbase::dataFilter($_POST['lastname']);
+			$secondname = Dbase::datafilter($_POST['secondname']);
+			$arClientInfo = USER::getClientByPhone($phone);
+			if($arClientInfo['status'] == 'ok'){
+				if($arClientInfo['count'] == 0){
+					//добавление пользователя в БД
+					$properties = array(
+							'from_payment_form'=>true
+					);
+					$imagepath = '';
+					$arFields = array('login'=>(string)$id_user,
+							'name'=>(string)$firstname,
+							'phone'=>(string)$phone,
+							'patronymic'=>(string)$lastname,
+							'surname'=>(string)$secondname,
+							'properties'=>addslashes(json_encode ($properties)),
+							'photo'=>$imagepath,
+							'user_level'=>'4');
+					//print_r($arFields); die();
+					if(USER::add($arFields, false)){
+						$response = array('status'=>'ok', 'type'=>'registration', 'message'=>USER::lastMessage());
+						Dbase::writeLog('new client was add. Phone: '.$phone.' name: '.$firstname);
+					}else{
+						$response = array('status'=>'error', 'type'=>'registration', 'message'=>USER::lastMessage());
+						Dbase::writeLog('new client add error. Phone: '.$phone.' name: '.$firstname);
+					}
+				}elseif($arClientInfo['count'] > 0){
+					$response = array('status'=>'error', 'type'=>'registration', 'message'=>TEMP::$Lang['more_than_one_user_txt']);
+					Dbase::writeLog('for this phone client has registered. Phone: '.$phone.' name: '.$firstname);
+				}
+			}else{
+				$response = array(
+						'status'=>'bad',
+						'message'=>'server error'
+				);
+				Dbase::writeLog('client registration. error while pass data from DB. phone: '.$phone);
+			}
 		}elseif($operation == 'smsconfirm'){
+			//перевірка смс
 			$_POST['smscode'] = Dbase::dataFilter($_POST['smscode']);
 			if($_POST['smscode'] == $_SESSION['sms_code']){
 				if(USER::client_authorize(TEMP::getFromCash('clientInfo')) === true){

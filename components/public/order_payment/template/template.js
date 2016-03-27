@@ -18,6 +18,8 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 			$('div._register_fields').show();
 			TEMPLATE.showNotice(TEMPLATE.lang.js_msg_input_user_data, 'info');
 			document.getElementById('operationType').value = 'registration';
+			payment_window_vtemplate.hide_sms_field();
+			$('button._submit_auth_button').hide();
 		}
 		
 		
