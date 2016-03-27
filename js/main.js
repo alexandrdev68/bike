@@ -973,9 +973,10 @@ function VTemplate(params){
 				if(target != 'function' && target != 'event'){
 					
 					targetVariable = 'data.' + targetVariable;
-					if(!!!eval(targetVariable))
-						continue;
 					try{
+						if(!!!eval(targetVariable))
+							continue;
+					
 						targetVariable = eval(targetVariable);
 					}catch(err){
 						console.log(err);
