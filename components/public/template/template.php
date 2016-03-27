@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="js/jBox-0.3.2/jBox.css?ver=<?=VERSION?>">
+<script data-bike="<?=IDENTJS?>" src="js/jBox-0.3.2/jBox.min.js?ver=<?=VERSION?>"></script>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -29,7 +31,7 @@
 		</ul>
 		
 		<ul class="nav navbar-nav navbar-right">
-			<li <?if(USER::isClient()):?> <?else:?>class="hidden"<?endif?>><a href="#logout_btn"><?=TEMP::$Lang['exit_btn']?></a></li>
+			<li data-vtemplate_public_page="event=onLogin:logoutButtonShow" <?if(USER::isClient()):?> <?else:?>class="hidden"<?endif?>><a href="#logout_btn"><?=TEMP::$Lang['exit_btn']?></a></li>
 		</ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

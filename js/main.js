@@ -1018,3 +1018,29 @@ function VTemplate(params){
 	}
 	this.init();
 }
+
+TEMPLATE = {
+		showNotice : function(text, type){
+			type = type || 'info';
+			switch(type){
+			case 'info':
+				typeColor = 'green';
+				break;
+			case 'error':
+				typeColor = 'red';
+				break;
+			case 'notice':
+				typeColor = 'yellow';
+				break;
+			case 'message':
+				typeColor = 'black';
+				break;
+			}
+			new jBox('Notice', {
+				autoClose : 6000,
+				color : typeColor,
+				stack : true,
+				content : text
+			});
+		}
+}

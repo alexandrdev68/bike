@@ -154,6 +154,7 @@ TEMP::$Lang = array(
 	'next_txt'=>'Далі',
 	'input_smscode'=>'Код смс',
 	'auth_succesfull_txt'=>'Авторизація пройшла успішно',
+	'sms_code_wrong_txt'=>'Невірний смс код',
 );
 
 TEMP::$Lang['SYSTEM'] = array(

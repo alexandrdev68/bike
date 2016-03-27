@@ -31,12 +31,17 @@ payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
 	data : {action : 'login_client'},
 	success : function(response){
 		if(response.status == 'ok'){
-			$('._smscode').show();
+			payment_window_vtemplate.functions.show_sms_field();
 			document.getElementById('operationType').value = 'smsconfirm';
 			$('#InputSMSCode').focus();
+			if(!!response.type && response.type == 'smsconfirm'){
+				$(document).trigger('onLogin');
+				TEMPLATE.showNotice(response.message, 'green');
+			}
 			console.log('login_action ok');
 		}else if(response.status == 'bad'){
-			
+			payment_window_vtemplate.functions.hide_sms_field();
+			TEMPLATE.showNotice(response.message, 'red');
 		}
 		
 		
@@ -55,7 +60,7 @@ payment_window_vtemplate.eventFunctions = {
 		},
 		on_user_data_confirm_check : function(event){
 			payment_window_vtemplate.removeEvent(event.target, 'change', payment_window_vtemplate.eventFunctions.on_user_data_confirm_check)
-			document.querySelector('button._submit_auth_button').click();
+			
 			
 			
 			
@@ -136,5 +141,16 @@ payment_window_vtemplate.functions = {
 			
 			
 			
+		},
+		hide_sms_field : function(){
+			var elem = document.querySelector('div._smscode');
+			$(elem).val('');
+			$(elem).hide();
+		},
+		show_sms_field : function(){
+			var elem = document.querySelector('div._smscode');
+			console.log(elem);
+			$(elem).val('');
+			$(elem).show();
 		}
 }

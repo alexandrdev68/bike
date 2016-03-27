@@ -29,6 +29,9 @@ public_page_template.eventFunctions = {
 				$('form._client_auth_form input._toscan').val('');
 				$('div._payment_window').modal('show');
 			}
+		},
+		logoutButtonShow : function(event){
+			$(public_page_template.workElement).removeClass('hidden');
 		}
 }
 

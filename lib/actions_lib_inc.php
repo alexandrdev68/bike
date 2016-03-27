@@ -265,8 +265,10 @@ class Actions{
 			$_POST['smscode'] = Dbase::dataFilter($_POST['smscode']);
 			if($_POST['smscode'] == $_SESSION['sms_code']){
 				if(USER::client_authorize(TEMP::getFromCash('clientInfo')) === true){
-					$response = array('status'=>'ok', 'message'=>TEMP::$Lang['auth_succesfull_txt']);
+					$response = array('status'=>'ok', 'type'=>'smsconfirm', 'message'=>TEMP::$Lang['auth_succesfull_txt']);
 				};
+			}else{
+				$response = array('status'=>'bad', 'type'=>'smsconfirm', 'message'=>TEMP::$Lang['sms_code_wrong_txt']);
 			}
 			
 			$_SESSION['sms_code'] = '';
