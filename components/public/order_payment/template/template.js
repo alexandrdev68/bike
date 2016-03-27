@@ -44,8 +44,12 @@ payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
 			}else if(!!response.type && response.type == 'auth'){
 				TEMPLATE.showNotice(response.message, 'info');
 				document.getElementById('operationType').value = 'smsconfirm';
+			}else if(!!response.type && response.type == 'registration'){
+				document.getElementById('operationType').value = 'auth';
+				payment_window_vtemplate.ajaxRegisterClient.data.phone = response.phone;
+				payment_window_vtemplate.ajaxRegisterClient.send();
+				$('div._register_fields').hide();
 			}
-			console.log('login_action ok');
 		}else if(response.status == 'bad'){
 			payment_window_vtemplate.functions.hide_sms_field();
 			TEMPLATE.showNotice(response.message, 'error');

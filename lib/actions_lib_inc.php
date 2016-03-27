@@ -284,7 +284,7 @@ class Actions{
 							'user_level'=>'4');
 					//print_r($arFields); die();
 					if(USER::add($arFields, false)){
-						$response = array('status'=>'ok', 'type'=>'registration', 'message'=>USER::lastMessage());
+						$response = array('status'=>'ok', 'type'=>'registration', 'phone'=>$phone, 'message'=>USER::lastMessage());
 						Dbase::writeLog('new client was add. Phone: '.$phone.' name: '.$firstname);
 					}else{
 						$response = array('status'=>'error', 'type'=>'registration', 'message'=>USER::lastMessage());
