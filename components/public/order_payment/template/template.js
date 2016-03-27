@@ -36,12 +36,12 @@ payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
 			$('#InputSMSCode').focus();
 			if(!!response.type && response.type == 'smsconfirm'){
 				$(document).trigger('onLogin');
-				TEMPLATE.showNotice(response.message, 'green');
+				TEMPLATE.showNotice(response.message, 'info');
 			}
 			console.log('login_action ok');
 		}else if(response.status == 'bad'){
 			payment_window_vtemplate.functions.hide_sms_field();
-			TEMPLATE.showNotice(response.message, 'red');
+			TEMPLATE.showNotice(response.message, 'error');
 		}
 		
 		
