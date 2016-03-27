@@ -13,10 +13,10 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 			$('button._submit_auth_button').show();
 			document.getElementById('operationType').value = 'auth';
 			$('div._register_fields').hide();
-			TEMPLATE.showNotice(TEMPLATE.Lang.js_msg_user_found, 'info');
+			TEMPLATE.showNotice(TEMPLATE.lang.js_msg_user_found, 'info');
 		}else{
 			$('div._register_fields').show();
-			TEMPLATE.showNotice(TEMPLATE.Lang.js_msg_input_user_data, 'info');
+			TEMPLATE.showNotice(TEMPLATE.lang.js_msg_input_user_data, 'info');
 			document.getElementById('operationType').value = 'registration';
 		}
 		
@@ -34,18 +34,21 @@ payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
 	success : function(response){
 		if(response.status == 'ok'){
 			payment_window_vtemplate.functions.show_sms_field();
-			document.getElementById('operationType').value = 'smsconfirm';
 			$('#InputSMSCode').focus();
 			if(!!response.type && response.type == 'smsconfirm'){
 				$(document).trigger('onLogin');
 				TEMPLATE.showNotice(response.message, 'info');
+				payment_window_vtemplate.functions.hide_sms_field();
+			}else if(!!response.type && response.type == 'auth'){
+				TEMPLATE.showNotice(response.message, 'info');
+				document.getElementById('operationType').value = 'smsconfirm';
 			}
 			console.log('login_action ok');
 		}else if(response.status == 'bad'){
 			payment_window_vtemplate.functions.hide_sms_field();
 			TEMPLATE.showNotice(response.message, 'error');
-			TEMPLATE.showNotice(TEMPLATE.Lang.js_msg_try_again, 'info');
-			ajaxRegisterClient.data.operation = 'auth';
+			TEMPLATE.showNotice(TEMPLATE.lang.js_msg_try_again, 'info');
+			document.getElementById('operationType').value = 'auth';
 		}
 		
 		
@@ -87,7 +90,6 @@ payment_window_vtemplate.eventFunctions = {
 					if(ajaxRegisterClient.data.smscode == '')
 						return false;
 				}
-				TEMPLATE.showNotice(TEMPLATE.Lang.js_msg_sms_sent, 'info');
 				ajaxRegisterClient.send();
 			}
 			
@@ -149,13 +151,12 @@ payment_window_vtemplate.functions = {
 		},
 		hide_sms_field : function(){
 			var elem = document.querySelector('div._smscode');
-			$(elem).val('');
+			document.querySelector('#InputSMSCode').value = '';
 			$(elem).hide();
 		},
 		show_sms_field : function(){
 			var elem = document.querySelector('div._smscode');
-			console.log(elem);
-			$(elem).val('');
+			document.querySelector('#InputSMSCode').value = '';
 			$(elem).show();
 		}
 }

@@ -18,6 +18,26 @@ var public_page_template = new VTemplate({
 	tmpName : 'public_page'
 });
 
+
+public_page_template.ajaxLogoutClient = new serverRequest({
+	url : '/',
+	dataType : 'json',
+	data : {action : 'logout'},
+	success : function(response){
+		if(response.status == 'ok'){
+			window.location.reload();
+		}else{
+			TEMPLATE.showNotice('server error', 'error');
+		}
+		
+		
+	},
+	error : function(response){
+		TEMPLATE.showNotice('server error', 'error');
+	}
+});
+
+
 public_page_template.eventFunctions = {
 		order_button_handler : function(event){
 			if(event.target.nodeName == 'BUTTON'){
@@ -32,6 +52,10 @@ public_page_template.eventFunctions = {
 		},
 		logoutButtonShow : function(event){
 			$(public_page_template.workElement).removeClass('hidden');
+		},
+		logoutButtonClick : function(event){
+			event.preventDefault();
+			public_page_template.ajaxLogoutClient.send();
 		}
 }
 

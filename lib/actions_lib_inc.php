@@ -242,20 +242,20 @@ class Actions{
 				if($arClientInfo['count'] == 1){
 					$code = USER::smscodeGen();
 					Dbase::writeLog('login client. sms code was generated');
-					$response = array('status'=>'ok', 'message'=>TEMP::$Lang['SYSTEM']['sms_sent_mess']);
+					$response = array('status'=>'ok', 'type'=>'auth', 'message'=>TEMP::$Lang['SYSTEM']['sms_sent_mess']);
 					$_SESSION['sms_code'] = $code;
 					$text = 'your sms code: '.$code;
 					TEMP::sendSMS_test($phone, $text);
 				}elseif($arClientInfo['count'] > 1){
 					Dbase::writeLog('login client. There are more than 1 clients by this phone: '.$phone);
-					$response = array('status'=>'bad', 'message'=>'There are more than 1 clients by this phone');
+					$response = array('status'=>'bad', 'type'=>'auth', 'message'=>'There are more than 1 clients by this phone');
 				}elseif($arClientInfo['count'] == 0){
 					TEMP::deleteFromCash('clientInfo');
 					Dbase::writeLog('login client. Client by this phone is not found: '.$phone);
-					$response = array('status'=>'bad', 'message'=>'Client by this phone is not found');
+					$response = array('status'=>'bad', 'type'=>'auth', 'message'=>'Client by this phone is not found');
 				}
 			}else{
-				$response = array('status'=>'bad', 'message'=>'server error');
+				$response = array('status'=>'bad', 'type'=>'auth', 'message'=>'server error');
 				Dbase::writeLog('login client. error in get client by phone from DB');
 			}
 			

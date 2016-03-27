@@ -32,7 +32,7 @@
 		</ul>
 		
 		<ul class="nav navbar-nav navbar-right">
-			<li data-vtemplate_public_page="event=onLogin:logoutButtonShow" <?if(USER::isClient()):?> <?else:?>class="hidden"<?endif?>><a href="#logout_btn"><?=TEMP::$Lang['exit_btn']?></a></li>
+			<li data-vtemplate_public_page="event=onLogin:logoutButtonShow,event=click:logoutButtonClick" <?if(USER::isClient()):?> <?else:?>class="hidden"<?endif?>><a href="#logout_btn"><?=TEMP::$Lang['exit_btn']?></a></li>
 		</ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
