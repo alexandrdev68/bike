@@ -157,6 +157,23 @@ TEMP::$Lang = array(
 	'sms_code_wrong_txt'=>'Невірний смс код',
 );
 
+TEMP::$Lang['FORJS'] = json_encode(array(
+		'js_msg_1'=>'Платіж прийнято в обробку',
+		'js_msg_2'=>'Операція зазнала невдачі на ',
+		'js_msg_3'=>' кроці',
+		'js_msg_4'=>' + комісія ',
+		'js_msg_5'=>' грн.',
+		'js_msg_6'=>'Процес оплати успішно завершено!',
+		'js_msg_international_card'=>'Міжнародна карта%',
+		'js_msg_ukrainian_card'=>'Українська карта',
+		'js_msg_privatbank_card'=>'Карта Приватбанку',
+		'js_msg_try_again'=>'Спробуйте ще раз',
+		'js_msg_user_found'=>'Користувача знайдено',
+		'js_msg_input_user_data'=>'Введіть дані для проходження реєстрації',
+		'js_msg_sms_sent'=>'Вам надіслано повідомлення з кодом підтвердження',
+		
+));
+
 TEMP::$Lang['SYSTEM'] = array(
 	'mess_user_added'=>'користувача успішно додано до системи',
 	'mess_user_not_added'=>'користувача не додано',

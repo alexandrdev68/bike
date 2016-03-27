@@ -12,9 +12,11 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 			payment_window_vtemplate.render(render);
 			$('button._submit_auth_button').show();
 			document.getElementById('operationType').value = 'auth';
-			$('div._register_fields').hide()
+			$('div._register_fields').hide();
+			TEMPLATE.showNotice(TEMPLATE.Lang.js_msg_user_found, 'info');
 		}else{
-			$('div._register_fields').show()
+			$('div._register_fields').show();
+			TEMPLATE.showNotice(TEMPLATE.Lang.js_msg_input_user_data, 'info');
 			document.getElementById('operationType').value = 'registration';
 		}
 		
@@ -42,6 +44,8 @@ payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
 		}else if(response.status == 'bad'){
 			payment_window_vtemplate.functions.hide_sms_field();
 			TEMPLATE.showNotice(response.message, 'error');
+			TEMPLATE.showNotice(TEMPLATE.Lang.js_msg_try_again, 'info');
+			ajaxRegisterClient.data.operation = 'auth';
 		}
 		
 		
@@ -82,7 +86,8 @@ payment_window_vtemplate.eventFunctions = {
 					ajaxRegisterClient.data.smscode = document.getElementById('InputSMSCode').value;
 					if(ajaxRegisterClient.data.smscode == '')
 						return false;
-				} 
+				}
+				TEMPLATE.showNotice(TEMPLATE.Lang.js_msg_sms_sent, 'info');
 				ajaxRegisterClient.send();
 			}
 			
