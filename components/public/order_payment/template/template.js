@@ -2,6 +2,14 @@ var payment_window_vtemplate = new VTemplate({
 	tmpName : 'payment_window'
 });
 
+$(document).ready(function(event){
+	$('.credit_input').groupinputs();
+	console.log($('.credit_input'));
+	$('.credit_input').on('input propertychange', function(e) {
+	    
+	});
+});
+
 payment_window_vtemplate.ajaxFindClient = new serverRequest({
 	url : '/',
 	dataType : 'json',

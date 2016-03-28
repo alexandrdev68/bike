@@ -63,16 +63,17 @@
 		</div>
 		
 		<div data-vtemplate_payment_window="event=onLogin:viewPaymentForm, event=onLogout:hidePaymentForm" class="col-md-7 _payment_form _notshowing">
-			 <div class="form-group">
-		    <div class="col-xs-4">
-			    <label for="inputCreditCard"><?=TEMP::$Lang['credit_card_number_txt']?></label>
-			    <input type="hidden" id="inputCreditCard_hidden" name="uCCard">
-				<input type="text" tabindex="0" id="inputCreditCard" class="form-control" name="" maxlength="4"  required>
-				<input type="text" class="form-control" maxlength="4" name="" required>
-				<input type="text" class="form-control" maxlength="4" name="" required>
-				<input type="text" class="form-control" maxlength="4" name="" required> name="phone" class="form-control _toscan" id="InputPhone" placeholder="<?=TEMP::$Lang['input_phone']?>">
-		    </div>
-		  </div>
+			<div class="form-group col-xs-10">
+			    
+				<label for="inputCreditCard"><?=TEMP::$Lang['credit_card_number_txt']?></label>
+				<div class="col-xs-10">
+				    <input type="hidden" id="inputCreditCard_hidden" name="uCCard">
+					<div class="col-xs-3 noLeftRightPadding"><input type="text" tabindex="0" id="inputCreditCard" class="form-control credit_input" name="" maxlength="4"  required></div>
+					<div class="col-xs-3 noLeftRightPadding"><input type="text" tabindex="1" class="form-control credit_input" maxlength="4" name="" required></div>
+					<div class="col-xs-3 noLeftRightPadding"><input type="text" tabindex="2" class="form-control credit_input" maxlength="4" name="" required></div>
+					<div class="col-xs-3 noLeftRightPadding"><input type="text" tabindex="3" class="form-control credit_input" maxlength="4" name="" required></div>
+			    </div>
+			</div>
 		</div><!-- payment form -->
 		
       </div>

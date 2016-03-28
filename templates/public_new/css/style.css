@@ -109,6 +109,16 @@ div.topMargin10{
 	margin-top:40px;
 }
 
+.noLeftRightMargin{
+	margin-left:0;
+	margin-right:0;
+}
+
+.noLeftRightPadding{
+	padding-left:0;
+	padding-right:0;
+}
+
 .topMargin30{
 	margin-top:30px;
 }
