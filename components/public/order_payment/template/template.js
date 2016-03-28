@@ -18,7 +18,7 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 			$('div._register_fields').show();
 			TEMPLATE.showNotice(TEMPLATE.lang.js_msg_input_user_data, 'info');
 			document.getElementById('operationType').value = 'registration';
-			payment_window_vtemplate.hide_sms_field();
+			payment_window_vtemplate.functions.hide_sms_field();
 			$('button._submit_auth_button').hide();
 		}
 		
@@ -47,7 +47,8 @@ payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
 			}else if(!!response.type && response.type == 'registration'){
 				document.getElementById('operationType').value = 'auth';
 				payment_window_vtemplate.ajaxRegisterClient.data.phone = response.phone;
-				payment_window_vtemplate.ajaxRegisterClient.send();
+				payment_window_vtemplate.eventFunctions.on_client_auth_submit();
+				TEMPLATE.showNotice(response.message, 'info');
 				$('div._register_fields').hide();
 			}
 		}else if(response.status == 'bad'){
@@ -79,7 +80,11 @@ payment_window_vtemplate.eventFunctions = {
 			
 		},
 		on_client_auth_submit : function(event){
-			event.preventDefault();
+			try{
+				event.preventDefault();
+			}catch(err){
+				console.log(err);
+			}
 			clearInterval(payment_window_vtemplate.scan_res);
 			with(payment_window_vtemplate){
 				scan_started = false;

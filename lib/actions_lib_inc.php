@@ -274,7 +274,7 @@ class Actions{
 							'from_payment_form'=>true
 					);
 					$imagepath = '';
-					$arFields = array('login'=>(string)$id_user,
+					$arFields = array('login'=>(string)$phone,
 							'name'=>(string)$firstname,
 							'phone'=>(string)$phone,
 							'patronymic'=>(string)$lastname,

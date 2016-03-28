@@ -22,7 +22,7 @@
 			  </div>
 		  </div>
 		
-		<div class="col-md-7">
+		<div class="col-md-7 _auth_register_form">
 		<form data-vtemplate_payment_window="event=submit:on_client_auth_submit,function=scan_inputs:*" class="form-horizontal _client_auth_form">
 		  <div class="form-group">
 		    <div class="col-xs-4">
@@ -61,6 +61,11 @@
 			<button type="submit" class="notshowing _submit_auth_button btn btn-default"><?=TEMP::$Lang['next_txt']?> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
 		</form>
 		</div>
+		
+		<div class="col-md-7 _payment_form">
+			
+		</div>
+		
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><?=TEMP::$Lang['exit_btn']?></button>
