@@ -50,6 +50,7 @@ payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
 				payment_window_vtemplate.eventFunctions.on_client_auth_submit();
 				TEMPLATE.showNotice(response.message, 'info');
 				$('div._register_fields').hide();
+				
 			}
 		}else if(response.status == 'bad'){
 			payment_window_vtemplate.functions.hide_sms_field();

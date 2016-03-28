@@ -156,6 +156,7 @@ TEMP::$Lang = array(
 	'auth_succesfull_txt'=>'Авторизація пройшла успішно',
 	'sms_code_wrong_txt'=>'Невірний смс код',
 	'more_than_one_user_txt'=>'Цей телефон вже належить іншому користувачу',
+	'credit_card_number_txt'=>'Номер кредитної карти',
 );
 
 TEMP::$Lang['FORJS'] = json_encode(array(

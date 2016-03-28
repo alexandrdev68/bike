@@ -22,7 +22,7 @@
 			  </div>
 		  </div>
 		
-		<div class="col-md-7 _auth_register_form">
+		<div class="col-md-7 _auth_register_form notshowing">
 		<form data-vtemplate_payment_window="event=submit:on_client_auth_submit,function=scan_inputs:*" class="form-horizontal _client_auth_form">
 		  <div class="form-group">
 		    <div class="col-xs-4">
@@ -62,9 +62,18 @@
 		</form>
 		</div>
 		
-		<div class="col-md-7 _payment_form">
-			
-		</div>
+		<div data-vtemplate_payment_window="event=onLogin:viewPaymentForm, event=onLogout:hidePaymentForm" class="col-md-7 _payment_form _notshowing">
+			 <div class="form-group">
+		    <div class="col-xs-4">
+			    <label for="inputCreditCard"><?=TEMP::$Lang['credit_card_number_txt']?></label>
+			    <input type="hidden" id="inputCreditCard_hidden" name="uCCard">
+				<input type="text" tabindex="0" id="inputCreditCard" class="form-control" name="" maxlength="4"  required>
+				<input type="text" class="form-control" maxlength="4" name="" required>
+				<input type="text" class="form-control" maxlength="4" name="" required>
+				<input type="text" class="form-control" maxlength="4" name="" required> name="phone" class="form-control _toscan" id="InputPhone" placeholder="<?=TEMP::$Lang['input_phone']?>">
+		    </div>
+		  </div>
+		</div><!-- payment form -->
 		
       </div>
       <div class="modal-footer">
