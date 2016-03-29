@@ -2,6 +2,15 @@ var payment_window_vtemplate = new VTemplate({
 	tmpName : 'payment_window'
 });
 
+function get_join_card_number(){
+	var card_number_cuts = $('.credit_input');
+	var card_number = '';
+	for(var i = 0; i < card_number_cuts.length; i++){
+		card_number += $(card_number_cuts[i]).val();
+	}
+	return card_number;
+}
+
 $(document).ready(function(event){
 	$('.credit_input').groupinputs();
 	console.log($('.credit_input'));
