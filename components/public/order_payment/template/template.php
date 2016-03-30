@@ -65,11 +65,11 @@
 		<div data-vtemplate_payment_window="event=onLogin:viewPaymentForm, event=onLogout:hidePaymentForm" class="col-md-7 _payment_form _notshowing">
 			<form data-vtemplate_payment_window="event=submit:on_client_payment_submit,function=scan_payment_inputs:*" class="form-horizontal _client_payment_form">
 				<div class="form-group col-xs-12">
-					<div id="ticketsDateFrom" class="input-append _datetimeselector">
-						<input data-format="MM/dd/yyyy HH PP" type="text"></input>
-						<span class="add-on">
-							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-						</span>
+					<div id="ticketsDateFrom" class="input-group date">
+						<input type='text' class="form-control" />
+						<span class="input-group-addon">
+                        	<span class="glyphicon glyphicon-calendar"></span>
+                    	</span>
 					</div>
 				</div>
 				<div class="form-group col-xs-12">

@@ -14,9 +14,7 @@ function get_join_card_number(){
 $(document).ready(function(event){
 	$('.credit_input').groupinputs();
 	
-	payment_window_vtemplate.dateTimeWidget = new datetimepickerHandler({
-		idFrom : 'ticketsDateFrom'
-	});
+	$('#ticketsDateFrom').datetimepicker();
 	
 	$('.credit_input').on('input propertychange', function(e) {
 	    
@@ -134,6 +132,16 @@ payment_window_vtemplate.eventFunctions = {
 				payment_window_vtemplate.ajaxFindClient.send();
 			}else
 				return false;
+		},
+		viewPaymentForm : function(event){
+			console.log('viewPaymentForm');
+		},
+		hidePaymentForm : function(event){
+			console.log('hide payment form');
+		},
+		on_client_payment_submit : function(event){
+			event.preventDefault();
+			console.log('payment submit');
 		}
 }
 payment_window_vtemplate.functions = {
@@ -191,98 +199,8 @@ payment_window_vtemplate.functions = {
 			var elem = document.querySelector('div._smscode');
 			document.querySelector('#InputSMSCode').value = '';
 			$(elem).show();
+		},
+		scan_payment_inputs : function(){
+			console.log('scan payment inputs');
 		}
-}
-
-function datetimepickerHandler(params){
-	params = params || {
-		idFrom : 'datetimepicker2',
-		idTo : null,
-		dtpickerFrom :{
-			format: 'yyyy-MM-dd hh:mm:ss',
-			language: 'uk',
-			pick12HourFormat: false
-			},
-		dtpickerTo : null
-	};
-	params.idFrom = params.idFrom || 'datetimepicker2';
-	params.idTo = params.idTo || null;
-	params.dtpickerFrom = params.dtpickerFrom || {
-		format: 'yyyy-MM-dd hh:mm:ss',
-		language: 'uk',
-		pick12HourFormat: false
-		};
-	params.dtpickerTo = params.dtpickerTo || params.dtpickerFrom;
-	this.dpParamsFrom = params.dtpickerFrom;
-	this.dpParamsTo = params.dtpickerTo;
-	this.dpIdFrom = params.idFrom;
-	this.pickerFrom = null;
-	this.pickerTo = null;
-	this.dateFromElement = null;
-	this.dateToElement = null;
-	this.dpIdTo = params.idTo;
-	this.date = {from : null, to : null};
-	this.init =function(){
-		var self = this;
-		var dateDict = datetimepickerHandler.getDateArray(new Date());
-		self.date.from = new Date(dateDict.Year, dateDict.Month - 1, dateDict.Day, 0,0,0);
-		self.dateFromElement = $('#' + self.dpIdFrom);
-		self.dateFromElement.datetimepicker(self.dpParamsFrom);
-		self.pickerFrom = self.dateFromElement.data('datetimepicker');
-		self.pickerFrom.setLocalDate(self.date.from);
-		self.dateFromElement.on('changeDate', function(){
-			self.date.from = self.pickerFrom.getLocalDate();
-			var fromTime = self.date.from.getTime();
-			var toTime = self.date.to.getTime();
-			if(fromTime > toTime){
-				var dt = datetimepickerHandler.getDateArray(self.date.from);
-				self.date.to = new Date(dt.Year, dt.Month - 1, dt.Day, 23,59,59);
-				self.pickerTo.setLocalDate(self.date.to);
-			}
-		});
-		if(self.dpIdTo !== null && self.dpParamsTo !== null){
-			self.dateToElement = $('#' + self.dpIdTo);
-			self.dateToElement.datetimepicker(self.dpParamsTo);
-			self.pickerTo = self.dateToElement.data('datetimepicker');
-			self.date.to = new Date(dateDict.Year, dateDict.Month - 1, dateDict.Day, 23,59,59);
-			self.pickerTo.setLocalDate(self.date.to);
-			self.dateToElement.on('changeDate', function(){
-				self.date.to = self.pickerTo.getLocalDate();
-				if(self.date.to.getTime() < self.date.from.getTime()){
-					var dt = datetimepickerHandler.getDateArray(self.date.to);
-					self.date.from = new Date(dt.Year, dt.Month - 1, dt.Day, 0,0,0);
-					self.pickerFrom.setLocalDate(self.date.from);
-				}
-			});
-		}
-	};
-	this.getDateTimestamp = function(){
-		return {from : this.date.from.getTime(), to : this.date.to.getTime()};
-	};
-	datetimepickerHandler.getDateArray = function(date){
-		var tmpDict = {
-				Year : date.getFullYear(), 
-				Month : date.getMonth(),
-				Day : date.getDate(),
-				Hours : date.getHours(),
-				Minutes : date.getMinutes(),
-				Seconds : date.getSeconds(),
-				timestamp : date.getTime()
-				}
-		tmpDict.Month++;
-		tmpDict.Month = (tmpDict.Month < 10 ? '0' + tmpDict.Month : tmpDict.Month);
-		tmpDict.Day = (tmpDict.Day < 10 ? '0' + tmpDict.Day : tmpDict.Day);
-		tmpDict.Hours = (tmpDict.Hours < 10 ? '0' + tmpDict.Hours : tmpDict.Hours);
-		tmpDict.Minutes = (tmpDict.Minutes < 10 ? '0' + tmpDict.Minutes : tmpDict.Minutes);
-		tmpDict.Seconds = (tmpDict.Seconds < 10 ? '0' + tmpDict.Seconds : tmpDict.Seconds);
-		tmpDict.dateTimeString = tmpDict.Year + '-' + 
-									tmpDict.Month + '-' + 
-									tmpDict.Day + ' ' + 
-									tmpDict.Hours + ':' + 
-									tmpDict.Minutes + ':' + 
-									tmpDict.Seconds;
-		return tmpDict;
-	};
-	
-	this.init();
 }
