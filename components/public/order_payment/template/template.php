@@ -65,6 +65,14 @@
 		<div data-vtemplate_payment_window="event=onLogin:viewPaymentForm, event=onLogout:hidePaymentForm" class="col-md-7 _payment_form _notshowing">
 			<form data-vtemplate_payment_window="event=submit:on_client_payment_submit,function=scan_payment_inputs:*" class="form-horizontal _client_payment_form">
 				<div class="form-group col-xs-12">
+					<div id="ticketsDateFrom" class="input-append _datetimeselector">
+						<input data-format="MM/dd/yyyy HH PP" type="text"></input>
+						<span class="add-on">
+							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						</span>
+					</div>
+				</div>
+				<div class="form-group col-xs-12">
 					<label for="inputCreditCard"><?=TEMP::$Lang['credit_card_number_txt']?></label>
 					<div class="col-xs-12">
 					    <input type="hidden" id="inputCreditCard_hidden" name="uCCard">
