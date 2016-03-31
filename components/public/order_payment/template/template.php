@@ -65,11 +65,25 @@
 		<div data-vtemplate_payment_window="event=onLogin:viewPaymentForm, event=onLogout:hidePaymentForm" class="col-md-7 _payment_form _notshowing">
 			<form data-vtemplate_payment_window="event=submit:on_client_payment_submit,function=scan_payment_inputs:*" class="form-horizontal _client_payment_form">
 				<div class="form-group col-xs-12">
-					<div id="ticketsDateFrom" class="input-group date">
-						<input type='text' class="form-control" />
-						<span class="input-group-addon">
-                        	<span class="glyphicon glyphicon-calendar"></span>
-                    	</span>
+					<label for="inputPeriod"><?=TEMP::$Lang['input_period_txt']?></label>
+					<div class="col-xs-12">
+						<div class="col-xs-6 noLeftRightPadding">
+							<div id="inputPeriod" class="input-group date">
+								<input type='text' class="form-control" />
+								<span class="input-group-addon">
+		                        	<span class="glyphicon glyphicon-calendar"></span>
+		                    	</span>
+							</div>
+						</div>
+					
+						<div class="col-xs-3 notshowing">
+							<select name="uExpiryMonth" required id="monthSelect" class="form-control" value="<?=$arRes['month']?>">
+								<?for($i = 1; $i < 6; $i++):?>
+								<option value="<?=$i?>"><?=$i.' '.BIKE::declension($i, array(TEMP::$Lang['hours'],TEMP::$Lang['hours1'],TEMP::$Lang['hours2'],TEMP::$Lang['hours2'],TEMP::$Lang['hours2']))?></option>
+								<?endfor?>
+								<option value="1_day"><?=TEMP::$Lang['day']?></option>
+							</select>
+						</div>
 					</div>
 				</div>
 				<div class="form-group col-xs-12">

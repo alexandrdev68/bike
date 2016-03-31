@@ -14,7 +14,7 @@ function get_join_card_number(){
 $(document).ready(function(event){
 	$('.credit_input').groupinputs();
 	
-	$('#ticketsDateFrom').datetimepicker();
+	$('#inputPeriod').datetimepicker();
 	
 	$('.credit_input').on('input propertychange', function(e) {
 	    

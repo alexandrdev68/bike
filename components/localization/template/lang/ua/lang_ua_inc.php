@@ -160,6 +160,7 @@ TEMP::$Lang = array(
 	'month_txt'=>'місяць',
 	'card_exp_year_txt'=>'Дійсна до',
 	'card_cvv_txt'=>'cvv',
+	'input_period_txt'=>'Виберіть період',
 );
 
 TEMP::$Lang['FORJS'] = json_encode(array(
