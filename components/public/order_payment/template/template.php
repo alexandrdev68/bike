@@ -69,7 +69,7 @@
 					<div class="col-xs-12">
 						<div class="col-xs-6 noLeftRightPadding">
 							<div id="inputPeriod" class="input-group date">
-								<input type='text' class="form-control" />
+								<input data-vtemplate_payment_window="event=change:onBookingDateTimeChange" type='text' class="form-control" />
 								<span class="input-group-addon">
 		                        	<span class="glyphicon glyphicon-calendar"></span>
 		                    	</span>

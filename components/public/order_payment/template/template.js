@@ -142,6 +142,10 @@ payment_window_vtemplate.eventFunctions = {
 		on_client_payment_submit : function(event){
 			event.preventDefault();
 			console.log('payment submit');
+		},
+		onBookingDateTimeChange : function(event){
+			console.log(payment_window_vtemplate.workElement.value);
+			console.log('element changed');
 		}
 }
 payment_window_vtemplate.functions = {
