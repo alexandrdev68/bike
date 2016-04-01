@@ -1,9 +1,9 @@
 <link rel="stylesheet" type="text/css" href="js/jBox-0.3.2/Source/jBox.css?ver=<?=VERSION?>">
 <script data-bike="<?=IDENTJS?>" src="js/jBox-0.3.2/Source/jBox.min.js?ver=<?=VERSION?>"></script>
-<link rel="stylesheet" type="text/css" href="<?=TEMP::$curr_temp_path?>/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.min.css?ver=<?=VERSION?>">
-<script data-bike="<?=IDENTJS?>" src="<?=TEMP::$curr_temp_path?>/js/moment-with-locales.js?ver=<?=VERSION?>"></script>
-<script data-bike="<?=IDENTJS?>" src="<?=TEMP::$curr_temp_path?>/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js?ver=<?=VERSION?>"></script>
 <script data-bike="<?=IDENTJS?>" type="text/javascript">TEMPLATE.lang = $.parseJSON('<?=TEMP::$Lang['FORJS']?>');</script>
+<link rel="stylesheet" type="text/css" href="<?=TEMP::$curr_temp_path?>/datetimepicker-master-new/jquery.datetimepicker.css?ver=<?=VERSION?>">
+<script data-bike="<?=IDENTJS?>" src="<?=TEMP::$curr_temp_path?>/datetimepicker-master-new/build/jquery.datetimepicker.full.min.js?ver=<?=VERSION?>"></script>
+
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->

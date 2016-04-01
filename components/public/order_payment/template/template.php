@@ -65,15 +65,24 @@
 		<div data-vtemplate_payment_window="event=onLogin:viewPaymentForm, event=onLogout:hidePaymentForm" class="col-md-7 _payment_form _notshowing">
 			<form data-vtemplate_payment_window="event=submit:on_client_payment_submit,function=scan_payment_inputs:*" class="form-horizontal _client_payment_form">
 				<div class="form-group col-xs-12">
-					<label for="inputPeriod"><?=TEMP::$Lang['input_period_txt']?></label>
+					<label for="inputPeriodDate"><?=TEMP::$Lang['input_period_txt']?></label>
 					<div class="col-xs-12">
-						<div class="col-xs-6 noLeftRightPadding">
-							<div id="inputPeriod" class="input-group date">
-								<input data-vtemplate_payment_window="event=change:onBookingDateTimeChange" type='text' class="form-control" />
-								<span class="input-group-addon">
+						<div class="col-xs-4 noLeftRightPadding">
+							<div  class="input-group date">
+								<input id="inputPeriodDate" type='text' class="form-control" />
+								<span data-vtemplate_payment_window="event=click:onDateGlyphiconClick" class="input-group-addon">
 		                        	<span class="glyphicon glyphicon-calendar"></span>
 		                    	</span>
 							</div>
+						</div>
+					
+						<div class="col-xs-4 notshowing">
+							<div  class="input-group date">
+								<input id="inputPeriodTime" type='text' class="form-control">
+								<span data-vtemplate_payment_window="event=click:onTimeGlyphiconClick" class="input-group-addon">
+			                        	<span class="glyphicon glyphicon glyphicon-time"></span>
+			                    </span>
+		                    </div>
 						</div>
 					
 						<div class="col-xs-3 notshowing">
@@ -86,41 +95,43 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-group col-xs-12">
-					<label for="inputCreditCard"><?=TEMP::$Lang['credit_card_number_txt']?></label>
-					<div class="col-xs-12">
-					    <input type="hidden" id="inputCreditCard_hidden" name="uCCard">
-						<input type="text" tabindex="0" id="inputCreditCard" class="form-control credit_input" name="" maxlength="4"  required>
-						<input type="text" tabindex="1" class="form-control credit_input" maxlength="4" name="" required>
-						<input type="text" tabindex="2" class="form-control credit_input" maxlength="4" name="" required>
-						<input type="text" tabindex="3" class="form-control credit_input" maxlength="4" name="" required>
-				    </div>
-				</div>
-				<div class="form-group col-xs-12">
-					<label for="monthSelect"><?=TEMP::$Lang['card_exp_year_txt']?></label>
-					<div class="col-xs-12">
-						<div class="col-xs-2 expire_input">
-							<select name="uExpiryMonth" required id="monthSelect" class="form-control expire_input" value="<?=$arRes['month']?>">
-								<?for($i = 1; $i < 13; $i++):?>
-								<option <?if($i == $arRes['month']):?>selected<?endif?>><?=$i < 10 ? '0'.$i : $i?></option>
-								<?endfor?>
-							</select>
-						</div>
-						<span>/</span>
-						<div class="col-xs-2 expire_input">
-							<select name="uExpiryYear" required class="form-control expire_input" value="<?=$arRes['year']?>">
-								<?for($i = $arRes['year']; $i < $arRes['year'] + 11; $i++):?>
-								<option <?if($i == $arRes['year']):?>selected<?endif?>><?=$i < 10 ? '0'.$i : $i?></option>
-								<?endfor?>
-							</select>
+				<div id="payment_fields" class="notshowing">
+					<div class="form-group col-xs-12">
+						<label for="inputCreditCard"><?=TEMP::$Lang['credit_card_number_txt']?></label>
+						<div class="col-xs-12">
+						    <input type="hidden" id="inputCreditCard_hidden" name="uCCard">
+							<input type="text" tabindex="0" id="inputCreditCard" class="form-control credit_input" name="" maxlength="4"  required>
+							<input type="text" tabindex="1" class="form-control credit_input" maxlength="4" name="" required>
+							<input type="text" tabindex="2" class="form-control credit_input" maxlength="4" name="" required>
+							<input type="text" tabindex="3" class="form-control credit_input" maxlength="4" name="" required>
+					    </div>
+					</div>
+					<div class="form-group col-xs-12">
+						<label for="monthSelect"><?=TEMP::$Lang['card_exp_year_txt']?></label>
+						<div class="col-xs-12">
+							<div class="col-xs-2 expire_input">
+								<select name="uExpiryMonth" required id="monthSelect" class="form-control expire_input" value="<?=$arRes['month']?>">
+									<?for($i = 1; $i < 13; $i++):?>
+									<option <?if($i == $arRes['month']):?>selected<?endif?>><?=$i < 10 ? '0'.$i : $i?></option>
+									<?endfor?>
+								</select>
+							</div>
+							<span>/</span>
+							<div class="col-xs-2 expire_input">
+								<select name="uExpiryYear" required class="form-control expire_input" value="<?=$arRes['year']?>">
+									<?for($i = $arRes['year']; $i < $arRes['year'] + 11; $i++):?>
+									<option <?if($i == $arRes['year']):?>selected<?endif?>><?=$i < 10 ? '0'.$i : $i?></option>
+									<?endfor?>
+								</select>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group col-xs-12">
-					<label for="InputCVV"><?=TEMP::$Lang['card_cvv_txt']?></label>
-					<div class="col-xs-12">
-						<div class="col-xs-2 noLeftRightPadding">
-							<input type="text" name="uCVV" class="form-control" id="InputCVV" placeholder="<?=TEMP::$Lang['card_cvv_txt']?>">
+					<div class="form-group col-xs-12">
+						<label for="InputCVV"><?=TEMP::$Lang['card_cvv_txt']?></label>
+						<div class="col-xs-12">
+							<div class="col-xs-2 noLeftRightPadding">
+								<input type="text" name="uCVV" class="form-control" id="InputCVV" placeholder="<?=TEMP::$Lang['card_cvv_txt']?>">
+							</div>
 						</div>
 					</div>
 				</div>

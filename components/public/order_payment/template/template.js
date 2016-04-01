@@ -14,7 +14,26 @@ function get_join_card_number(){
 $(document).ready(function(event){
 	$('.credit_input').groupinputs();
 	
-	$('#inputPeriod').datetimepicker();
+	
+	jQuery.datetimepicker.setLocale('uk');
+	
+	$('#inputPeriodTime').datetimepicker({
+		datepicker:false,
+		format:'H:i',
+		onChangeDateTime:function(dp,$input){
+		    console.log('time was changed');
+		}
+	});
+	
+	$('#inputPeriodDate').datetimepicker({
+		timepicker:false,
+		format:'d.m.Y',
+		onChangeDateTime:function(dp,$input){
+		    console.log('date was changed');
+		}
+	});
+	
+	
 	
 	$('.credit_input').on('input propertychange', function(e) {
 	    
@@ -143,9 +162,11 @@ payment_window_vtemplate.eventFunctions = {
 			event.preventDefault();
 			console.log('payment submit');
 		},
-		onBookingDateTimeChange : function(event){
-			console.log(payment_window_vtemplate.workElement.value);
-			console.log('element changed');
+		onTimeGlyphiconClick : function(event){
+			$('#inputPeriodTime').trigger('focus');
+		},
+		onDateGlyphiconClick : function(event){
+			$('#inputPeriodDate').trigger('focus');
 		}
 }
 payment_window_vtemplate.functions = {

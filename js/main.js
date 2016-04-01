@@ -891,6 +891,7 @@ function VTemplate(params){
 	}
 	
 	this.workElement = {};
+	this.debugMode = true;
 	
 	this.afterRender = params.afterRender || function(tempElements){
 		
@@ -928,7 +929,8 @@ function VTemplate(params){
 					case 'event'://event=click:order_click
 						var fSplit = targetVariable.split(':', 2);
 						if(typeof(self.eventFunctions[fSplit[1]]) != 'function'){
-							console.log('function: "' + fSplit[1] + '" not set in ' + tempElements[num].outerHTML);
+							if(self.debugMode)
+								console.log('function: "' + fSplit[1] + '" not set in ' + tempElements[num].outerHTML);
 							continue;
 						}
 						self.addEvent(tempElements[num], fSplit[0], self.eventFunctions[fSplit[1]]);
@@ -944,7 +946,8 @@ function VTemplate(params){
 		element = element || null;
 		var self = this;
 		if(!!!data){
-			console.log('data is not defined in template render function. template name: ' + self.tmpName);
+			if(self.debugMode)
+				console.log('data is not defined in template render function. template name: ' + self.tmpName);
 			return false;
 		}
 		if(element !== null){
@@ -979,7 +982,8 @@ function VTemplate(params){
 					
 						targetVariable = eval(targetVariable);
 					}catch(err){
-						console.log(err);
+						if(self.debugMode)
+							console.log(err);
 						continue;
 					}
 					
@@ -1006,7 +1010,8 @@ function VTemplate(params){
 							continue;
 						fSplit[1] = eval(fSplit[1]);
 						if(typeof(self.functions[fSplit[0]]) != 'function'){
-							console.log('function: "' + fSplit[0] + '" not set in ' + tempElements[num].outerHTML);
+							if(self.debugMode)
+								console.log('function: "' + fSplit[0] + '" not set in ' + tempElements[num].outerHTML);
 							continue;
 						}
 						self.workElement = tempElements[num];
