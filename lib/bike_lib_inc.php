@@ -217,33 +217,12 @@ class BIKE extends USER{
 		}
 		
 	}
-
-
+	
+	
 	/** Вычисляет стоимость аренды. В качестве параметра передается
 	 *  количество времени аренды в секундах.
 	 */
 	static public function getRentAmount($rent_seconds){
-		
-		$arDiff = self::getTimeBetween(0, $rent_seconds);
-
-		$days = $arDiff['days'];
-		$hours = $arDiff['hours'];
-		$minutes = $arDiff['minutes'];
-
-		$amount = $days * self::$dayAmount;
-		if($amount == 0){
-			$amount += $amount == 0 && ($hours * 60 + $minutes <= 60 + self::$timeBuffer) ? self::$firstHourAmount : ($minutes <= self::$timeBuffer ? self::$firstHourAmount + (($hours - 1) * self::$nextHourAmount) : self::$firstHourAmount + ($hours * self::$nextHourAmount));
-		}else{
-			$amount += $amount > 0 && ($hours * 60 + $minutes <= 60 + self::$timeBuffer) ? self::$nextHourAmount : ($minutes <= self::$timeBuffer ? self::$nextHourAmount + (($hours - 1) * self::$nextHourAmount) : self::$nextHourAmount + ($hours * self::$nextHourAmount));
-			$amount -= self::$nextHourAmount;
-		}
-		
-
-		
-		return $amount;			
-	}
-	
-	static public function getRentAmount1($rent_seconds){
 	
 		$arDiff = self::getTimeBetween(0, $rent_seconds);
 		
@@ -266,11 +245,12 @@ class BIKE extends USER{
 		}
 		
 	
-	
-	
 		return $amount;
 	}
 
+	/**
+	 * Возвращает склоненное слово в соответствии с массивом склонений
+	 */
 	static public function declension($value, $arDeclens){	//$value-число; $arDeclens - массив склонений типа [значение]=>['склонение']
 											//[0]=>стандартное склонение, под другими значениями принимаються исключения (числа от 10 до 20 выводятся как стандарт)
 		if($value>20){
