@@ -1,5 +1,5 @@
 <?ini_set('display_errors', 1);
-error_reporting(E_ERROR);
+error_reporting(E_NOTICE);
 session_start(0);
 define("VERSION", 142);
 define("SMS_LOGIN", "380673666811");

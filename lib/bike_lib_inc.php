@@ -1,9 +1,10 @@
 <?php
 class BIKE extends USER{
 	
-	static public $firstHourAmount = 30;
-	static public $dayAmount = 150;
+	static public $firstHourAmount = 40;
+	static public $dayAmount = 200;
 	static public $nextHourAmount = 20;
+	static public $secondHourAmount = 30;
 	static public $added = 20;
 	static public $timeBuffer = 15;
 
@@ -240,6 +241,34 @@ class BIKE extends USER{
 
 		
 		return $amount;			
+	}
+	
+	static public function getRentAmount1($rent_seconds){
+	
+		$arDiff = self::getTimeBetween(0, $rent_seconds);
+		
+		$amount = 0;
+	
+		$days = $arDiff['days'];
+		$hours = $arDiff['hours'];
+		$minutes = $arDiff['minutes'];
+	
+		if($minutes > self::$timeBuffer){
+			$hours++;
+		}
+		if($days > 0){
+			$amount += self::$dayAmount * $days;
+			$amount += self::$nextHourAmount * $hours;
+		}elseif($hours > 0){
+			$amount += ($hours == 1 ? self::$firstHourAmount : 0);
+			$amount += ($hours == 2 ? self:: $secondHourAmount  + self::$firstHourAmount: 0);
+			$amount += ($hours >= 3 ? (self::$nextHourAmount * ($hours - 2))  + self:: $secondHourAmount + self::$firstHourAmount: 0);
+		}
+		
+	
+	
+	
+		return $amount;
 	}
 
 	static public function declension($value, $arDeclens){	//$value-число; $arDeclens - массив склонений типа [значение]=>['склонение']
