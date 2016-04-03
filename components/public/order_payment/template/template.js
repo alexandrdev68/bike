@@ -40,6 +40,25 @@ $(document).ready(function(event){
 	});
 });
 
+payment_window_vtemplate.ajaxGetBikeRentsForDate = new serverRequest({
+	url : '/',
+	dataType : 'json',
+	data : {
+		action : 'get_bike_rents_for_date',
+		bike_id : document.getElementById('currBikeId').value,
+		date : null
+	},
+	success : function(response){
+		if(response.status == 'ok'){
+			
+		}else{
+			
+		}
+		
+		
+	}
+});
+
 payment_window_vtemplate.ajaxFindClient = new serverRequest({
 	url : '/',
 	dataType : 'json',
@@ -61,9 +80,6 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 		}
 		
 		
-	},
-	error : function(response){
-		console.log('bad');
 	}
 });
 
@@ -99,9 +115,6 @@ payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
 		
 		
 		
-	},
-	error : function(response){
-		console.log('bad');
 	}
 });
 

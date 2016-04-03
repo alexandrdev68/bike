@@ -247,6 +247,32 @@ class BIKE extends USER{
 	
 		return $amount;
 	}
+	
+	static public function getBikeBookingsByDate($timestamp){
+		$sqlSelect = 'SELECT
+					`r`.`id`,
+					`r`.`bike_id`,
+					`r`.`time_start`,
+					`r`.`project_time`,
+					`r`.`klient_id`,
+					`r`.`properties` AS `rent_prop`,
+					`b`.`id`,
+					`b`.`model`,
+					`b`.`store_id`,
+					`b`.`properties`,
+					`b`.`foto`,
+					`b`.`serial_id`,
+					`s`.`adress`,
+					`u`.`name`,
+					`u`.`patronymic`,
+					`u`.`surname`,
+					`u`.`phone`';
+		
+		$sqlWhere = " FROM `rent` `r` LEFT OUTER JOIN `bikes` `b` ON `r`.`bike_id` = `b`.`id`
+							LEFT OUTER JOIN `store` `s` ON `s`.`id` = `b`.`store_id`
+							LEFT OUTER JOIN `users` `u` ON `r`.`klient_id` = `u`.`id`
+							 WHERE `r`.`time_end` = 0 ORDER BY `r`.`time_start` LIMIT 100";
+	}
 
 	/**
 	 * Возвращает склоненное слово в соответствии с массивом склонений

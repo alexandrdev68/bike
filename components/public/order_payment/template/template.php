@@ -136,6 +136,7 @@
 					</div>
 				</div>
 			</form>
+			<input id="currBikeId"  type="hidden" data-vtemplate_payment_window="value=id" value="">
 		</div><!-- payment form -->
 		
       </div>

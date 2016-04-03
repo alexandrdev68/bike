@@ -868,6 +868,16 @@ class Actions{
 		return json_encode($response);
 		
 	}
+#---------------------------------------	
+	function get_bike_rents_for_date_handler(){
+		
+		$date = Dbase::dataFilter($_POST['date']);
+		if($date == null){
+			$date = strtotime(date('dd.mm.YYYY', time()));
+		}
+		
+		
+	}
 #---------------------------------------
 	function get_user_info_handler(){
 		$klient_id = Dbase::dataFilter(@$_POST['klient_id']);

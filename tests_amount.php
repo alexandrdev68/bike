@@ -11,7 +11,7 @@ for($i = $rent_time; $i < 864001; $i += 4200){
 		$days = $arDiff['days'];
 		$hours = $arDiff['hours'];
 		$minutes = $arDiff['minutes'];
-	echo 'rent time: '.$days.'days, '.$hours.' hours, '.$minutes.' minutes.'
+		echo 'rent time: '.$days.'days, '.$hours.' hours, '.$minutes.' minutes.'
 			.' amount: '.(BIKE::getRentAmount1($i)).'hrn. <br>';
 	
 }

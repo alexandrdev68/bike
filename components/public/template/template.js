@@ -1,5 +1,9 @@
 $(document).ready(public_init);
 
+serverRequest.prototype.error = function(response){
+	TEMPLATE.showNotice(TEMPLATE.lang.js_msg_server_error, 'error');
+}
+
 function get_max_height(elements){
 
 	var max = 0;
@@ -27,13 +31,8 @@ public_page_template.ajaxLogoutClient = new serverRequest({
 		if(response.status == 'ok'){
 			window.location.reload();
 		}else{
-			TEMPLATE.showNotice('server error', 'error');
+			TEMPLATE.showNotice(TEMPLATE.lang.js_msg_server_error, 'error');
 		}
-		
-		
-	},
-	error : function(response){
-		TEMPLATE.showNotice('server error', 'error');
 	}
 });
 

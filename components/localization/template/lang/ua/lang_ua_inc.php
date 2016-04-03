@@ -177,6 +177,7 @@ TEMP::$Lang['FORJS'] = json_encode(array(
 		'js_msg_user_found'=>'Користувача знайдено',
 		'js_msg_input_user_data'=>'Введіть дані для проходження реєстрації',
 		'js_msg_sms_sent'=>'Вам надіслано повідомлення з кодом підтвердження',
+		'js_msg_server_error'=>'Сталася помилка на стороні сервера',
 		
 ));
 

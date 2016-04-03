@@ -802,14 +802,14 @@ function serverRequest(params){
 	    };
     }
     
+    this.error = function(response){
+    	//ajax error handler
+		
+    	console.log('Error on server, try again later');
+    };
+    
     if(params.error !== undefined) this.error = params.error;
-    else{
-    	this.error = function(response){
-	    	//ajax error handler
-    		
-	    	console.log('Error on server, try again later');
-	    };
-    }
+    
     
     
     this.send = function(sparams){
