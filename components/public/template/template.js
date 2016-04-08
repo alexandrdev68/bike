@@ -1,6 +1,6 @@
 $(document).ready(public_init);
 
-serverRequest.prototype.error = function(response){
+gserverRequest.prototype.error = function(response){
 	TEMPLATE.showNotice(TEMPLATE.lang.js_msg_server_error, 'error');
 }
 

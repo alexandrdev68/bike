@@ -38,25 +38,26 @@ $(document).ready(function(event){
 	$('.credit_input').on('input propertychange', function(e) {
 	    
 	});
-});
 
-payment_window_vtemplate.ajaxGetBikeRentsForDate = new serverRequest({
-	url : '/',
-	dataType : 'json',
-	data : {
-		action : 'get_bike_rents_for_date',
-		bike_id : document.getElementById('currBikeId').value,
-		date : null
-	},
-	success : function(response){
-		if(response.status == 'ok'){
+	payment_window_vtemplate.ajaxGetBikeRentsForDate = new serverRequest({
+		url : '/',
+		dataType : 'json',
+		data : {
+			action : 'get_bike_rents_for_date',
+			bike_id : document.getElementById('currBikeId').value,
+			date : null
+		},
+		success : function(response){
+			if(response.status == 'ok'){
+				
+			}else{
+				
+			}
 			
-		}else{
 			
 		}
-		
-		
-	}
+	});
+
 });
 
 payment_window_vtemplate.ajaxFindClient = new serverRequest({
