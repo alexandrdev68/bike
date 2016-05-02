@@ -138,11 +138,18 @@ class BIKE extends USER{
 		$currTime = time();
 		
 		$rent_period = $currTime - $time_start;
-		$amount = self::getRentAmount($rent_period);
+		
 		/*if($rent_period > $project_time){
 			$amount += self::$nextHourAmount * floor(($rent_period - $project_time - self::$timeBuffer * 60) / 3600) + self::$nextHourAmount; 
 		}
 		*/
+		//смотрим или был заказ на сутки, если да, считаем по суточному тарифу
+		if(fmod($project_time, 86400) == 0){
+			$amount = self::getRentAmount($project_time);
+		}else{
+			$amount = self::getRentAmount($rent_period);
+		}
+		
 		$amount = ($amount * 100) + (int)$added;
 
 		$sql = "UPDATE `rent` SET `time_end` = {$currTime}, `amount` = {$amount}, `store_finish` = {$store_id} WHERE `bike_id`= {$bike_id} AND `time_end` = 0";
