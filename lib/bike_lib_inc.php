@@ -144,7 +144,7 @@ class BIKE extends USER{
 		}
 		*/
 		//смотрим или был заказ на сутки, если да, считаем по суточному тарифу
-		if(fmod($project_time, 86400) == 0){
+		if((fmod($project_time, 86400) == 0) && ($rent_period < $project_time)){
 			$amount = self::getRentAmount($project_time);
 		}else{
 			$amount = self::getRentAmount($rent_period);
