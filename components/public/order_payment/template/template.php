@@ -69,28 +69,29 @@
 					<div class="col-xs-12">
 						<div class="col-xs-4 noLeftRightPadding">
 							<div  class="input-group date">
-								<input id="inputPeriodDate" type='text' class="form-control" />
+								<input id="inputPeriodDate" type='text' class="form-control" name="date_rent">
 								<span data-vtemplate_payment_window="event=click:onDateGlyphiconClick" class="input-group-addon">
 		                        	<span class="glyphicon glyphicon-calendar"></span>
 		                    	</span>
 							</div>
 						</div>
 					
-						<div class="col-xs-4 notshowing">
+						<div class="col-xs-4 notshowing _timePeriodBlock">
 							<div  class="input-group date">
-								<input id="inputPeriodTime" type='text' class="form-control">
+								<input id="inputPeriodTime" type='text' class="form-control" name="time_rent">
 								<span data-vtemplate_payment_window="event=click:onTimeGlyphiconClick" class="input-group-addon">
 			                        	<span class="glyphicon glyphicon glyphicon-time"></span>
 			                    </span>
 		                    </div>
 						</div>
 					
-						<div class="col-xs-3 notshowing">
-							<select name="uExpiryMonth" required id="monthSelect" class="form-control" value="<?=$arRes['month']?>">
+						<div class="col-xs-3 notshowing _periodRentBlock">
+							<select name="period_rent" required id="periodRent" class="form-control" value="<?=$arRes['month']?>">
 								<?for($i = 1; $i < 6; $i++):?>
-								<option value="<?=$i?>"><?=$i.' '.BIKE::declension($i, array(TEMP::$Lang['hours'],TEMP::$Lang['hours1'],TEMP::$Lang['hours2'],TEMP::$Lang['hours2'],TEMP::$Lang['hours2']))?></option>
+								<option value="<?=$i?>h"><?=$i.' '.BIKE::declension($i, array(TEMP::$Lang['hours'],TEMP::$Lang['hours1'],TEMP::$Lang['hours2'],TEMP::$Lang['hours2'],TEMP::$Lang['hours2']))?></option>
 								<?endfor?>
-								<option value="1_day"><?=TEMP::$Lang['day']?></option>
+								<option value="1d">1<?=TEMP::$Lang['day']?></option>
+								<option value="2d">2<?=TEMP::$Lang['day']?></option>
 							</select>
 						</div>
 					</div>

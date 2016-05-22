@@ -2,6 +2,26 @@ var payment_window_vtemplate = new VTemplate({
 	tmpName : 'payment_window'
 });
 
+payment_window_vtemplate.allowTimes = [
+						'9:00', '10:00', '11:00', 
+						'12:00', '13:00', '14:00', '15:00', '16:00',
+						'17:00', '18:00', '19:00'
+                        ];
+
+payment_window_vtemplate.getRentsForBike = new serverRequest({
+	url : '/',
+	dataType : 'json',
+	data : {action : 'get_rents_for_bike'},
+	success : function(response){
+		if(response.status == 'ok'){
+			//some response handler
+			payment_window_vtemplate.rentTable = response;
+		}else{
+			TEMPLATE.showNotice(TEMPLATE.lang.js_msg_server_error, 'error');
+		}
+	}
+}); 
+
 function get_join_card_number(){
 	var card_number_cuts = $('.credit_input');
 	var card_number = '';
@@ -20,16 +40,22 @@ $(document).ready(function(event){
 	$('#inputPeriodTime').datetimepicker({
 		datepicker:false,
 		format:'H:i',
+		allowTimes: payment_window_vtemplate.allowTimes,
 		onChangeDateTime:function(dp,$input){
-		    console.log('time was changed');
+		    $('div._periodRentBlock').show();
 		}
 	});
 	
 	$('#inputPeriodDate').datetimepicker({
 		timepicker:false,
+		dayOfWeekStart : 1,
 		format:'d.m.Y',
 		onChangeDateTime:function(dp,$input){
-		    console.log('date was changed');
+		    
+			$('div._timePeriodBlock').show();
+		    document.querySelector('#inputPeriodTime').value = ''
+		    $('div._periodRentBlock').hide();
+		    document.querySelector('#periodRent').value = '';
 		}
 	});
 	
@@ -178,6 +204,7 @@ payment_window_vtemplate.eventFunctions = {
 		},
 		onTimeGlyphiconClick : function(event){
 			$('#inputPeriodTime').trigger('focus');
+			
 		},
 		onDateGlyphiconClick : function(event){
 			$('#inputPeriodDate').trigger('focus');
