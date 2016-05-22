@@ -16,6 +16,7 @@ payment_window_vtemplate.getRentsForBike = new serverRequest({
 		if(response.status == 'ok'){
 			//some response handler
 			payment_window_vtemplate.rentTable = response;
+			TEMPLATE.showNotice(TEMPLATE.lang.js_msg_server_ok, 'message');
 		}else{
 			TEMPLATE.showNotice(TEMPLATE.lang.js_msg_server_error, 'error');
 		}
@@ -51,7 +52,8 @@ $(document).ready(function(event){
 		dayOfWeekStart : 1,
 		format:'d.m.Y',
 		onChangeDateTime:function(dp,$input){
-		    
+			payment_window_vtemplate.getRentsForBike.data.bike_id = payment_window_vtemplate.bike_info.id;
+			payment_window_vtemplate.getRentsForBike.send();
 			$('div._timePeriodBlock').show();
 		    document.querySelector('#inputPeriodTime').value = ''
 		    $('div._periodRentBlock').hide();

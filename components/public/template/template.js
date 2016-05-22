@@ -42,6 +42,8 @@ public_page_template.eventFunctions = {
 			if(event.target.nodeName == 'BUTTON'){
 				bike.getBikeById(event.target.dataset.value, function(response){
 					payment_window_vtemplate.render(response.bike_info);
+					payment_window_vtemplate.bike_info = response.bike_info;
+					
 				}, true);
 				
 				

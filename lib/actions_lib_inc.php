@@ -1317,6 +1317,22 @@ class Actions{
 		
 		return json_encode($arResponse);
 	}
+
+#---------------------------------------
+	
+	function get_rents_for_bike_handler(){
+		$bike_id = Dbase::dataFilter($_POST['bike_id']);
+		$arResponse = array(
+				'status'=>'ok', 'rent_booking'=>array(
+						'bike_id'=>$bike_id, 
+						'booking_info_array'=>array(),
+						
+				)
+				
+				);
+		return json_encode($arResponse);
+	}
+	
 #---------------------------------------
 
 	function smsResseller_handler(){

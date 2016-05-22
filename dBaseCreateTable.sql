@@ -29,3 +29,11 @@ ALTER TABLE `bike`.`sms_log`
 CHANGE COLUMN `sms_status` `sms_status` INT(11) NULL DEFAULT NULL COMMENT '1 - успешно отправлено, нет подтверждения доставки\n0 - доставка подтверждена\n401 - ошибка при отправке' ;
 
 ALTER TABLE `bike`.`rent` ADD COLUMN `store_start` INT NULL  AFTER `time_end` , ADD COLUMN `store_finish` INT NULL  AFTER `store_start`;
+
+CREATE TABLE `payments_booking` (
+  `idpayments_booking` int(11) NOT NULL,
+  `rent_id` int(11) NOT NULL,
+  `card_num` varchar(45) DEFAULT NULL,
+  `properties` text,
+  PRIMARY KEY (`idpayments_booking`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

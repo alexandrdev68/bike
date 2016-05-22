@@ -1,9 +1,5 @@
 <?ini_set('display_errors', 1);
-if(!DEBUG_MODE)
-	error_reporting(E_ERROR);
-else{
-	error_reporting(E_ALL);
-}
+
 session_start(0);
 define("VERSION", 143);
 define("SMS_LOGIN", "380673666811");
@@ -16,6 +12,12 @@ define('IDENTJS', "1op09");
 date_default_timezone_set('Europe/Kiev');
 require_once($_SERVER['DOCUMENT_ROOT'].'/lib/main_lib_inc.php');
 require_once('db_init_inc.php');
+
+if(!DEBUG_MODE)
+	error_reporting(E_ERROR);
+else{
+	error_reporting(E_ALL);
+}
 
 //print_r($db->messages);
 
