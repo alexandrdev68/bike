@@ -255,7 +255,11 @@ class BIKE extends USER{
 		return $amount;
 	}
 	
-	static public function getBikeBookingsByDate($timestamp){
+        /**
+         * вертає наявність броні на велосипед з переданим id
+         * @param type $id
+         */
+	static public function getBikeBookingsByDate($id){
 		$sqlSelect = 'SELECT
 					`r`.`id`,
 					`r`.`bike_id`,
