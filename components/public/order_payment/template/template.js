@@ -52,10 +52,11 @@ $(document).ready(function(event){
 		dayOfWeekStart : 1,
 		format:'d.m.Y',
 		onChangeDateTime:function(dp,$input){
-			payment_window_vtemplate.getRentsForBike.data.bike_id = payment_window_vtemplate.bike_info.id;
-			payment_window_vtemplate.getRentsForBike.send();
-			$('div._timePeriodBlock').show();
-		    document.querySelector('#inputPeriodTime').value = ''
+                    payment_window_vtemplate.getRentsForBike.data.bike_id = payment_window_vtemplate.bike_info.id;
+                    payment_window_vtemplate.getRentsForBike.data.date = $input.val();
+                    payment_window_vtemplate.getRentsForBike.send();
+                    $('div._timePeriodBlock').show();
+		    document.querySelector('#inputPeriodTime').value = '';
 		    $('div._periodRentBlock').hide();
 		    document.querySelector('#periodRent').value = '';
 		}
