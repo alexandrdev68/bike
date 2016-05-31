@@ -872,10 +872,13 @@ class Actions{
 	function get_bike_rents_for_date_handler(){
 		
 		$date = Dbase::dataFilter($_POST['date']);
+                $bike_id = Dbase::dataFilter($_POST['bike_id']);
+                
 		if($date == null){
 			$date = strtotime(date('dd.mm.YYYY', time()));
 		}
 		
+                $arBookings = Bike::getBikeBookingsByDate($bike_id);
 		
 	}
 #---------------------------------------
@@ -1069,12 +1072,15 @@ class Actions{
 		if(!empty($arRes['properties'])){
 			$arRes['properties'] = json_decode($arRes['properties'], true);
 		}
-		if($arRes !== false){
-			if($arRes['foto'] != '') $arRes['foto'] = 'upload/bikes/bike_'.$_POST['bike_id'].'_resized_640.jpg';
-			$arRes['store_address'] = BIKE::getStoresAdresses($arRes['store_id']);
-			$response = array('status'=>'ok', 'bike_info'=>$arRes);
-		}else $response = array('status'=>'error', 'message'=>USER::lastMessage());
-		return json_encode($response);
+		if ($arRes !== false) {
+            if ($arRes['foto'] != '')
+                $arRes['foto'] = 'upload/bikes/bike_' . $_POST['bike_id'] . '_resized_640.jpg';
+            $arRes['store_address'] = BIKE::getStoresAdresses($arRes['store_id']);
+            $response = array('status' => 'ok', 'bike_info' => $arRes);
+        }else {
+            $response = array('status' => 'error', 'message' => USER::lastMessage());
+        }
+        return json_encode($response);
 	}
 	
 #---------------------------------------
