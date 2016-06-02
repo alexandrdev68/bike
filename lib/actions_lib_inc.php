@@ -878,7 +878,8 @@ class Actions{
 			$date = strtotime(date('dd.mm.YYYY', time()));
 		}
 		
-                $arBookings = Bike::getBikeBookingsByDate($bike_id);
+        $arBookings = Bike::getBikeBookingsByDate($bike_id);
+        
 		
 	}
 #---------------------------------------

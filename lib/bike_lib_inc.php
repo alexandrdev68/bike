@@ -283,6 +283,8 @@ class BIKE extends USER{
 							LEFT OUTER JOIN `store` `s` ON `s`.`id` = `b`.`store_id`
 							LEFT OUTER JOIN `users` `u` ON `r`.`klient_id` = `u`.`id`
 							 WHERE `r`.`time_end` = 0 ORDER BY `r`.`time_start` LIMIT 100";
+		
+		
 	}
 
 	/**

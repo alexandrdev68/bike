@@ -4,7 +4,8 @@ $arExclusions = array(
 		'find_action_user',
 		'get_bike_by_id_public',
 		'find_client_by_phone',
-		'login_client'
+		'login_client',
+		'get_bike_rents_for_date'
 );
 
 if(isset($_POST['action'])){

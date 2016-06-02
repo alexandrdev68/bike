@@ -11,7 +11,7 @@ payment_window_vtemplate.allowTimes = [
 payment_window_vtemplate.getRentsForBike = new serverRequest({
 	url : '/',
 	dataType : 'json',
-	data : {action : 'get_rents_for_bike'},
+	data : {action : 'get_bike_rents_for_date'},
 	success : function(response){
 		if(response.status == 'ok'){
 			//some response handler
