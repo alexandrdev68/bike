@@ -17,7 +17,7 @@ function userData(data, full){
 			data.phone + '</td>' + 
 			'<td><input class="_print' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["print_contract"]?>' +
 			'<br><input class="_seat' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["seat"]?>' +
-			(bike.bike_action && !!!data.action_klient ? '<br><input class="_action' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["txt_action_participate"]?>' : '<div class="clear"></div><button class="btn _sendSMSBtn" data-userId="' + data.id + '" data-userPhone="' + data.phone + '" type="button"><?=TEMP::$Lang["txt_send_sms_code"]?></button>') +
+			(bike.bike_action ? (!!!data.action_klient ? '<br><input class="_action' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["txt_action_participate"]?>' : '<div class="clear"></div><button class="btn _sendSMSBtn" data-userId="' + data.id + '" data-userPhone="' + data.phone + '" type="button"><?=TEMP::$Lang["txt_send_sms_code"]?></button>') : '') +
 			'</td><td><input class="span1 _timecnt' + data.id + '" type="text" value="1"></td><td><input data-userId="' + 
 			data.id + '" type="radio" name="uRent"></td></tr>');
 }
