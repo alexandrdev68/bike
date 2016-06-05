@@ -21,7 +21,7 @@ function userInfo_init(){
 		clearInterval(user.userInfoInterval);
 		$('div._userRentBikeTime span').text('');
 	});
-
+	
 
 }
 </script>

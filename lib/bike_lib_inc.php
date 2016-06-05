@@ -136,7 +136,7 @@ class BIKE extends USER{
 	 */
 	static public function stopRent($bike_id, $store_id, $time_start, $project_time, $added, $action_client = null){
 		$currTime = time();
-		
+		$discount = 0;
 		$rent_period = $currTime - $time_start;
 		
 		/*if($rent_period > $project_time){
@@ -150,7 +150,17 @@ class BIKE extends USER{
 			$amount = self::getRentAmount($rent_period);
 		}
 		
+		//формуємо знижку
+		if(isset(USER::$currUserProperties['war_veterane']) && USER::$currUserProperties['war_veterane'] == 'yes'){
+			$discount += BIKE::$firstHourAmount;
+		}
+		
 		$amount = ($amount * 100) + (int)$added;
+		
+		//підраховуємо суму зі знижкою
+		if($amount >= $discount){
+			$amount = $amount - ($discount * 100);
+		}
 
 		$sql = "UPDATE `rent` SET `time_end` = {$currTime}, `amount` = {$amount}, `store_finish` = {$store_id} WHERE `bike_id`= {$bike_id} AND `time_end` = 0";
 		$sql2 = "UPDATE `bikes` SET `on_rent` = 'no', `store_id` = {$store_id} WHERE `id` = {$bike_id}";

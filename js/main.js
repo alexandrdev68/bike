@@ -681,6 +681,8 @@ var user = {
 		                }
 		                if(response['info'].properties !== null && response['info'].properties.blackList == 'on') $('div._userBlack').show();
 		                else $('div._userBlack').hide();
+		                if(response['info'].properties !== null && response['info'].properties.war_veterane == 'yes') $('div._userWarVeterane').show();
+		                else $('div._userWarVeterane').hide();
 		                $('div._userInfoWin').modal('show');
 		                user.userInfoInterval = setInterval(updateTimeOnUserInfo, 1000);
 		            }else if(response.status == 'session_close'){

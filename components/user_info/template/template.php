@@ -14,7 +14,9 @@
     <div class="">
       <?if(USER::isAdmin()):?><div class="span5 _userLogin"><strong><?=TEMP::$Lang['login_text']?>:</strong> <span></span></div><?endif?>
       <div class="span5 _userLive"><strong><?=TEMP::$Lang['input_live_place']?>:</strong> <span></span></div>
+      <div class="span5 _userWarVeterane text-success"><strong><?=TEMP::$Lang['war_veterane']?></strong> <span></span></div>
       <div class="span5 _userBlack text-warning"><h3><?=TEMP::$Lang['add_black_list']?></h3> <span></span></div>
+      
     </div>
     
     <div>

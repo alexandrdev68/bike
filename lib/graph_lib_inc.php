@@ -125,15 +125,15 @@ class Graph {
 	 * Пример: Graph::upload_photo('upload/photo/', 1024);
 	 * 
 	 */
-	static public function upload_photo($uploadDir = '../upload/', $filename, $maxsize = 10240000){
+	static public function upload_photo($uploadDir = '../upload/', $filename, $maxsize = 10240000, $files_index = 'foto'){
 		//print_r(@$_FILES); die();
-		if(@$_FILES['foto']['size'] > $maxsize){
+		if(@$_FILES[$files_index]['size'] > $maxsize){
 			return array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['upload_photo_to_big']);
-		}elseif(!(strtolower(strrpos(@$_FILES['foto']['name'], 'jpeg')) !== false || strtolower(strrpos(@$_FILES['foto']['name'], 'jpg')) !== false)){
-			return array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['wrong_photo_format'].@$_FILES['foto']['name']);
+		}elseif(!(strtolower(strrpos(@$_FILES[$files_index]['name'], 'jpeg')) !== false || strtolower(strrpos(@$_FILES[$files_index]['name'], 'jpg')) !== false)){
+			return array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['wrong_photo_format'].@$_FILES[$files_index]['name']);
 		}
 		$uploadFile = $uploadDir.$filename;
-		if(move_uploaded_file($_FILES['foto']['tmp_name'], $uploadFile)){
+		if(move_uploaded_file($_FILES[$files_index]['tmp_name'], $uploadFile)){
 			//если файл успешно записан
 			return $uploadFile;
 		}else return false;

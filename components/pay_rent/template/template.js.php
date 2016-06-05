@@ -26,12 +26,15 @@ function pay_rent_handler(self){
 	var print = $('input._print' + user.currId).prop('checked');
 	var seat = $('input._seat' + user.currId).prop('checked');
 	var rent_period = $('input._timecnt' + user.currId).val();
+	var war_veterane = $('input._war_veterane' + user.currId).prop('checked');
 	var sendData = {'action' : 'go_rent',
         	'user_id' : user.currId,
         	'print' : print,
         	'seat' : seat,
         	'rent_period': rent_period, 
-        	'bike_id': bike.currId}
+        	'bike_id': bike.currId,
+        	'war_veterane' : war_veterane
+        	}
 	<?if(BIKE_ACTION):?>
 		if(document.querySelector('input._action' + user.currId) !== null){
 			sendData.bike_action = $('input._action' + user.currId).prop('checked');

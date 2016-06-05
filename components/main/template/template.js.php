@@ -18,6 +18,7 @@ function userData(data, full){
 			'<td><input class="_print' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["print_contract"]?>' +
 			'<br><input class="_seat' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["seat"]?>' +
 			(bike.bike_action ? (!!!data.action_klient ? '<br><input class="_action' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["txt_action_participate"]?>' : '<div class="clear"></div><button class="btn _sendSMSBtn" data-userId="' + data.id + '" data-userPhone="' + data.phone + '" type="button"><?=TEMP::$Lang["txt_send_sms_code"]?></button>') : '') +
+			(data.properties.war_veterane == 'yes' ? '<br><span class="_war_veterane text-success"> <?=TEMP::$Lang["war_veterane"]?></span>' : '') +
 			'</td><td><input class="span1 _timecnt' + data.id + '" type="text" value="1"></td><td><input data-userId="' + 
 			data.id + '" type="radio" name="uRent"></td></tr>');
 }
@@ -137,7 +138,8 @@ function bikeData(data, fill){
 		'<td>' + bike.getTimeString(new Date(data.project_time * 1000), ':') + 
 		' (' + data.project_amount + (data.rent_prop.added > 0 ? ' + ' + data.rent_prop.added / 100 : '') + ' грн.)' +
 		(data.patronymic == '' ? '' : '<br><span class="_href _userInfoWin_inBikeList" data-user_id="' + data.klient_id + '">' + data.name + ' ' +
-		data.surname + ' ' + data.patronymic + ' ') + '</span><br><?=TEMP::$Lang['phone_numb']?> ' + data.phone + '</td>' +
+		data.surname + ' ' + data.patronymic + ' ') + '</span><br><?=TEMP::$Lang['phone_numb']?> ' + data.phone + 
+		(!!data.user_properties && !!data.user_properties.war_veterane ? '<br><span class="text-success"><?=TEMP::$Lang['war_veterane']?></span>' : '') + '</td>' +
 		'<td>' + data.bike_id + '</td>' +
 		'<td>' + data.serial_id + '</td>' +
 		'<td><input class="btn btn-link _closeRent" type="button" data-bikeid="' + data.bike_id + '" value=' + 

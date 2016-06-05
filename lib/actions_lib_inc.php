@@ -35,7 +35,7 @@ class Actions{
 		$res = Graph::upload_photo("{$_SERVER['DOCUMENT_ROOT']}/upload/klients/", "klient_{$id_user}.jpg");
 		if($res !== false && !is_array($res)){
 			//если файл загрузился успешно изменяем размер фото
-			$resized = Graph::imgResize(640, 400, $res, false);
+			$resized = Graph::imgResize(RES_IMGX, RES_IMGY, $res, false);
 			$imagepath = mb_substr($resized['path'], mb_strrpos($resized['path'], '/') + 1);
 			//print_r($imagepath);die();
 			if($res === false){
@@ -433,6 +433,7 @@ class Actions{
 					`u`.`name`,
 					`u`.`patronymic`,
 					`u`.`surname`,
+					`u`.`properties` as user_properties,
 					`u`.`phone`';
 				
 				$sqlWhere = " FROM `rent` `r` LEFT OUTER JOIN `bikes` `b` ON `r`.`bike_id` = `b`.`id` 
@@ -458,6 +459,7 @@ class Actions{
 				if($on_rent == 1){
 					$arResult[$num]['now'] = $now;
 					$arResult[$num]['rent_prop'] = json_decode($bike['rent_prop'], true);
+					$arResult[$num]['user_properties'] = json_decode($bike['user_properties'], true);
 					$arResult[$num]['project_amount'] = BIKE::getRentAmount($bike['project_time']);
 				}
 			}
@@ -623,6 +625,8 @@ class Actions{
 		$lastname_user = Dbase::dataFilter($_POST['uPatronymic']);
 		$live_place = Dbase::dataFilter($_POST['uLivePlace']);
 		$another_place = (isset($_POST['another_city']) ? Dbase::dataFilter($_POST['another_city']) : 'no');
+		$war_veterane = (isset($_POST['war_veterane']) ? Dbase::dataFilter($_POST['war_veterane']) : 'no');
+		$imagepath = '';
 		//echo json_encode($live_place); die();
 		$phone = Dbase::dataFilter(@$_POST['uPhone']);
 		//проверка полей формы
@@ -641,29 +645,36 @@ class Actions{
 		}
 		
 		//загрузка и изменение размера фото
-		if(isset($_FILES['foto'])){
-			$res = Graph::upload_photo("{$_SERVER['DOCUMENT_ROOT']}/upload/klients/", "klient_{$id_user}.jpg");
-			if($res !== false && !is_array($res)){
-				//если файл загрузился успешно изменяем размер фото
-				$resized = Graph::imgResize(640, 400, $res, false);
-				$imagepath = mb_substr($resized['path'], mb_strrpos($resized['path'], '/') + 1);
-				//print_r($imagepath);die();
-				if($res === false){
-					$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['resize_error']);
+		if(isset($_FILES) && count($_FILES) > 0){
+			foreach($_FILES as $index=>$foto){
+				$res = Graph::upload_photo("{$_SERVER['DOCUMENT_ROOT']}/upload/klients/", "klient_{$id_user}_{$index}.jpg", MAX_FOTO_SIZE, $index);
+				if($res !== false && !is_array($res)){
+					//если файл загрузился успешно изменяем размер фото
+					$resized = Graph::imgResize(RES_IMGX, RES_IMGY, $res, false);
+					$imagepath .= mb_substr($resized['path'], mb_strrpos($resized['path'], '/') + 1).';';
+					//print_r($imagepath);die();
+					if($res === false){
+						$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['resize_error']);
+						return json_encode($response);
+					}
+				}elseif(is_array($res)) return json_encode($res);
+				else{
+					$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['wrong_upload']);
 					return json_encode($response);
 				}
-			}elseif(is_array($res)) return json_encode($res);
-			else{
-				$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['wrong_upload']);
-				return json_encode($response);
-			}
+			}//foreach
 		}else $imagepath = '';
 		
+		//видаляємо лишній символ в кінці строки
+		$imagepath = mb_substr($imagepath, 0, mb_strlen($imagepath) - 1);
+		
+		//ініціюємо масив властивостей
 		$properties = array('another_place'=>$another_place);
 		if($live_place != ''){
 			$properties['live_place'] = $live_place;
 		}
-		
+		if($war_veterane == 'yes')
+			$properties['war_veterane'] = $war_veterane;
 
 		//добавление пользователя в БД
 		$arFields = array('login'=>(string)$id_user,
@@ -842,6 +853,7 @@ class Actions{
 		$arInfo = $db->getArray($sql);
 		if(count($arInfo) > 0){
 			$arInfo[0]['properties'] = json_decode($arInfo[0]['properties'], true);
+			USER::$currUserProperties = $arInfo[0]['properties'];
 			$arInfo[0]['rent_prop'] = @$arInfo[0]['rent_prop'] == null ? '' : json_decode($arInfo[0]['rent_prop'], true);
 		}
 		$arInfo = $arInfo[0];
@@ -891,7 +903,20 @@ class Actions{
 		if($arUser === false){
 			$response = array('status'=>'bad', 'message'=>TEMP::$Lang['SYSTEM']['wrong_sql_request']);
 		}else{
-			if($arUser['photo'] != '') $arUser['photo'] = 'upload/klients/'.$arUser['photo'];
+			if($arUser['photo'] != ''){
+				
+				//формуємо шлях до фото та визначаємо чи є додаткові фото
+				$arFoto = explode(';', $arUser['photo']);
+				$arUser['extra_photo'] = array();
+				
+				foreach($arFoto as $index=>$name_photo){
+					$arUser['extra_photo'][] = 'upload/klients/'.$name_photo;
+					$ind = $index;
+				}
+				
+				$arUser['photo'] = $arUser['extra_photo'][0];
+				//$arUser['extra_photo'] = array_splice($arUser['extra_photo'], 1);
+			}
 			$arUser['now'] = time();
 			//$arUser['properties'] = json_decode($arUser['properties']);
 			$response = array('status'=>'ok', 'info'=>$arUser);

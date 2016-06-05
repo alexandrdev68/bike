@@ -161,6 +161,8 @@ TEMP::$Lang = array(
 	'card_exp_year_txt'=>'Дійсна до',
 	'card_cvv_txt'=>'cvv',
 	'input_period_txt'=>'Виберіть дату, час та кількість годин прокату',
+	'war_veterane'=>'Учасник АТО',
+	'load_extra_photo'=>'Завантажити додаткове фото',
 );
 
 TEMP::$Lang['FORJS'] = json_encode(array(
