@@ -26,6 +26,9 @@ function eduser_init(){
 			},
 			another_city_set : function(properties){
 				$(editUser.workElement).prop('checked', properties === null ? false : properties.another_place == 'yes' ? true : false);
+			},
+			war_veterane_set : function(properties){
+				$(editUser.workElement).prop('checked', properties === null ? false : properties.war_veterane == 'yes' ? true : false);
 			}
 		}
 	});

@@ -55,12 +55,20 @@
 				<label class="control-label span2 offset1"><?=TEMP::$Lang['from_another_city']?>: 
 					<input data-vtemplate_edituser="function=another_city_set:properties" value="yes" type="checkbox" name="another_place">
 				</label>
+				<label><?=TEMP::$Lang['war_veterane']?>
+					<input data-vtemplate_edituser="function=war_veterane_set:properties" type="checkbox" name="war_veterane" value="yes">
+				</label>
 		    </div>
 	    </div>
 	    <div class="control-group span left_margin0">
 	    	<div class="controls">
 				<label class="control-label span2" for="edit_user_foto"><?=TEMP::$Lang['load_photo']?></label>
 				<input id="edit_user_foto" name="foto" type="file" value="">
+			</div>
+			<div class="clear"></div>
+			<div class="controls">
+				<label class="control-label span2" for="edit_extra_foto"><?=TEMP::$Lang['load_extra_photo']?></label>
+				<input id="edit_extra_foto" name="extra_foto" type="file" value="">
 			</div>
 	    </div>
 	    <div class="control-group span10">

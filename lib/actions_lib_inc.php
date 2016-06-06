@@ -82,6 +82,13 @@ class Actions{
 		$phone = Dbase::dataFilter($_POST['uPhone']);
 		$another_place = (isset($_POST['another_place']) ? Dbase::dataFilter($_POST['another_place']) : 'no');
 		$arUser = USER::getFullInfo($id);
+		$war_veterane = (isset($_POST['war_veterane']) ? Dbase::dataFilter($_POST['war_veterane']) : 'no');
+		
+		//розпарсуємо строку фото в масив для перевірки на видалення
+		$arPhoto = explode(';', $arUser['photo']);
+		$arImagepath = array();
+		
+		$imagepath = '';
 		
 		
 		if(mb_strlen($id_user, 'utf-8') < 3){
@@ -92,31 +99,37 @@ class Actions{
 			return json_encode($response);
 		}
 		
-		//загрузка и изменение размера фото если пользователь ее изменил
-		if(isset($_FILES['foto'])){
-			$filename = "{$_SERVER['DOCUMENT_ROOT']}/upload/klients/".($arUser['photo'] == '' ? '_1.klm' : $arUser['photo']);
-			if(file_exists($filename)){
-				USER::delFile($filename);
-			};
-			$res = Graph::upload_photo("{$_SERVER['DOCUMENT_ROOT']}/upload/klients/", "klient_{$id_user}_ver".time().".jpg");
-			if($res !== false && !is_array($res)){
-				//если файл загрузился успешно изменяем размер фото
-				$resized = Graph::imgResize(640, 400, $res, false);
-				$imagepath = mb_substr($resized['path'], mb_strrpos($resized['path'], '/') + 1);
-				//print_r($imagepath);die();
-				if($res === false){
-					$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['resize_error']);
+		//загрузка и изменение размера фото
+		if(isset($_FILES) && count($_FILES) > 0){
+			
+			foreach($_FILES as $index=>$foto){
+				$res = Graph::upload_photo("{$_SERVER['DOCUMENT_ROOT']}/upload/klients/", "klient_{$id_user}_{$index}.jpg", MAX_FOTO_SIZE, $index);
+				if($res !== false && !is_array($res)){
+					//если файл загрузился успешно изменяем размер фото
+					$resized = Graph::imgResize(RES_IMGX, RES_IMGY, $res, false);
+					$arImagepath[] = mb_substr($resized['path'], mb_strrpos($resized['path'], '/') + 1);
+					
+				
+					//print_r($imagepath);die();
+					if($res === false){
+						$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['resize_error']);
+						return json_encode($response);
+					}
+				}elseif(is_array($res)) return json_encode($res);
+				else{
+					$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['wrong_upload']);
 					return json_encode($response);
 				}
-			}elseif(is_array($res)) return json_encode($res);
-			else{
-				ob_clean();
-				$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['wrong_upload'], 'resultupload'=>$res);
-				return json_encode($response);
-			}
+			}//foreach
 		}else $imagepath = '';
 		
-		
+		if(count($arImagepath) >= count($arPhoto)){
+			//if added extra foto or same as early then change path in DB field
+			$imagepath = implode(';', $arImagepath);
+		}else{
+			// if count of photo less as early then do nothing
+			$imagepath = '';
+		}
 		
 		//формирование допсвойств, если они заданы
 		if(isset($_POST['resStore']) || isset($_POST['uLivePlace'])){
@@ -128,6 +141,12 @@ class Actions{
 			else $arProperties['blackList'] = 'off';
 		}
 		$arProperties['another_place'] = $another_place;
+		if($war_veterane == 'yes')
+			$arProperties['war_veterane'] = $war_veterane;
+		elseif($war_veterane == 'no' && isset($arProperties['war_veterane'])) {
+			unset($arProperties['war_veterane']);
+		}
+		
 		//print_r($arProperties); exit;
 		
 		//изменение данных пользователя в БД
@@ -141,6 +160,7 @@ class Actions{
 	  							'user_level'=>(string)@$_POST['uLevel']);
 		//если пользователь не менял фото
 		if($imagepath == '') unset($arFields['photo']);
+		
 		
 		if(USER::change($arFields, $id, false)){
 			$response = array('status'=>'ok', 'message'=>USER::lastMessage(), 'uploaded_photo'=>$imagepath == '' ? 'no' : 'yes');
