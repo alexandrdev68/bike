@@ -1,7 +1,7 @@
 <?ini_set('display_errors', 1);
 
 session_start(0);
-define("VERSION", 144);
+define("VERSION", 145);
 define("SMS_LOGIN", "380673666811");
 define("SMS_PASSW", "swimmer");
 define("SMS_API_KEY", "4f1c76b4ae78754d1bfa5cbaaad31522e99a1d63");
