@@ -95,3 +95,6 @@ span[data-blacklist="no"]{
 .left_margin0{
 	margin-left:0;
 }
+div.custom_carusel_opacity{
+	background: rgba(0, 0, 0, 0.15) none repeat scroll 0 0;
+}

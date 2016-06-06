@@ -14,14 +14,14 @@
 		<div class="carousel-inner">
 			<div class="active item _main_foto">
 				<img alt="no foto" src="">
-				<div class="carousel-caption">
+				<div class="carousel-caption custom_carusel_opacity">
 					<h4><?=TEMP::$Lang['main_photo']?></h4>
 					<p></p>
 				</div>
 			</div>
 			<div class="_extra_foto item">
 				<img alt="no foto" src="">
-				<div class="carousel-caption">
+				<div class="carousel-caption custom_carusel_opacity">
 					<h4><?=TEMP::$Lang['extra_photo']?></h4>
 					<p></p>
 				</div>
