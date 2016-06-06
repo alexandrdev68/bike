@@ -16,8 +16,11 @@ function updateTimeOnUserInfo(){
 }
 
 function userInfo_init(){
+	$('#myCarousel').carousel({
+        interval: false
+      })
 	$('div._userInfoWin').on('hide', function(){
-		$('div._userFoto img').attr('src', ' ').hide();
+		$('div._main_foto img, div._extra_foto img').attr('src', ' ').hide();
 		clearInterval(user.userInfoInterval);
 		$('div._userRentBikeTime span').text('');
 	});

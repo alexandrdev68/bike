@@ -4,10 +4,38 @@
     <h3><?=TEMP::$Lang['user_info']?></h3>
   </div>
   <div class="modal-body">
-    <div class="_userFoto user_foto">
+    
+	<div id="myCarousel" data-interval="false" class="carousel slide">
+		<!-- <ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1"></li>
+		</ol> -->
+		<!-- Carousel items -->
+		<div class="carousel-inner">
+			<div class="active item _main_foto">
+				<img alt="no foto" src="">
+				<div class="carousel-caption">
+					<h4><?=TEMP::$Lang['main_photo']?></h4>
+					<p></p>
+				</div>
+			</div>
+			<div class="_extra_foto item">
+				<img alt="no foto" src="">
+				<div class="carousel-caption">
+					<h4><?=TEMP::$Lang['extra_photo']?></h4>
+					<p></p>
+				</div>
+			</div>
+		</div>
+		<!-- Carousel nav -->
+		<a class="carousel-control _user_info_buttons left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+		<a class="carousel-control _user_info_buttons right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+	</div>
+    
+    <!-- <div class="_userFoto user_foto">
       <img src="" alt="no foto" width="380" height="285" class="img-polaroid">
     
-    </div>
+    </div> -->
     <div class="_userFullName">
       <strong><?=TEMP::$Lang['pib_table']?>:</strong> <span></span>
     </div>

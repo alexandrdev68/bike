@@ -670,7 +670,15 @@ var user = {
 		        success: function(response) {
 		        	if(response.status == 'ok'){
 		                $('div._userFullName span').text(response['info'].name + ' ' + response['info'].surname + ' ' + response['info'].patronymic);
-		                $('div._userFoto img').attr('src', response['info'].photo).show();
+		                $('#myCarousel * ').removeClass('active');
+		                $('#myCarousel div._main_foto').addClass('active');
+		                $('div._main_foto img').attr('src', response['info'].photo).show();
+		                if(!!response['info']['extra_photo'] && !!response['info']['extra_photo'][1]){
+		                	$('a._user_info_buttons').show();
+		                	$('div._extra_foto img').attr('src', response['info']['extra_photo'][1]).show();
+		                }else{
+		                	$('a._user_info_buttons').hide();
+		                }
 		                $('div._userLogin span').text(response['info'].login);
 		                $('div._userLive span').text(response['info'].properties === null ? '---' : response['info'].properties.live_place === undefined ? '---' : response['info'].properties.live_place);
 		                $('div._userRentBikeInfo span').text(response['info'].bike_id === null ? '---' : response['info'].model + ' Ser.No:' + response['info'].serial_id + ' No:' + response['info'].bike_id);

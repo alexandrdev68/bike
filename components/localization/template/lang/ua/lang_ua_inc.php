@@ -163,6 +163,8 @@ TEMP::$Lang = array(
 	'input_period_txt'=>'Виберіть дату, час та кількість годин прокату',
 	'war_veterane'=>'Учасник АТО',
 	'load_extra_photo'=>'Завантажити додаткове фото',
+	'extra_photo'=>'Додаткове фото',
+	'main_photo'=>'основне фото',
 );
 
 TEMP::$Lang['FORJS'] = json_encode(array(

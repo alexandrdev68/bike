@@ -9,6 +9,8 @@ class Actions{
 		$lastname_user = Dbase::dataFilter($_POST['uPatronymic']);
 		$phone = Dbase::dataFilter($_POST['uPhone']);
 		$another_place = (isset($_POST['another_city']) ? Dbase::dataFilter($_POST['another_city']) : 'no');
+		$war_veterane = (isset($_POST['war_veterane']) ? Dbase::dataFilter($_POST['war_veterane']) : 'no');
+		
 		//если регистрируем клиента - логин не нужен
 		if($user_level == 4) $id_user = $phone;
 		$pass = @$_POST['uPassword'];
@@ -32,27 +34,37 @@ class Actions{
 		}
 		
 		//загрузка и изменение размера фото
-		$res = Graph::upload_photo("{$_SERVER['DOCUMENT_ROOT']}/upload/klients/", "klient_{$id_user}.jpg");
-		if($res !== false && !is_array($res)){
-			//если файл загрузился успешно изменяем размер фото
-			$resized = Graph::imgResize(RES_IMGX, RES_IMGY, $res, false);
-			$imagepath = mb_substr($resized['path'], mb_strrpos($resized['path'], '/') + 1);
-			//print_r($imagepath);die();
-			if($res === false){
-				$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['resize_error']);
-				return json_encode($response);
-			}
-		}elseif(is_array($res)) return json_encode($res);
-		else{
-			$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['wrong_upload']);
-			return json_encode($response);
-		}
+		if(isset($_FILES) && count($_FILES) > 0){
+			foreach($_FILES as $index=>$foto){
+				$res = Graph::upload_photo("{$_SERVER['DOCUMENT_ROOT']}/upload/klients/", "klient_{$id_user}_{$index}.jpg", MAX_FOTO_SIZE, $index);
+				if($res !== false && !is_array($res)){
+					//если файл загрузился успешно изменяем размер фото
+					$resized = Graph::imgResize(RES_IMGX, RES_IMGY, $res, false);
+					$imagepath .= mb_substr($resized['path'], mb_strrpos($resized['path'], '/') + 1).';';
+					//print_r($imagepath);die();
+					if($res === false){
+						$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['resize_error']);
+						return json_encode($response);
+					}
+				}elseif(is_array($res)) return json_encode($res);
+				else{
+					$response = array('status'=>'error', 'message'=>TEMP::$Lang['SYSTEM']['wrong_upload']);
+					return json_encode($response);
+				}
+			}//foreach
+		}else $imagepath = '';
+		
+		//видаляємо лишній символ в кінці строки
+		$imagepath = mb_substr($imagepath, 0, mb_strlen($imagepath) - 1);
 
+		
 		$arProperties = array('another_place'=>$another_place);
 		//формирование допсвойств, если они заданы
 		if(isset($_POST['resStore'])){
 			$arProperties['store'] = $_POST['resStore'];
 		}
+		if($war_veterane == 'yes')
+			$properties['war_veterane'] = $war_veterane;
 		
 		//добавление пользователя в БД
 		$arFields = array('login'=>$id_user,

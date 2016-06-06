@@ -47,8 +47,17 @@
 						<label><?=TEMP::$Lang['from_another_city']?>
 					    <input type="checkbox" name="another_city" value="yes">
 					    </label>
-						<label class="control-label" for="load_user_foto"><?=TEMP::$Lang['load_photo']?></label>
-						<input required id="load_user_foto" name="foto" type="file" value="">
+					    <label><?=TEMP::$Lang['war_veterane']?>
+					    <input type="checkbox" name="war_veterane" value="yes">
+					    </label>
+						<div class="controls top_margin10">
+							<label class="control-label" for="load_user_foto"><?=TEMP::$Lang['load_photo']?></label>
+							<input required id="load_user_foto" name="foto" type="file" value="">
+						</div>
+						<div class="controls top_margin10">
+							<label class="control-label" for="load_extra_foto"><?=TEMP::$Lang['load_extra_photo']?></label>
+							<input id="load_extra_foto" name="foto_extra" type="file" value="">
+						</div>
 					</div>
 			    </div>
 			    <div class="control-group">
