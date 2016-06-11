@@ -268,8 +268,9 @@ class BIKE extends USER{
         /**
          * вертає наявність броні на велосипед з переданим id
          * @param type $id
+         * @param type $date_tstmp
          */
-	static public function getBikeBookingsByDate($id){
+	static public function getBikeBookingsByDate($id, $date_tstmp){
 		$sqlSelect = 'SELECT
 					`r`.`id`,
 					`r`.`bike_id`,
@@ -292,8 +293,20 @@ class BIKE extends USER{
 		$sqlWhere = " FROM `rent` `r` LEFT OUTER JOIN `bikes` `b` ON `r`.`bike_id` = `b`.`id`
 							LEFT OUTER JOIN `store` `s` ON `s`.`id` = `b`.`store_id`
 							LEFT OUTER JOIN `users` `u` ON `r`.`klient_id` = `u`.`id`
-							 WHERE `r`.`time_end` = 0 ORDER BY `r`.`time_start` LIMIT 100";
+							 WHERE `r`.`time_end` = 0 AND `r`.`bike_id` = {$id} ORDER BY `r`.`time_start` LIMIT 100";
 		
+		$sql = $sqlSelect.$sqlWhere;
+		
+		$db = new Dbase();
+		
+		$arBooking = $db->getArray($sql);
+		
+		if($arBooking === false){
+			Dbase::writeMessage('(getBikeBookingsByDate) трапилась помилка під час отримання інформації про бронювання на велосипед: '.$id);
+			return false;
+		}else{
+			return $arBooking;
+		}
 		
 	}
 

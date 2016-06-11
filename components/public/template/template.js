@@ -61,6 +61,11 @@ public_page_template.eventFunctions = {
 }
 
 function public_init(){
+	
+	$('div._payment_window').on('hidden.bs.modal', function(){
+		$(this).find('input').val('');
+		$(this).find('img').attr('src', '');
+	});
 
 	$('.bike_foto_magnific').magnificPopup({
 		type:'image',

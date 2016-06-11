@@ -51,6 +51,7 @@ $(document).ready(function(event){
 		timepicker:false,
 		dayOfWeekStart : 1,
 		format:'d.m.Y',
+		minDate: "-1970/01/01",
 		onChangeDateTime:function(dp,$input){
                     payment_window_vtemplate.getRentsForBike.data.bike_id = payment_window_vtemplate.bike_info.id;
                     payment_window_vtemplate.getRentsForBike.data.date = $input.val();

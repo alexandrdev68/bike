@@ -9,6 +9,18 @@
         self::$messages[] = $message;
     }
     
+    /**
+     * записує повідомлення в массив повідомлень та записує його одразу
+     * ж в файл логів, по суті об’єднує в собі дві команди addMess and writeLog 
+     */
+    
+    static public function writeMessage($mess){
+    	
+    	self::addMess($mess);
+    	self::writeLog();
+    	
+    }
+    
     /*
      * Записывает логи в файл из переменной DBase::$messages
      * либо записівает в лог строку, переданную в качестве параметра
@@ -87,8 +99,16 @@
 	 * @var public function
 	 */
 	public function getArray($query, $assoc = true){
+		
 		$result = mysql_query($query);
-		if($result === false) return false;
+		
+		if($result === false){
+			Dbase::addMess('sql request: '.$query.' has bad result.');
+			if(DEBUG_MODE){
+				Dbase::writeLog();
+			}
+			return false;
+		}
 		while($arResult[] = ($assoc === true ? mysql_fetch_assoc($result) : mysql_fetch_row($result))){
 			
 		};

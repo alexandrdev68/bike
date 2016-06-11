@@ -471,7 +471,7 @@ class Actions{
 				$sqlWhere = " FROM `rent` `r` LEFT OUTER JOIN `bikes` `b` ON `r`.`bike_id` = `b`.`id` 
 							LEFT OUTER JOIN `store` `s` ON `s`.`id` = `b`.`store_id` 
 							LEFT OUTER JOIN `users` `u` ON `r`.`klient_id` = `u`.`id`
-							 WHERE `r`.`time_end` = 0 ORDER BY `r`.`time_start` LIMIT 100";
+							 WHERE `r`.`time_end` = 0 AND `b`.`on_rent` != 'no' ORDER BY `r`.`time_start` LIMIT 100";
 			}else{
 				
 				$sqlWhere = ' FROM `bikes` `b` LEFT OUTER JOIN `store` `s` ON `b`.`store_id` = `s`.`id` WHERE `b`.`id` >= '.$from_id.' AND `b`.`on_rent` = "'.$on_rent.'" ORDER BY `b`.`id` LIMIT 100';
@@ -915,15 +915,21 @@ class Actions{
 #---------------------------------------	
 	function get_bike_rents_for_date_handler(){
 		
-		$date = Dbase::dataFilter($_POST['date']);
-                $bike_id = Dbase::dataFilter($_POST['bike_id']);
+		$date = strtotime(Dbase::dataFilter($_POST['date']));
+        $bike_id = Dbase::dataFilter($_POST['bike_id']);
+                
                 
 		if($date == null){
 			$date = strtotime(date('dd.mm.YYYY', time()));
 		}
 		
-        $arBookings = Bike::getBikeBookingsByDate($bike_id);
+        $arBookings = Bike::getBikeBookingsByDate($bike_id, $date);
         
+        if($arBookings !== false){
+        	return json_encode(array('status'=>'ok', 'bookings'=> $arBookings));
+        }else{
+        	return json_encode(array('status'=>'bad', 'message'=>TEMP::$Lang['SYSTEM'['error_get_bookings']]));
+        }
 		
 	}
 #---------------------------------------
@@ -1384,18 +1390,6 @@ class Actions{
 
 #---------------------------------------
 	
-	function get_rents_for_bike_handler(){
-		$bike_id = Dbase::dataFilter($_POST['bike_id']);
-		$arResponse = array(
-				'status'=>'ok', 'rent_booking'=>array(
-						'bike_id'=>$bike_id, 
-						'booking_info_array'=>array(),
-						
-				)
-				
-				);
-		return json_encode($arResponse);
-	}
 	
 #---------------------------------------
 
