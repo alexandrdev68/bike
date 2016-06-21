@@ -348,7 +348,7 @@ class BIKE extends USER{
 						`u`.`surname`,
 						`u`.`patronymic` FROM `rent` `r` LEFT OUTER JOIN `bikes` `b` ON `r`.`bike_id` = `b`.`id` 
 														LEFT OUTER JOIN `users` `u` ON `u`.`id` = `r`.`klient_id` 
-														WHERE `r`.`time_end` >= {$date_from} AND `r`.`time_end` <= {$dato_to}  AND `r`.`time_end` <> 0"
+														WHERE `r`.`time_end` >= {$date_from} AND `r`.`time_end` <= {$dato_to} "
 														.($store == 'no' ? '' : " AND ((`r`.`store_start` = {$store} && `r`.`store_finish` <> '') 
 														|| `r`.`store_finish` = {$store})")
 														." AND `r`.`amount` <> -1 ORDER BY `r`.`time_end` LIMIT 5000";
@@ -379,6 +379,9 @@ class BIKE extends USER{
 						unset($arRents[$index]);
 						$arRents = TEMP::insert_in_array($arRents, $index, $arDiffStoreRent);
 					}
+				}else{
+					if($rent['store_start'] != $store)
+						$arRents[$index]['amount'] = 0;
 				}
 			}
 		}
