@@ -360,7 +360,7 @@ class Actions{
 	function get_users_list_handler(){
 		if(USER::isAdmin()){
 			$db = new Dbase();
-			$rows = Dbase::getCountRowsOfTable('users');
+			$rows = (int)Dbase::getCountRowsOfTable('users');
 			$curr_page = ceil(@$_POST['from_user_id'] / 100);
 			$offset = @$_POST['from_user_id'];
 			$pages = ceil($rows / 100);
