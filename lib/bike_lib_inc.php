@@ -25,12 +25,12 @@ class BIKE extends USER{
     	}
     	
     	$sql = 'DELETE FROM bikes WHERE id = '.(is_numeric($bike_id) ? $bike_id : 0);
-    	$result = mysql_query($sql);
+    	$result = self::$PDOConnection->exec($sql);
     	if($result !== false){
 			self::addMess(TEMP::$Lang['SYSTEM']['bike_was_deleted']);
 			return true;
     	}else{
-    		self::addMess(TEMP::$Lang['SYSTEM']['bike_with_id1'].$user_id.TEMP::$Lang['SYSTEM']['user_with_id2'].$sql);
+    		self::addMess(TEMP::$Lang['SYSTEM']['bike_with_id1'].$bike_id.TEMP::$Lang['SYSTEM']['user_with_id2'].$sql);
     		return false;
     	}
     }
@@ -80,13 +80,9 @@ class BIKE extends USER{
 		//проверяем нет ли в прокате этого велосипеда или на пользователе не числится велосипед
 		//$sql = "SELECT `bike_id`, `klient_id` FROM `rent` WHERE (`bike_id` = {$bike_id} OR `klient_id` = {$user_id}) AND `time_end` = 0";
 		$sql1 = "SELECT `bike_id`, `klient_id` FROM `rent` WHERE `bike_id` = {$bike_id} AND `time_end` = 0";
-		$result1 = mysql_query($sql1);
+        $rows1 = self::$PDOConnection->exec($sql1);
 		$sql2 = "SELECT `bike_id`, `klient_id` FROM `rent` WHERE `klient_id` = {$user_id} AND `time_end` = 0";
-		$result2 = mysql_query($sql2);
-		
-		$rows1 = mysql_num_rows($result1);
-		
-		$rows2 = mysql_num_rows($result2);
+        $rows2 = self::$PDOConnection->exec($sql2);
 		
 		
 		//echo($sql); die();
@@ -115,10 +111,10 @@ class BIKE extends USER{
 		
 		$sql1 = "INSERT INTO `rent` (`bike_id`, `klient_id`, `time_start`, `store_start`, `project_time`, `properties`) 
 									VALUES ({$bike_id}, {$user_id}, {$time_start}, {$store_id}, {$time}, '{$added_json}')";
-		$result1 = mysql_query($sql1);
-		$last_id = mysql_insert_id();
+		$result1 = self::$PDOConnection->exec($sql1);
+		$last_id = self::$PDOConnection->lastInsertId;
 		$sql2 = "UPDATE `bikes` SET `on_rent` = '{$last_id}' WHERE `id` = {$bike_id}";
-    	$result2 = mysql_query($sql2);
+    	$result2 = self::$PDOConnection->exec($sql2);
     	if($result1 !== false && $result2 !== false){
 			self::addMess(TEMP::$Lang['SYSTEM']['rent_was_started']);
 			return true;
@@ -165,8 +161,8 @@ class BIKE extends USER{
 		$sql = "UPDATE `rent` SET `time_end` = {$currTime}, `amount` = {$amount}, `store_finish` = {$store_id} WHERE `bike_id`= {$bike_id} AND `time_end` = 0";
 		$sql2 = "UPDATE `bikes` SET `on_rent` = 'no', `store_id` = {$store_id} WHERE `id` = {$bike_id}";
 		
-		$result = mysql_query($sql);
-		$result2 = mysql_query($sql2);
+		$result = self::$PDOConnection->exec($sql);
+		$result2 = self::$PDOConnection->exec($sql2);
 		
 		if($result === false || $result2 === false){
 			self::addMess(TEMP::$Lang['SYSTEM']['error_stop_rent'].$sql.'   '.$sql2);
@@ -176,7 +172,7 @@ class BIKE extends USER{
 		//под акцию
 		if($action_client !== null){
 			$sql3 = "UPDATE `action` SET `renttime_summ` = `renttime_summ` + {$rent_period}, `amount_summ` = `amount_summ` + {$amount} WHERE `klient_id` = {$action_client}";
-			$result3 = mysql_query($sql3);
+			$result3 = self::$PDOConnection->exec($sql3);
 			if($result3 === false){
 				self::addMess(TEMP::$Lang['SYSTEM']['error_stop_rent'].$sql3);
 				return false;
@@ -224,7 +220,7 @@ class BIKE extends USER{
 			$i++;
 		}
 		$sql .= " WHERE id = ".$id;
-		if(mysql_query($sql) !==false){
+		if(self::$PDOConnection->exec($sql) !==false){
 			self::addMess(TEMP::$Lang['SYSTEM']['store_changed_success']);
 			return true;
 		}
@@ -493,7 +489,7 @@ class BIKE extends USER{
 	           if($curr_page < $pages)    $result[$index] = ">";
 	           //$index++; //$result[$index] = "all";
 	           $result['current'] = $curr_page; return $result;
-	           break;
+	           //break;
 	       }else{
 	           //текущая страница за пределами видимости
 	           $result[$index] = "...";

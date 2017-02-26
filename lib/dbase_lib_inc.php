@@ -170,7 +170,11 @@
 			self::addMess('mysql request error: '.$e->getMessage());
 		}
 
-		return $arResult[0];
+        if(isset($arResult[0]['COUNT(*)']))
+            $rows = (int)$arResult[0]['COUNT(*)'];
+        else $rows = (int)$arResult[0];
+
+		return $rows;
 	}
 	
 	
@@ -251,7 +255,7 @@
 				$mess = $e->getMessage();
 			}
 			
-			return ($res === true && $error === 0) ? array('status'=>true) : array('status'=>false, 'message'=>'mySQL error#'.$error, 'sql'=>(DEBUG_MODE ? $sql_p1.$sql_p2 : 'this is production'), 'error'=>$error);
+			return ($res === true && $error === 0) ? array('status'=>true) : array('status'=>false, 'message'=>'mySQL error#'.$error, 'sql'=>(DEBUG_MODE ? $sql_p1.$sql_p2 : 'this is production'), 'error'=>$mess);
 		};
 	}
 	
