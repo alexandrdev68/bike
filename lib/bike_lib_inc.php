@@ -111,7 +111,12 @@ class BIKE extends USER{
 		
 		$sql1 = "INSERT INTO `rent` (`bike_id`, `klient_id`, `time_start`, `store_start`, `project_time`, `properties`) 
 									VALUES ({$bike_id}, {$user_id}, {$time_start}, {$store_id}, {$time}, '{$added_json}')";
-		$result1 = self::$PDOConnection->exec($sql1);
+		try{
+            $result1 = self::$PDOConnection->exec($sql1);
+        }catch(PDOException $e){
+            self::writeLog($e->getMessage());
+        }
+
 		$last_id = self::$PDOConnection->lastInsertId;
 		$sql2 = "UPDATE `bikes` SET `on_rent` = '{$last_id}' WHERE `id` = {$bike_id}";
     	$result2 = self::$PDOConnection->exec($sql2);
@@ -119,7 +124,9 @@ class BIKE extends USER{
 			self::addMess(TEMP::$Lang['SYSTEM']['rent_was_started']);
 			return true;
     	}else{
-    		self::addMess(TEMP::$Lang['SYSTEM']['wrong_sql_request'].$sql1.' or '.$sql2);
+    		$mess = TEMP::$Lang['SYSTEM']['wrong_sql_request'].$sql1.' or '.$sql2;
+    	    self::addMess($mess);
+    		self::writeLog($mess);
     		return false;
     	}
 	}

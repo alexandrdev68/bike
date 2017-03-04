@@ -360,7 +360,7 @@ class Actions{
 	function get_users_list_handler(){
 		if(USER::isAdmin()){
 			$db = new Dbase();
-			$rows = (int)Dbase::getCountRowsOfTable('users');
+			$rows = Dbase::getCountRowsOfTable('users');
 			$curr_page = ceil(@$_POST['from_user_id'] / 100);
 			$offset = @$_POST['from_user_id'];
 			$pages = ceil($rows / 100);
@@ -1320,7 +1320,7 @@ class Actions{
 	function get_actions_list_handler(){
 		if(!USER::isAdmin()) return json_encode(array('status'=>'bad', 'message'=>'permission denied'));
 		$db = new Dbase();
-		$rows = Dbase::getCountRowsOfTable('action');
+		$rows = (int)Dbase::getCountRowsOfTable('action');
 		$curr_page = ceil(@$_POST['from_user_offset'] / 100);
 		$offset = @$_POST['from_user_offset'];
 		$pages = ceil($rows / 100);
