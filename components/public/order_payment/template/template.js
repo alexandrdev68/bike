@@ -212,6 +212,9 @@ payment_window_vtemplate.eventFunctions = {
 		},
 		onDateGlyphiconClick : function(event){
 			$('#inputPeriodDate').trigger('focus');
+		},
+		onPeriodRentChanged : function(event){
+			$('#payment_fields').show();
 		}
 }
 payment_window_vtemplate.functions = {

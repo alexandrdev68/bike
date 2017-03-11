@@ -86,7 +86,7 @@
 						</div>
 					
 						<div class="col-xs-3 notshowing _periodRentBlock">
-							<select name="period_rent" required id="periodRent" class="form-control" value="<?=$arRes['month']?>">
+							<select data-vtemplate_payment_window="event=change:onPeriodRentChanged" name="period_rent" required id="periodRent" class="form-control" value="<?=$arRes['month']?>">
 								<?for($i = 1; $i < 6; $i++):?>
 								<option value="<?=$i?>h"><?=$i.' '.BIKE::declension($i, array(TEMP::$Lang['hours'],TEMP::$Lang['hours1'],TEMP::$Lang['hours2'],TEMP::$Lang['hours2'],TEMP::$Lang['hours2']))?></option>
 								<?endfor?>
