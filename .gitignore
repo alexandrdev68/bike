@@ -4,3 +4,4 @@ upload/
 .idea/
 .settings/
 phplibs.txt
+/data/
