@@ -255,8 +255,38 @@ class Actions{
 			return json_encode($response);
 		}
 	}
-#---------------------------------------	
+	
+#---------------------------------------
+	
+	function verife_client_auth(){
+		
+		//verifying client authorise
+		if(isset($_COOKIE['auth'])){
+				
+			if(isset($_SESSION['CURRUSER'])){
+				ob_start();
+				$token = hash('ripemd160', implode('', $_SESSION['CURRUSER']));
+				ob_clean();
+				//if client was authorised
+				if($token == $_COOKIE['auth']){
+						
+					$response = array('status'=>'authorised', 'message'=>"client has been authorised early, authorisation doesn't needed");
+					Dbase::writeLog('login client. '.$response['message']);
+					return json_encode($response);
+						
+				}
+			}
+				
+		}
+		
+	}
+	
+#----------------------------------------
+
 	function login_client_handler(){
+		
+		$this->verife_client_auth();
+		
 		$phone = Dbase::dataFilter($_POST['phone']);
 		$operation = Dbase::dataFilter($_POST['operation']);
 		if(!preg_match('/^[0-9]{12,12}$/', $phone)){
@@ -552,7 +582,7 @@ class Actions{
 		//записываем в БД новый велосипед
 		$foto = isset($imagepath) ? $imagepath : '';
 		$sql = "INSERT INTO `bikes` (`id`, `model`, `store_id`, `foto`, `serial_id`) VALUES ({$number}, '{$model}', {$store_id}, '{$foto}', '{$serial}')";
-		if(mysql_query($sql) !==false){
+		if(Dbase::$PDOConnection->exec($sql) !==false){
 			$response = array('status'=>'ok', 'message'=>TEMP::$Lang['SYSTEM']['bike_add_success']);
 		}
 		else {
@@ -625,6 +655,9 @@ class Actions{
 	
 #---------------------------------------	
 	function find_client_by_phone_handler(){
+		
+		$this->verife_client_auth();
+		
 		$db = new Dbase();
 		$_POST['phone'] = Dbase::dataFilter(@$_POST['phone']);
 		
@@ -1080,7 +1113,7 @@ class Actions{
 			}
 			if($store['adress'] == '') continue;
 			else{
-				if(mysql_query($sql) !==false){
+				if(Dbase::$PDOConnection->exec($sql) !==false){
 					$response = array('status'=>'ok', 'message'=>TEMP::$Lang['SYSTEM']['store_changed_success']);
 				}
 				else {
@@ -1101,7 +1134,7 @@ class Actions{
 			$response = array('status'=>'ok', 'message'=>TEMP::$Lang['SYSTEM']['store_changed_nothing']);
 			if($store['store_id'] != 'new'){
 				$sql = 'DELETE FROM `store` WHERE `id` = '.$store['store_id'];
-				if(mysql_query($sql) !==false){
+				if(Dbase::$PDOConnection->exec($sql) !==false){
 						$response = array('status'=>'ok', 'message'=>TEMP::$Lang['SYSTEM']['store_deleted_success']);
 				}
 				else {
@@ -1184,7 +1217,7 @@ class Actions{
 	function cancel_rents_handler(){
 		foreach (@$_POST['cancel'] as $rent){
 			$sql = 'UPDATE `rent` SET `amount` = -1 WHERE `id` = '.$rent;
-			if(mysql_query($sql) !==false){
+			if(Dbase::$PDOConnection->exec($sql) !==false){
 					$response = array('status'=>'ok', 'message'=>TEMP::$Lang['SYSTEM']['rent_canceled_success']);
 			}
 			else {
@@ -1202,7 +1235,7 @@ class Actions{
 		
 			$sql = 'UPDATE `rent` SET `amount` = '.$amount.' WHERE `id` = '.$_POST['rent_id'];
 			
-			if(mysql_query($sql) !==false){
+			if(Dbase::$PDOConnection->exec($sql) !==false){
 					$response = array('status'=>'ok', 'message'=>'', 'amount'=>$amount);
 			}
 			else {

@@ -2,6 +2,9 @@ var payment_window_vtemplate = new VTemplate({
 	tmpName : 'payment_window'
 });
 
+
+console.log('user cookie ', user.cookie.get('auth'));
+
 payment_window_vtemplate.allowTimes = [
 						'9:00', '10:00', '11:00', 
 						'12:00', '13:00', '14:00', '15:00', '16:00',
@@ -91,7 +94,7 @@ $(document).ready(function(event){
 });
 
 payment_window_vtemplate.ajaxFindClient = new serverRequest({
-	url : '/',
+	url : '/public/',
 	dataType : 'json',
 	data : {action : 'find_client_by_phone'},
 	success : function(response){
@@ -115,7 +118,7 @@ payment_window_vtemplate.ajaxFindClient = new serverRequest({
 });
 
 payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
-	url : '/',
+	url : '/public/',
 	dataType : 'json',
 	data : {action : 'login_client'},
 	success : function(response){
@@ -126,6 +129,8 @@ payment_window_vtemplate.ajaxRegisterClient = new serverRequest({
 				$(document).trigger('onLogin');
 				TEMPLATE.showNotice(response.message, 'info');
 				payment_window_vtemplate.functions.hide_sms_field();
+				console.log('i am here');
+				$('form._client_payment_form').removeClass('notshowing');
 			}else if(!!response.type && response.type == 'auth'){
 				TEMPLATE.showNotice(response.message, 'info');
 				document.getElementById('operationType').value = 'smsconfirm';

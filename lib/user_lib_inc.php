@@ -208,7 +208,7 @@
 			$i++;
 		}
 		//echo $sql_p1.$sql_p2; die();
-		if(mysql_query($sql_p1.$sql_p2) !==false){
+		if(Dbase::$PDOConnection->exec($sql_p1.$sql_p2) !==false){
 			self::addMess(TEMP::$Lang['SYSTEM']['mess_user_added']);
 			self::writeLog();
 			return true;
@@ -257,7 +257,7 @@
 			$i++;
 		}
 		$sql .= " WHERE id = ".$id;
-		if(mysql_query($sql) !==false){
+		if(Dbase::$PDOConnection->exec($sql) !==false){
 			self::addMess(TEMP::$Lang['SYSTEM']['store_changed_success']);
 			self::writeLog();
 			return true;
@@ -324,6 +324,10 @@
 		}
 		$userinfo = self::getFullInfo($arClientData['id']);
 		$_SESSION['CURRUSER'] = $userinfo;
+		ob_start();
+		$token = hash('ripemd160', implode('', $userinfo));
+		ob_clean();
+		setcookie('auth', $token, 0, '/public/', COOKIE_DOMEN, false, true);
 		Dbase::writeLog('client with phone'.$_SESSION['CURRUSER']['phone'].' has been authorize');
 		return true;
 	}
@@ -381,7 +385,7 @@
     	}
     	
     	$sql = 'DELETE FROM users WHERE id = '.(is_numeric($user_id) ? $user_id : 0);
-    	$result = mysql_query($sql);
+    	$result = Dbase::$PDOConnection->exec($sql);
     	if($result !== false){
 			self::addMess(TEMP::$Lang['SYSTEM']['user_was_deleted']);
 			return true;

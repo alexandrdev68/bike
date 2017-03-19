@@ -22,7 +22,7 @@
 			  </div>
 		  </div>
 		
-		<div class="col-md-7 _auth_register_form notshowing">
+		<div class="col-md-7 _auth_register_form">
 		<form data-vtemplate_payment_window="event=submit:on_client_auth_submit,function=scan_inputs:*" class="form-horizontal _client_auth_form">
 		  <div class="form-group">
 		    <div class="col-xs-4">
@@ -62,8 +62,8 @@
 		</form>
 		</div>
 		
-		<div data-vtemplate_payment_window="event=onLogin:viewPaymentForm, event=onLogout:hidePaymentForm" class="col-md-7 _payment_form _notshowing">
-			<form data-vtemplate_payment_window="event=submit:on_client_payment_submit,function=scan_payment_inputs:*" class="form-horizontal _client_payment_form">
+		<div data-vtemplate_payment_window="event=onLogin:viewPaymentForm, event=onLogout:hidePaymentForm" class="col-md-7 _payment_form">
+			<form data-vtemplate_payment_window="event=submit:on_client_payment_submit,function=scan_payment_inputs:*" class="form-horizontal _client_payment_form notshowing">
 				<div class="form-group col-xs-12">
 					<label for="inputPeriodDate"><?=TEMP::$Lang['input_period_txt']?></label>
 					<div class="col-xs-12">
