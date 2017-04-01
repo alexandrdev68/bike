@@ -1,0 +1,24 @@
+[07-Jun-2016 13:14:57 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[07-Jun-2016 13:14:57 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19
+[15-Jun-2016 13:23:45 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[15-Jun-2016 13:23:45 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19
+[15-Jun-2016 13:23:51 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[15-Jun-2016 13:23:51 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19
+[15-Jun-2016 13:23:54 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[15-Jun-2016 13:23:54 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19
+[19-Jun-2016 19:59:32 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[19-Jun-2016 19:59:32 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19
+[26-Jun-2016 10:50:08 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[26-Jun-2016 10:50:08 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19
+[20-Jul-2016 12:58:58 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[20-Jul-2016 12:58:58 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19
+[23-Jul-2016 10:27:42 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[23-Jul-2016 10:27:42 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19
+[25-Jul-2016 20:30:01 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[25-Jul-2016 20:30:01 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19
+[31-Jul-2016 18:11:05 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[31-Jul-2016 18:11:05 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19
+[31-Jul-2016 18:11:39 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[31-Jul-2016 18:11:39 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19
+[01-Aug-2016 16:17:20 Europe/Kiev] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/veloolim/prokat/lib/dbase_lib_inc.php on line 38
+[01-Aug-2016 16:17:20 Europe/Kiev] PHP Notice:  Use of undefined constant DEBUG_MODE - assumed 'DEBUG_MODE' in /home/veloolim/prokat/php_interface/init.php on line 19

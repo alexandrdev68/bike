@@ -1,0 +1,1 @@
+<?TEMP::component('check_print', array('type'=>(isset($_GET['type']) ? $_GET['type'] : 'comission')))?>
