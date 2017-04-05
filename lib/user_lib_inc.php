@@ -301,7 +301,7 @@
 				self::writeLog();
 				return false;
 			}elseif (!$userinfo){
-				self::addMess(TEMP::$Lang['SYSTEM']['mess_login_was_created1'].$arFields['login'].TEMP::$Lang['SYSTEM']['not_found']);
+				self::addMess(TEMP::$Lang['SYSTEM']['mess_login_was_created1'].$arFields['login'].' '.TEMP::$Lang['SYSTEM']['not_found']);
 				self::writeLog();
 				return false;
 			}elseif(crypt($arFields['password'], $userinfo['password']) == $userinfo['password']){

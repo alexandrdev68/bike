@@ -67,7 +67,7 @@
     }
     
     static public function get_data($arParam = array('table'=>'', 'fields'=>'', 'where'=>'', 'order_by'=>'', 'limit'=>'10', 'sort'=>'ASC')){
-		$arData = array();
+    	$arRes= array();
 		$query = 'SELECT '.(@$arParam['fields'] == '' || !isset($arParam['fields']) ? '*' : $arParam['fields']).' FROM '
 							.$arParam['table'].(isset($arParam['left_outer_join']) ? ' LEFT OUTER JOIN '.$arParam['left_outer_join'] : '')
 							.(isset($arParam['where']) ? ' WHERE '.$arParam['where'] : '')
@@ -76,24 +76,27 @@
 							.(isset($arParam['limit']) ? ' LIMIT '.$arParam['limit'] : '');
 		try{
 			if(!is_object(self::$PDOConnection)) throw new PDOException('don\'t connect to database');
-			$arRes = self::$PDOConnection->query($query, 2);
+			$arRes = self::getData($sql);
 			if(count($arRes) < 1 || $arRes == '') return array('status'=>0, 'data'=>array(), 'message'=>'query: '.$query.' OK.');
-			foreach($arRes as $row) {
-			  $arData[] = $row;
-			}
 		}catch(PDOException $e){
 			return array('status'=>101, 'data'=>false, 'message'=>(DEBUG_MODE ? 'query: '.$query.' return error: '.$e->getMessage() : 'mysql error'));
 		}
 		
-		return array('status'=>0, 'data'=>$arData, 'message'=>(DEBUG_MODE ? 'query: '.$query.' OK.' : 'query OK'));
+		return array('status'=>0, 'data'=>$arRes, 'message'=>(DEBUG_MODE ? 'query: '.$query.' OK.' : 'query OK'));
     }
     
     static protected function getData($sql){
     	$arResult = array();
     	try{
-			foreach(self::$PDOConnection->query($sql, 2) as $row) {
-		        $arResult[] = $row;
-		    }
+    		$sttmnt = self::$PDOConnection->prepare($sql);
+    		$sttmnt->execute();
+    		$error = $sttmnt->errorInfo();
+    		if(($error[0] != "00000") && ($error[0] != '01000')){
+    			self::writeLog($error);
+    			throw new PDOException($error[0].' '.$error[1].' '.$error[2]);
+    		}
+    		$arResult= $sttmnt->fetchAll();
+		    $sttmnt->closeCursor();
 		    return $arResult;
 		}catch(PDOException $e){
 			self::addMess('mysql request error: '.$e->getMessage());
@@ -142,16 +145,20 @@
 	public function getArray($query){
 		$arData = array();
 		try{
-			$arResult = self::$PDOConnection->query($query, 2);
-			if(count($arResult) == 0 || $arResult === false)
-				return false;
-			foreach($arResult as $row) {
-			  $arData[] = $row;
+			$sttmnt = self::$PDOConnection->prepare($query);
+			$sttmnt->execute();
+			$error = $sttmnt->errorInfo();
+			if($error[0] != '00000' && $error[0] != '01000'){
+				self::writeLog($error);
+				throw new PDOException($error[0].' '.$error[1].' '.$error[2]);
 			}
+			$arData = $sttmnt->fetchAll();
+			$sttmnt->closeCursor();
 		}catch(PDOException $e){
 			self::addMess('mysql request error: '.$e->getMessage(), array('sql'=>$query));
+			self::writeLog(array('error mysql'=>'mysql request error: '.$e->getMessage(),'sql'=>$query));
 		}
-		return count($arData > 0) ? $arData : false;
+		return count($arData > 0) && $arData !== false ? $arData : false;
 	}
     
 	/**
@@ -160,14 +167,21 @@
 	 * @var static public function
 	 */
 	static public function getCountRowsOfTable($tablename){
-		$sql = 'SELECT COUNT(*) FROM `'.$tablename.'`';
+		$sql = "SELECT COUNT(*) FROM `{$tablename}`";
 		
 		try{
-			foreach(self::$PDOConnection->query($sql, 2) as $row) {
-		        $arResult[] = $row;
-		    }
+			$sttmnt = self::$PDOConnection->prepare($sql);
+			$sttmnt->execute();
+			$error = $sttmnt->errorInfo();
+			if($error[0] != '00000' && $error[0] != '01000'){
+				self::writeLog($error);
+				throw new PDOException($error[0].' '.$error[1].' '.$error[2]);
+			}
+			$arResult = $sttmnt->fetchAll();
+			$sttmnt->closeCursor();
 		}catch(PDOException $e){
 			self::addMess('mysql request error: '.$e->getMessage());
+			self::writeLog(array('error mysql'=>'mysql request error: '.$e->getMessage(),'sql'=>$sql));
 		}
 
         if(isset($arResult[0]['COUNT(*)']))

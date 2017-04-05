@@ -49,7 +49,7 @@ class BIKE extends USER{
 						on_rent,
 						serial_id FROM bikes WHERE id = "'.$id.'" LIMIT 1';
 		$arRes = self::getData($sql);
-		return count($arRes) > 0 ? $arRes[0] : false;
+		return count($arRes) > 0 && $arRes !== false ? $arRes[0] : false;
 	}
 	
 	static public function getStoresAdresses($store_id = null){
@@ -80,16 +80,16 @@ class BIKE extends USER{
 		//проверяем нет ли в прокате этого велосипеда или на пользователе не числится велосипед
 		//$sql = "SELECT `bike_id`, `klient_id` FROM `rent` WHERE (`bike_id` = {$bike_id} OR `klient_id` = {$user_id}) AND `time_end` = 0";
 		$sql1 = "SELECT `bike_id`, `klient_id` FROM `rent` WHERE `bike_id` = {$bike_id} AND `time_end` = 0";
-        $rows1 = self::$PDOConnection->exec($sql1);
+        $rows1 = self::getData($sql1);
 		$sql2 = "SELECT `bike_id`, `klient_id` FROM `rent` WHERE `klient_id` = {$user_id} AND `time_end` = 0";
-        $rows2 = self::$PDOConnection->exec($sql2);
+        $rows2 = self::getData($sql2);
 		
 		
 		//echo($sql); die();
-		if($rows1 > 0){
+		if(count($rows1) > 0){
 			self::addMess(TEMP::$Lang['SYSTEM']['bike_in_rent']);
     		return false;
-		}elseif($rows2 >= 3){
+		}elseif(count($rows2) >= 3){
 			self::addMess(TEMP::$Lang['SYSTEM']['user_in_rent']);
     		return false;
 		}
@@ -99,7 +99,7 @@ class BIKE extends USER{
 		if($bikeInfo !== false){
 			$store_id = $bikeInfo['store_id'];
 		}else{
-			$store_id = NULL;
+			$store_id = -1;
 		}
 		
 		$time_start = time();
@@ -117,7 +117,7 @@ class BIKE extends USER{
             self::writeLog($e->getMessage());
         }
 
-		$last_id = self::$PDOConnection->lastInsertId;
+		$last_id = self::$PDOConnection->lastInsertId();
 		$sql2 = "UPDATE `bikes` SET `on_rent` = '{$last_id}' WHERE `id` = {$bike_id}";
     	$result2 = self::$PDOConnection->exec($sql2);
     	if($result1 !== false && $result2 !== false){
