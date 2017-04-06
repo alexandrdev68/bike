@@ -5,21 +5,32 @@ bike.bike_action = Boolean(<?=BIKE_ACTION?>);
 
 function userData(data, full){
 	full = full || 'yes';
+
+	var time_rent_element = '<select class="span1 _timecnt' + data.id + '" >'+
+				'<option value="1">1 година</option>'+
+				'<option value="2">2 години</option>'+
+				'<option value="3">3 години</option>'+
+				'<option value="4">4 години</option>'+
+				'<option value="5">5 годин</option>'+
+				'<option value="24">Доба</option>'+
+				'<option value="-10">До вечора</option>'+
+				'</select>';
+	
 	if(userData.num === undefined) userData.num = 1;
 	userData.getNum = function(){
 		return userData.num++;
 	};
 	this.html = '<tr class="_uInfo' + (data.properties === null ? '' : data.properties.blackList == 'on' ? ' error _blackList' + data.id : '') + '"><td>' + userData.getNum() + '</td>' +
 	<?if(USER::isAdmin()):?>'<td>' + data.id + '</td>' + '<td>' + (data.properties === null ? '' : data.properties.blackList == 'on' ? '(<i class="icon-thumbs-down"></i>) ' : '') + 
-	data.login + '</td>' + <?endif?>'<td>' + data.name + 
-	(data.surname === undefined ? '' : ' ' + data.surname) + (data.patronymic === undefined ? '' : ' ' + data.patronymic) + '</td>' +
+	data.login + '</td>' + <?endif?>'<td><u>' + data.name + 
+	(data.surname === undefined ? '' : ' ' + data.surname) + (data.patronymic === undefined ? '' : ' ' + data.patronymic) + '</u></td>' +
 	(full == 'yes' ? '<td>' + data.phone + '</td><td class="_level">' + data.user_level + '</td><td><i class="icon-remove _delUsr" data-userId="' + data.id + '"></i> <i class="icon-pencil _edUsr" data-userId="' + data.id + '"></i></td></tr>' : '<td>'+
 			data.phone + '</td>' + 
 			'<td><input class="_print' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["print_contract"]?>' +
 			'<br><input class="_seat' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["seat"]?>' +
 			(bike.bike_action ? (!!!data.action_klient ? '<br><input class="_action' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["txt_action_participate"]?>' : '<div class="clear"></div><button class="btn _sendSMSBtn" data-userId="' + data.id + '" data-userPhone="' + data.phone + '" type="button"><?=TEMP::$Lang["txt_send_sms_code"]?></button>') : '') +
 			(!!data.properties && data.properties.war_veterane == 'yes' ? '<br><span class="_war_veterane text-success"> <?=TEMP::$Lang["war_veterane"]?></span>' : '') +
-			'</td><td><input class="span1 _timecnt' + data.id + '" type="text" value="1"></td><td><input data-userId="' + 
+			'</td><td>' + time_rent_element + '</td><td><input data-userId="' + 
 			data.id + '" type="radio" name="uRent"></td></tr>');
 }
 

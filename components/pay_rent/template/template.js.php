@@ -25,7 +25,7 @@ function pay_rent_handler(self){
 	}
 	var print = $('input._print' + user.currId).prop('checked');
 	var seat = $('input._seat' + user.currId).prop('checked');
-	var rent_period = $('input._timecnt' + user.currId).val();
+	var rent_period = $('select._timecnt' + user.currId).val();
 	var war_veterane = $('input._war_veterane' + user.currId).prop('checked');
 	var sendData = {'action' : 'go_rent',
         	'user_id' : user.currId,
