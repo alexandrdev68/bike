@@ -2,11 +2,12 @@
 class BIKE extends USER{
 	
 	static public $firstHourAmount = 40;
-	static public $dayAmount = 200;
+	static public $dayAmount = 190;
 	static public $nextHourAmount = 20;
 	static public $secondHourAmount = 30;
 	static public $added = 20;
 	static public $timeBuffer = 15;
+	static public $whiteDayAmount = 140;
 
 /**
 	 * Удаляет велосипед с указанным id
@@ -76,7 +77,7 @@ class BIKE extends USER{
 	 *  возвращает true в случае если операция прошла успешно
 	 *  Пример:BIKE::startRent(12, 10, 1, 0); где $added - дополнительная одноразовая плата за услугу
 	 */
-	static public function startRent($bike_id, $user_id, $time, $added){
+	static public function startRent($bike_id, $user_id, $time, $added_json){
 		//проверяем нет ли в прокате этого велосипеда или на пользователе не числится велосипед
 		//$sql = "SELECT `bike_id`, `klient_id` FROM `rent` WHERE (`bike_id` = {$bike_id} OR `klient_id` = {$user_id}) AND `time_end` = 0";
 		$sql1 = "SELECT `bike_id`, `klient_id` FROM `rent` WHERE `bike_id` = {$bike_id} AND `time_end` = 0";
@@ -103,11 +104,7 @@ class BIKE extends USER{
 		}
 		
 		$time_start = time();
-		//переводим часы в секунды
-		$time = $time * 3600;
 		
-		$added *= 100;
-		$added_json = addslashes(json_encode(array('added'=>$added)));
 		
 		$sql1 = "INSERT INTO `rent` (`bike_id`, `klient_id`, `time_start`, `store_start`, `project_time`, `properties`) 
 									VALUES ({$bike_id}, {$user_id}, {$time_start}, {$store_id}, {$time}, '{$added_json}')";

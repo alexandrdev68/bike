@@ -790,7 +790,9 @@ class Actions{
 		$rent_period = Dbase::dataFilter(@$_POST['rent_period']);
 		$print_flag = @$_POST['print'] == 'true' ? true : false;
 		$seat_flag = @$_POST['seat'] == 'true' ? true : false;
+		$white_day = $rent_period == -10 ? true : false;
 		$added = 0;
+		$rent_period = $rent_period * 3600;
 		
 		if(isset($_POST['bike_action']) && $_POST['bike_action'] == 'true'){
 			//print_r($_POST); exit;
@@ -831,9 +833,24 @@ class Actions{
 			
 		}
 		
-		if($seat_flag === true) $added += BIKE::$added;
+		//инициализация дополнительных параметров
+		$extra_data = array('added'=>0);
+		if($seat_flag === true)
+			$extra_data['added'] = BIKE::$added * 100;
+		if($white_day === true){
+			$date = new DateTime();
+			$timestampNow = $date->getTimestamp();
+			$date->setTime(20, 0);
+			$timestampDayEnd = $date->getTimestamp();
+			$rent_period = $timestampDayEnd - $timestampNow;
+			$extra_data['white_day'] = $rent_period;
+			$amountToDayEnd = BIKE::getRentAmount($rent_period) * 100;
+			$extra_data['added'] += BIKE::$whiteDayAmount * 100 - $amountToDayEnd;
+		}
 		
-		if(BIKE::startRent($bike_id, $user_id, $rent_period, $added) === true){
+		$added_json = addslashes(json_encode($extra_data));
+		
+		if(BIKE::startRent($bike_id, $user_id, $rent_period, $added_json) === true){
 			$response = array('status'=>'ok', 'print'=>'no', 'message'=>USER::lastMessage());
 
 			if($print_flag === true){

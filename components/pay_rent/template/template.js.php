@@ -122,7 +122,9 @@ function payrent_init(){
 								$('div._payrentModal ._usListTable').append(usList.html);
 							}
 
-							$('tr._uInfo').click(function(){
+							$('tr._uInfo').click(function(event){
+								if($(event.target).hasClass('_noevent'))
+									return false;
 								var user_id = $(this).find('td:last-child i._delUsr').data('userid') === null ? $(this).find('input[name="uRent"]').data('userid') : $(this).find('td:last-child i._delUsr').data('userid');
 								
 								user.showInfo(user_id);
