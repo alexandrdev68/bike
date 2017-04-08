@@ -935,12 +935,14 @@ class Actions{
 			$arInfo[0]['properties'] = json_decode($arInfo[0]['properties'], true);
 			USER::$currUserProperties = $arInfo[0]['properties'];
 			$arInfo[0]['rent_prop'] = @$arInfo[0]['rent_prop'] == null ? '' : json_decode($arInfo[0]['rent_prop'], true);
+			USER::$currRentProperties = $arInfo[0]['rent_prop'];
 		}
 		$arInfo = $arInfo[0];
 		
 		//print_r($arInfo); exit;
 		
 		if(@$arInfo['rent_prop']['added'] > 0) $added += BIKE::$added * 100;
+		
 		
 		unset($arInfo['foto']);
 		unset($arInfo['time_end']);

@@ -15,6 +15,7 @@
 	static public $minpasswlen = 6;
 	static public $maxpasswlen = 45;
 	static public $currUserProperties = array();
+	static public $currRentProperties = array();
 	
 	/**
 	 * Возвращает данные о пользователе по его login или false если пользователя не существует.
