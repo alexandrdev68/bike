@@ -7,13 +7,13 @@ function userData(data, full){
 	full = full || 'yes';
 
 	var time_rent_element = '<select class="span1 _timecnt' + data.id + ' _noevent" >'+
-				'<option value="1" class="_noevent>1 година</option>'+
-				'<option value="2" class="_noevent>2 години</option>'+
-				'<option value="3" class="_noevent>3 години</option>'+
-				'<option value="4" class="_noevent>4 години</option>'+
-				'<option value="5" class="_noevent>5 годин</option>'+
-				'<option value="24" class="_noevent>Доба</option>'+
-				'<option value="-10" class="_noevent>До вечора</option>'+
+				'<option value="1" class="_noevent">1 година</option>'+
+				'<option value="2" class="_noevent">2 години</option>'+
+				'<option value="3" class="_noevent">3 години</option>'+
+				'<option value="4" class="_noevent">4 години</option>'+
+				'<option value="5" class="_noevent">5 годин</option>'+
+				'<option value="24" class="_noevent">Доба</option>'+
+				'<option value="-10" class="_noevent">До вечора</option>'+
 				'</select>';
 	
 	if(userData.num === undefined) userData.num = 1;
