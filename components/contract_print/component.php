@@ -45,7 +45,11 @@ if(isset($_COOKIE['print_type']) && $_COOKIE['print_type'] == 'html'){
 		$summ = 0;
 		foreach($_SESSION['PRINT']['info']['bikes'] as $bike){
 			$cell = 6 + $c;
-			$amount = BIKE::getRentAmount($bike['project_time']);
+			
+			if(isset($bike['rent_prop']['white_day']))
+				$amount = $bike['rent_prop']['white_day'];
+			else $amount = BIKE::getRentAmount($bike['project_time']);
+			
 			if(@$bike['rent_prop']['added'] > 0) $amount = $amount + ($bike['rent_prop']['added'] / 100);
 			$summ += $amount;
 			$objWorksheet->getCell('B'.$cell)->setValue($bike['bike_id'].' ');
