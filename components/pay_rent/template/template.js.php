@@ -123,6 +123,10 @@ function payrent_init(){
 							}
 
 							$('tr._uInfo').click(function(event){
+								list.prop('checked', false);
+								var currChecked = $(this).find('td:last-child input');
+								currChecked.prop('checked', true);
+								user.currId = currChecked.data('userid');
 								if($(event.target).hasClass('_noevent'))
 									return false;
 								var user_id = $(this).find('td:last-child i._delUsr').data('userid') === null ? $(this).find('input[name="uRent"]').data('userid') : $(this).find('td:last-child i._delUsr').data('userid');

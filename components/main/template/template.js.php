@@ -146,8 +146,9 @@ function bikeData(data, fill){
 		this.html = '<tr class="_bInfo" data-klientid="' + data.klient_id + '"><td>' + bikeData.getNum() + '</td>' +
 		'<td class="_bkInfo">' + data.model + '<br><small>(' + data.adress + ')</small></td>' +
 		'<td class="_timeOnRent" data-now="' + data.now + '" data-time_start="' + data.time_start * 1000 + '">' + bike.getTimeString(new Date(data.now - data.time_start * 1000), ':') + '</td>' +
-		'<td>' + bike.getTimeString(new Date(data.project_time * 1000), ':') + 
-		' (' + data.project_amount + (data.rent_prop.added > 0 ? ' + ' + data.rent_prop.added / 100 : '') + ' грн.)' +
+		'<td>' + (!!data.rent_prop.white_day ? 'до кінця дня' : bike.getTimeString(new Date(data.project_time * 1000), ':')) + 
+		' (' + (!!data.rent_prop.white_day ? data.rent_prop.white_day : data.project_amount) 
+		+ (data.rent_prop.added > 0 ? ' + ' + data.rent_prop.added / 100 : '') + ' грн.)' +
 		(data.patronymic == '' ? '' : '<br><span class="_href _userInfoWin_inBikeList" data-user_id="' + data.klient_id + '">' + data.name + ' ' +
 		data.surname + ' ' + data.patronymic + ' ') + '</span><br><?=TEMP::$Lang['phone_numb']?> ' + data.phone + 
 		(!!data.user_properties && !!data.user_properties.war_veterane ? '<br><span class="text-success"><?=TEMP::$Lang['war_veterane']?></span>' : '') + '</td>' +

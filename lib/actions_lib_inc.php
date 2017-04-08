@@ -843,9 +843,7 @@ class Actions{
 			$date->setTime(20, 0);
 			$timestampDayEnd = $date->getTimestamp();
 			$rent_period = $timestampDayEnd - $timestampNow;
-			$extra_data['white_day'] = $rent_period;
-			$amountToDayEnd = BIKE::getRentAmount($rent_period) * 100;
-			$extra_data['added'] += BIKE::$whiteDayAmount * 100 - $amountToDayEnd;
+			$extra_data['white_day'] = BIKE::$whiteDayAmount;
 		}
 		
 		$added_json = addslashes(json_encode($extra_data));
