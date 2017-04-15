@@ -10,6 +10,7 @@ class Actions{
 		$phone = Dbase::dataFilter($_POST['uPhone']);
 		$another_place = (isset($_POST['another_city']) ? Dbase::dataFilter($_POST['another_city']) : 'no');
 		$war_veterane = (isset($_POST['war_veterane']) ? Dbase::dataFilter($_POST['war_veterane']) : 'no');
+		$imagepath = '';
 		
 		//если регистрируем клиента - логин не нужен
 		if($user_level == 4) $id_user = $phone;

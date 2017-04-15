@@ -50,8 +50,8 @@
     public function m_connect(){
 		try{
 		    $DbaseParams = 'mysql:host='.$this->host.';dbname='.$this->base;
-			self::$PDOConnection = new PDO($DbaseParams, $this->user, $this->passw);
-			self::$PDOConnection->exec('SET CHARACTER SET utf8');
+		    self::$PDOConnection = new PDO($DbaseParams, $this->user, $this->passw, 
+		    		array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 		}catch (PDOException $e) {
 			//если не подключились к БД - выход их программы
 			if(!is_object(self::$PDOConnection)){
