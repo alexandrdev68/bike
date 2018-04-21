@@ -3,6 +3,8 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3><?=TEMP::$Lang['user_info']?></h3>
   </div>
+  <small class="span5 _extend_info text-warning"><span></span></small>
+  <div class="underline"></div>
   <div class="modal-body">
     
 	<div id="myCarousel" data-interval="false" class="carousel slide">

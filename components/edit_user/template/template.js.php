@@ -29,6 +29,9 @@ function eduser_init(){
 			},
 			war_veterane_set : function(properties){
 				$(editUser.workElement).prop('checked', properties === null ? false : properties.war_veterane == 'yes' ? true : false);
+			},
+			extend_info_set : function(properties){
+				$(editUser.workElement).val(properties === null ? '' : !!properties.extend_info ? properties.extend_info : '');
 			}
 		}
 	});

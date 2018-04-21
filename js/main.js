@@ -682,6 +682,7 @@ var user = {
 		                $('div._userLogin span').text(response['info'].login);
 		                $('div._userLive span').text(response['info'].properties === null ? '---' : response['info'].properties.live_place === undefined ? '---' : response['info'].properties.live_place);
 		                $('div._userRentBikeInfo span').text(response['info'].bike_id === null ? '---' : response['info'].model + ' Ser.No:' + response['info'].serial_id + ' No:' + response['info'].bike_id);
+		                $('small._extend_info span').text(response['info'].properties === null ? '' : response['info'].properties.extend_info);
 		                $('div._userRentBikeTime').data('now', response['info'].now * 1000).data('time_start', response['info'].bike_id === null ? 'no' : response['info'].time_start * 1000);
 		                if(!!response.info.action_klient && response.info.action_klient !== null) $('div._useractionInfo').removeClass('hidden');
 		                else{

@@ -20,10 +20,12 @@ function userData(data, full){
 	userData.getNum = function(){
 		return userData.num++;
 	};
+	var extend_info = data.properties === null ? '' : data.properties.extend_info ? 
+			'&nbsp;<i title="' + data.properties.extend_info + '" class="icon-exclamation-sign text-error"></i>&nbsp;' : '';
 	this.html = '<tr class="_uInfo' + (data.properties === null ? '' : data.properties.blackList == 'on' ? ' error _blackList' + data.id : '') + '"><td>' + userData.getNum() + '</td>' +
 	<?if(USER::isAdmin()):?>'<td>' + data.id + '</td>' + '<td>' + (data.properties === null ? '' : data.properties.blackList == 'on' ? '(<i class="icon-thumbs-down"></i>) ' : '') + 
-	data.login + '</td>' + <?endif?>'<td><u>' + data.name + 
-	(data.surname === undefined ? '' : ' ' + data.surname) + (data.patronymic === undefined ? '' : ' ' + data.patronymic) + '</u></td>' +
+	data.login + '</td>' + <?endif?>'<td>' + '<u>' + data.name + 
+	(data.surname === undefined ? '' : ' ' + data.surname) + (data.patronymic === undefined ? '' : ' ' + data.patronymic) + '</u>' + extend_info + '</td>' +
 	(full == 'yes' ? '<td>' + data.phone + '</td><td class="_level">' + data.user_level + '</td><td><i class="icon-remove _delUsr" data-userId="' + data.id + '"></i> <i class="icon-pencil _edUsr" data-userId="' + data.id + '"></i></td></tr>' : '<td>'+
 			data.phone + '</td>' + 
 			'<td class="_noevent"><input class="_print' + data.id + '" type="checkbox" value="yes"> <?=TEMP::$Lang["print_contract"]?>' +

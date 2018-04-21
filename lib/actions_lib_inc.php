@@ -147,11 +147,16 @@ class Actions{
 		//формирование допсвойств, если они заданы
 		if(isset($_POST['resStore']) || isset($_POST['uLivePlace'])){
 			if($arUser === false) $response = array('status'=>'bad', 'message'=>TEMP::$Lang['SYSTEM']['wrong_sql_request']);
-			$arProperties = $arUser['properties'] == 'null' ? array() : $arUser['properties'];
-			if(isset($_POST['resStore']) && $_POST['resStore'] != '') $arProperties['store'] = $_POST['resStore'];
-			if(isset($_POST['uLivePlace']) && $_POST['uLivePlace'] != '') $arProperties["live_place"] = Dbase::dataFilter($_POST['uLivePlace']);
-			if(isset($_POST['blackList']) && $_POST['blackList'] != '') $arProperties['blackList'] = Dbase::dataFilter($_POST['blackList']);
-			else $arProperties['blackList'] = 'off';
+			$arProperties = $arUser ['properties'] == 'null' ? array () : $arUser ['properties'];
+			if (isset ( $_POST ['resStore'] ) && $_POST ['resStore'] != '')
+				$arProperties ['store'] = $_POST ['resStore'];
+			if (isset ( $_POST ['uLivePlace'] ) && $_POST ['uLivePlace'] != '')
+				$arProperties ["live_place"] = Dbase::dataFilter ( $_POST ['uLivePlace'] );
+			if (isset ( $_POST ['blackList'] ) && $_POST ['blackList'] != '')
+				$arProperties ['blackList'] = Dbase::dataFilter ( $_POST ['blackList'] );
+			if (isset ( $_POST ['extend_info'] ) && $_POST ['extend_info'] != '')
+				$arProperties ['extend_info'] = Dbase::dataFilter ( $_POST ['extend_info'] );
+			else $arProperties ['blackList'] = 'off';
 		}
 		$arProperties['another_place'] = $another_place;
 		if($war_veterane == 'yes')
