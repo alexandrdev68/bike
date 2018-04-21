@@ -697,6 +697,7 @@ class Actions{
 		$live_place = Dbase::dataFilter($_POST['uLivePlace']);
 		$another_place = (isset($_POST['another_city']) ? Dbase::dataFilter($_POST['another_city']) : 'no');
 		$war_veterane = (isset($_POST['war_veterane']) ? Dbase::dataFilter($_POST['war_veterane']) : 'no');
+		$extend_info = (isset($_POST['extend_info']) ? Dbase::dataFilter($_POST['extend_info']) : '');
 		$imagepath = '';
 		//echo json_encode($live_place); die();
 		$phone = Dbase::dataFilter(@$_POST['uPhone']);
@@ -740,7 +741,11 @@ class Actions{
 		$imagepath = mb_substr($imagepath, 0, mb_strlen($imagepath) - 1);
 		
 		//ініціюємо масив властивостей
-		$properties = array('another_place'=>$another_place);
+		$properties = array(
+				'another_place'=>$another_place,
+				'extend_info'=>$extend_info
+				
+		);
 		if($live_place != ''){
 			$properties['live_place'] = $live_place;
 		}

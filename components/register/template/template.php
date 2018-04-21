@@ -42,6 +42,13 @@
 						</label>
 				    </div>
 			    </div>
+			    <div class="controls span">
+					<label class="control-label span2" for="extend_info_add">Додаткова
+						інформація про клієнта</label>
+					<textarea
+						data-vtemplate_edituser="function=extend_info_set:properties"
+						name="extend_info" id="extend_info_add"></textarea>
+				</div>
 			    <div class="control-group">
 			    	<div class="controls">
 						<label><?=TEMP::$Lang['from_another_city']?>
