@@ -1,4 +1,5 @@
-<?class Dbase {
+<?
+class Dbase {
     public $host = 'localhost';
     public $user;
     public $passw;
@@ -152,7 +153,7 @@
 				self::writeLog($error);
 				throw new PDOException($error[0].' '.$error[1].' '.$error[2]);
 			}
-			$arData = $sttmnt->fetchAll();
+			$arData = $sttmnt->fetchAll(PDO::FETCH_ASSOC);
 			$sttmnt->closeCursor();
 		}catch(PDOException $e){
 			self::addMess('mysql request error: '.$e->getMessage(), array('sql'=>$query));

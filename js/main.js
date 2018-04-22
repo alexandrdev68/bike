@@ -688,6 +688,7 @@ var user = {
 		                else{
 		                	if(!$('div._useractionInfo').hasClass('hidden')) $('div._useractionInfo').addClass('hidden');
 		                }
+		                $('._rent_info').data('client_id', response['info'].client_id);
 		                if(response['info'].properties !== null && response['info'].properties.blackList == 'on') $('div._userBlack').show();
 		                else $('div._userBlack').hide();
 		                if(response['info'].properties !== null && response['info'].properties.war_veterane == 'yes') $('div._userWarVeterane').show();

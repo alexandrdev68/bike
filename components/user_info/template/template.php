@@ -1,9 +1,16 @@
+<style>
+
+	.rent_info_container {
+		overflow:auto;
+		max-height:25vh;
+	}
+
+</style>
 <div class="modal hide _userInfoWin">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3><?=TEMP::$Lang['user_info']?></h3>
+    <h3><?=TEMP::$Lang['user_info']?></h3><small class="span5 _extend_info text-warning"><span></span></small>
   </div>
-  <small class="span5 _extend_info text-warning"><span></span></small>
   <div class="underline"></div>
   <div class="modal-body">
     
@@ -46,9 +53,11 @@
       <div class="span5 _userLive"><strong><?=TEMP::$Lang['input_live_place']?>:</strong> <span></span></div>
       <div class="span5 _userWarVeterane text-success"><strong><?=TEMP::$Lang['war_veterane']?></strong> <span></span></div>
       <div class="span5 _userBlack text-warning"><h3><?=TEMP::$Lang['add_black_list']?></h3> <span></span></div>
-      
+      <a href="#rent_info" class="_rent_info">Інформація про прокат</a>
     </div>
-    
+    <div class="rent_info_container">
+    	
+    </div>
     <div>
       <!-- <div class="span5 _userRentBikeInfo"><strong><?=TEMP::$Lang['on_rent_text']?>:</strong> <span></span></div>
       <div class="span5 _userRentBikeTime"><strong><?=TEMP::$Lang['time_on_rent']?>:</strong> <span></span></div>-->
