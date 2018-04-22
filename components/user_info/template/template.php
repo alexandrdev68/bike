@@ -4,6 +4,10 @@
 		overflow:auto;
 		max-height:25vh;
 	}
+	
+	.special_height {
+		max-height:70vh;
+	}
 
 </style>
 <div class="modal hide _userInfoWin">
@@ -12,7 +16,7 @@
     <h3><?=TEMP::$Lang['user_info']?></h3><small class="span5 _extend_info text-warning"><span></span></small>
   </div>
   <div class="underline"></div>
-  <div class="modal-body">
+  <div class="modal-body special_height">
     
 	<div id="myCarousel" data-interval="false" class="carousel slide">
 		<!-- <ol class="carousel-indicators">
