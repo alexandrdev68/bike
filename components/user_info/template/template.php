@@ -53,8 +53,10 @@
       <div class="span5 _userLive"><strong><?=TEMP::$Lang['input_live_place']?>:</strong> <span></span></div>
       <div class="span5 _userWarVeterane text-success"><strong><?=TEMP::$Lang['war_veterane']?></strong> <span></span></div>
       <div class="span5 _userBlack text-warning"><h3><?=TEMP::$Lang['add_black_list']?></h3> <span></span></div>
+      <div class="underline"></div>
       <a href="#rent_info" class="_rent_info">Інформація про прокат</a>
     </div>
+    <div class="underline"></div>
     <div class="rent_info_container">
     	
     </div>
