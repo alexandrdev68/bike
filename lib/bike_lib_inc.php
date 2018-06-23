@@ -196,8 +196,8 @@ class BIKE extends USER{
 		date_default_timezone_set('Europe/London');
 		$datetime1 = new DateTime(date('d-m-Y H:i:s', $date1));
 		$datetime2 = new DateTime(date('d-m-Y H:i:s', $date2));
-		$interval = $datetime1->diff($datetime2); 
-		$arRet['days'] = $interval->format('%d');
+		$interval = $datetime1->diff($datetime2);
+		$arRet['days'] = $interval->format('%a');
 		$arRet['hours'] = $interval->format('%H');
 		$arRet['minutes'] = $interval->format('%i');
 		$arRet['seconds'] = $interval->format('%s');
