@@ -365,7 +365,7 @@ class BIKE extends USER{
 				$real_amount = (int)$rent['amount'];
 				if((int)$real_amount > (int)$project_amount){
 					$diff_amount = $real_amount - $project_amount;
-					$arRents[$index]['amount'] = $arRents[$index]['amount'] - $diff_amount;
+					$arRents[$index]['amount'] =  $diff_amount;
 					$arDiffStoreRent[0] = $rent;
 					$arDiffStoreRent[0]['amount'] = $diff_amount;
 					if($store !== 'no' && $arDiffStoreRent[0]['store_finish'] == $store){
